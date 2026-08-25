@@ -1,0 +1,92 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.112'
+}
+
+version = project.mod_version
+group = project.mod_group
+base { archivesName = project.mod_id }
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    withSourcesJar()
+}
+
+repositories {
+    maven {
+        url = 'https://api.modrinth.com/maven'
+        content { includeGroup 'maven.modrinth' }
+    }
+    maven {
+        url = 'https://maven.createmod.net'
+        content {
+            includeGroup 'com.simibubi.create'
+            includeGroup 'net.createmod.catnip'
+            includeGroup 'net.createmod.ponder'
+            includeGroup 'dev.engine-room.flywheel'
+            includeGroup 'com.tterrag.registrate'
+        }
+    }
+    maven {
+        url = 'https://maven.ithundxr.dev/snapshots'
+        content { includeGroup 'com.tterrag.registrate' }
+    }
+    maven {
+        url = 'https://maven.tterrag.com/'
+        content { includeGroup 'com.tterrag.registrate' }
+    }
+    maven {
+        url = 'https://maven.blamejared.com'
+        content { includeGroup 'mezz.jei' }
+    }
+    maven {
+        url = 'https://modmaven.dev'
+        content {
+            includeGroup 'aztech'
+            includeGroup 'dev.technici4n'
+        }
+    }
+}
+
+neoForge {
+    version = project.neo_version
+    mods {
+        miei {
+            sourceSet sourceSets.main
+        }
+    }
+    runs {
+        configureEach { loadedMods = [mods.miei] }
+        client { client() }
+        server { server() }
+    }
+}
+
+dependencies {
+    implementation "aztech:Modern-Industrialization:${project.mi_version}"
+    implementation "dev.technici4n:GrandPower:${project.grandpower_version}"
+    implementation "maven.modrinth:replication:${project.replication_version}"
+    implementation "maven.modrinth:pneumaticcraft-repressurized:${project.pnc_version}"
+    implementation "maven.modrinth:mekanism:${project.mekanism_version}"
+
+    compileOnly "mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}"
+    compileOnly "mezz.jei:jei-${project.minecraft_version}-neoforge-api:${project.jei_version}"
+    runtimeOnly "mezz.jei:jei-${project.minecraft_version}-neoforge:${project.jei_version}"
+    implementation "maven.modrinth:jade:${project.jade_version}"
+
+    compileOnly("com.simibubi.create:create-${project.minecraft_version}:${project.create_version}:slim") { transitive = false }
+    compileOnly("net.createmod.ponder:ponder-neoforge:${project.ponder_version}") { transitive = false }
+    compileOnly("dev.engine-room.flywheel:flywheel-neoforge-${project.minecraft_version}:${project.flywheel_version}") { transitive = false }
+
+    runtimeOnly("com.simibubi.create:create-${project.minecraft_version}:${project.create_version}") { transitive = false }
+    runtimeOnly("com.tterrag.registrate:Registrate:${project.registrate_version}") { transitive = false }
+    runtimeOnly("net.createmod.ponder:ponder-neoforge:${project.ponder_version}") { transitive = false }
+    runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${project.minecraft_version}:${project.flywheel_version}") { transitive = false }
+}
+
+tasks.named('processResources', ProcessResources) {
+    def props = [mod_version: project.mod_version, neo_version: project.neo_version,
+                 mi_version: project.mi_version, replication_version: project.replication_version]
+    inputs.properties props
+    filesMatching('META-INF/neoforge.mods.toml') { expand props }
+}

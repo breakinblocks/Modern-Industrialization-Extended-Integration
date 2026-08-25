@@ -1,0 +1,71 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT"
+
+[[mixins]]
+config = "miei.mixins.json"
+
+[[mods]]
+modId = "miei"
+version = "${mod_version}"
+displayName = "Modern Industrial Extended Integration"
+authors = "Saereth"
+description = '''
+Optional Replication matter, Create stress, PneumaticCraft air and heat, and Mekanism chemical hatches, plus matching recipe conditions, for Modern Industrialization multiblocks.
+'''
+
+[[dependencies.miei]]
+modId = "neoforge"
+type = "required"
+versionRange = "[${neo_version},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.miei]]
+modId = "modern_industrialization"
+type = "required"
+versionRange = "[${mi_version},)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.miei]]
+modId = "replication"
+type = "optional"
+versionRange = "*"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.miei]]
+modId = "create"
+type = "optional"
+versionRange = "*"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.miei]]
+modId = "pneumaticcraft"
+type = "optional"
+versionRange = "*"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.miei]]
+modId = "mekanism"
+type = "optional"
+versionRange = "*"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.miei]]
+modId = "jei"
+type = "optional"
+versionRange = "*"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.miei]]
+modId = "jade"
+type = "optional"
+versionRange = "*"
+ordering = "AFTER"
+side = "BOTH"

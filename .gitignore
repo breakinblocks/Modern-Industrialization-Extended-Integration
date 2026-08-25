@@ -1,0 +1,11 @@
+.gradle/
+build/
+run/
+*.log
+*.iml
+.idea/
+
+*.md
+!LICENSE.md
+!README.md
+!CHANGELOG.md

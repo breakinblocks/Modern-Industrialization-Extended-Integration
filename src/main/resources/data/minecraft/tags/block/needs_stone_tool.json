@@ -1,0 +1,26 @@
+{
+  "values": [
+    "miei:kinetic_coupler",
+    "modern_industrialization:ev_air_input_hatch",
+    "modern_industrialization:ev_chemical_input_hatch",
+    "modern_industrialization:ev_chemical_output_hatch",
+    "modern_industrialization:ev_heat_hatch",
+    "modern_industrialization:ev_matter_input_hatch",
+    "modern_industrialization:ev_matter_output_hatch",
+    "modern_industrialization:ev_stress_input_hatch",
+    "modern_industrialization:iv_air_input_hatch",
+    "modern_industrialization:iv_chemical_input_hatch",
+    "modern_industrialization:iv_chemical_output_hatch",
+    "modern_industrialization:iv_heat_hatch",
+    "modern_industrialization:iv_matter_input_hatch",
+    "modern_industrialization:iv_matter_output_hatch",
+    "modern_industrialization:iv_stress_input_hatch",
+    "modern_industrialization:superconductor_air_input_hatch",
+    "modern_industrialization:superconductor_chemical_input_hatch",
+    "modern_industrialization:superconductor_chemical_output_hatch",
+    "modern_industrialization:superconductor_heat_hatch",
+    "modern_industrialization:superconductor_matter_input_hatch",
+    "modern_industrialization:superconductor_matter_output_hatch",
+    "modern_industrialization:superconductor_stress_input_hatch"
+  ]
+}

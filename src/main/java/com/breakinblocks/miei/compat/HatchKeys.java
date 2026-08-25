@@ -1,0 +1,27 @@
+package com.breakinblocks.miei.compat;
+
+public final class HatchKeys {
+    public static final String MATTER_TYPE = "MieiMatterType";
+    public static final String MATTER_AMOUNT = "MieiMatterAmount";
+    public static final String MATTER_CAPACITY = "MieiMatterCapacity";
+    public static final String MATTER_EMPTY = "MieiMatterEmpty";
+
+    public static final String STRESS_LINKED = "MieiStressLinked";
+    public static final String STRESS_SPEED = "MieiStressSpeed";
+    public static final String STRESS_DEMAND = "MieiStressDemand";
+
+    public static final String AIR = "MieiAir";
+    public static final String PRESSURE = "MieiPressure";
+    public static final String DANGER_PRESSURE = "MieiDangerPressure";
+    public static final String SECURED = "MieiSecured";
+
+    public static final String TEMPERATURE = "MieiTemperature";
+
+    public static final String CHEMICAL_TYPE = "MieiChemicalType";
+    public static final String CHEMICAL_AMOUNT = "MieiChemicalAmount";
+    public static final String CHEMICAL_CAPACITY = "MieiChemicalCapacity";
+    public static final String CHEMICAL_EMPTY = "MieiChemicalEmpty";
+
+    private HatchKeys() {
+    }
+}
