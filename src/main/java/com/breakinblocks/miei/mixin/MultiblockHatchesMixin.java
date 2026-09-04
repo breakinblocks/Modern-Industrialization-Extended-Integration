@@ -2,6 +2,7 @@ package com.breakinblocks.miei.mixin;
 
 import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.chemical.mekanism.ChemicalHatches;
+import com.breakinblocks.miei.chronon.tempad.ChrononHatches;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatHatches;
 import com.breakinblocks.miei.matter.replication.MatterHatches;
 import com.breakinblocks.miei.pressure.pneumaticcraft.AirHatches;
@@ -35,6 +36,9 @@ public abstract class MultiblockHatchesMixin {
         }
         if (MIEI.MEKANISM) {
             ChemicalHatches.register();
+        }
+        if (MIEI.TEMPAD) {
+            ChrononHatches.register();
         }
     }
 }

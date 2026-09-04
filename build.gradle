@@ -40,6 +40,10 @@ repositories {
         content { includeGroup 'mezz.jei' }
     }
     maven {
+        url = 'https://thedarkcolour.github.io/KotlinForForge/'
+        content { includeGroup 'thedarkcolour' }
+    }
+    maven {
         url = 'https://modmaven.dev'
         content {
             includeGroup 'aztech'
@@ -68,6 +72,11 @@ dependencies {
     implementation "maven.modrinth:replication:${project.replication_version}"
     implementation "maven.modrinth:pneumaticcraft-repressurized:${project.pnc_version}"
     implementation "maven.modrinth:mekanism:${project.mekanism_version}"
+    compileOnly "maven.modrinth:tempad:${project.tempad_version}"
+    runtimeOnly "maven.modrinth:tempad:${project.tempad_version}"
+    runtimeOnly "maven.modrinth:resourceful-lib:${project.resourcefullib_version}"
+    runtimeOnly "maven.modrinth:resourceful-config:${project.resourcefulconfig_version}"
+    runtimeOnly "thedarkcolour:kotlinforforge-neoforge:${project.kff_version}"
 
     compileOnly "mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}"
     compileOnly "mezz.jei:jei-${project.minecraft_version}-neoforge-api:${project.jei_version}"

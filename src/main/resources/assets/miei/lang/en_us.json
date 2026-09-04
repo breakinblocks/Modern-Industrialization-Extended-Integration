@@ -43,5 +43,15 @@
   "miei.jei.info.heat": "Place in a Modern Industrialization multiblock to give it a PneumaticCraft heat exchanger. Heat it or cool it with any PneumaticCraft heat source. Recipes can require a temperature range and draw heat as they craft.",
   "miei.jei.info.chemical": "Place in a Modern Industrialization multiblock to give it access to Mekanism chemicals, covering gases, infusions, pigments and slurries. Input hatches feed recipes; output hatches collect what a recipe produces. Connect them with pressurised tubes.",
   "miei.jade.secured": "Security Upgrade: vents when over pressure",
-  "miei.jade.unsecured": "No Security Upgrade: ruptures when over pressure"
+  "miei.jade.unsecured": "No Security Upgrade: ruptures when over pressure",
+  "miei.hatch_type.chronon_input": "Chronon Input Hatch",
+  "miei.condition.chronon": "Consumes %s chronons",
+  "miei.jade.chronon": "Chronons: %s / %s",
+  "miei.jade.chronon_source": "Drawing from Metronome at %s, %s, %s",
+  "miei.jade.chronon_unlinked": "No Metronome within %s blocks",
+  "miei.jade.chronon_next_scan": "Next scan in %s s",
+  "miei.jei.info.chronon": "Place in a Modern Industrialization multiblock to give it access to Tempad chronons. The hatch looks for a Metronome within 8 blocks and draws from it into an internal buffer of 10,000 chronons. Recipes consume chronons from that buffer when they start.",
+  "miei.chronon.transferred": "Transferred %s chronons (%s / %s)",
+  "miei.chronon.hatch_full": "Chronon buffer is already full",
+  "miei.chronon.battery_empty": "Nothing left to transfer"
 }

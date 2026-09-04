@@ -2,6 +2,7 @@ package com.breakinblocks.miei.mixin;
 
 import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.chemical.mekanism.ChemicalCrafting;
+import com.breakinblocks.miei.chronon.tempad.ChrononCrafting;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatCrafting;
 import com.breakinblocks.miei.matter.replication.MatterCrafting;
 import com.breakinblocks.miei.pressure.pneumaticcraft.PressureCrafting;
@@ -57,6 +58,14 @@ public abstract class CrafterComponentMixin {
     private void miei$takeChemical(MachineRecipe recipe, boolean simulate, CallbackInfoReturnable<Boolean> cir) {
         if (cir.getReturnValueZ() && MIEI.MEKANISM
             && !ChemicalCrafting.take(conditionContext.getBlockEntity(), recipe, simulate)) {
+            cir.setReturnValue(false);
+        }
+    }
+
+    @Inject(method = "takeItemInputs(Laztech/modern_industrialization/machines/recipe/MachineRecipe;Z)Z", at = @At("RETURN"), cancellable = true)
+    private void miei$takeChronons(MachineRecipe recipe, boolean simulate, CallbackInfoReturnable<Boolean> cir) {
+        if (cir.getReturnValueZ() && MIEI.TEMPAD
+            && !ChrononCrafting.take(conditionContext.getBlockEntity(), recipe, simulate)) {
             cir.setReturnValue(false);
         }
     }

@@ -3,6 +3,7 @@ package com.breakinblocks.miei.compat.jade;
 import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.compat.HatchKeys;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -62,6 +63,19 @@ public final class HatchTooltipProvider implements IBlockComponentProvider {
                 data.getLong(HatchKeys.CHEMICAL_CAPACITY)));
         } else if (data.contains(HatchKeys.CHEMICAL_EMPTY)) {
             tooltip.add(Component.translatable("miei.jade.empty"));
+        }
+        if (data.contains(HatchKeys.CHRONON_AMOUNT)) {
+            tooltip.add(Component.translatable("miei.jade.chronon",
+                data.getInt(HatchKeys.CHRONON_AMOUNT), data.getInt(HatchKeys.CHRONON_CAPACITY)));
+            if (data.contains(HatchKeys.CHRONON_SOURCE)) {
+                BlockPos source = BlockPos.of(data.getLong(HatchKeys.CHRONON_SOURCE));
+                tooltip.add(Component.translatable("miei.jade.chronon_source",
+                    source.getX(), source.getY(), source.getZ()));
+            } else {
+                tooltip.add(Component.translatable("miei.jade.chronon_unlinked", data.getInt(HatchKeys.CHRONON_RADIUS)));
+                tooltip.add(Component.translatable("miei.jade.chronon_next_scan",
+                    String.format("%.1f", data.getInt(HatchKeys.CHRONON_NEXT_SCAN) / 20f)));
+            }
         }
     }
 

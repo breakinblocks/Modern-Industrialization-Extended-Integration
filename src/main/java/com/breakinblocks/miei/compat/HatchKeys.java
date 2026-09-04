@@ -22,6 +22,12 @@ public final class HatchKeys {
     public static final String CHEMICAL_CAPACITY = "MieiChemicalCapacity";
     public static final String CHEMICAL_EMPTY = "MieiChemicalEmpty";
 
+    public static final String CHRONON_AMOUNT = "MieiChrononAmount";
+    public static final String CHRONON_CAPACITY = "MieiChrononCapacity";
+    public static final String CHRONON_SOURCE = "MieiChrononSource";
+    public static final String CHRONON_NEXT_SCAN = "MieiChrononNextScan";
+    public static final String CHRONON_RADIUS = "MieiChrononRadius";
+
     private HatchKeys() {
     }
 }

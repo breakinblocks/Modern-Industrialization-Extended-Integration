@@ -12,6 +12,8 @@ draw on resources from other mods as part of their recipes:
   air**, drawn from a pressurised air network.
 - **PneumaticCraft heat**, as a temperature the recipe requires and optionally draws down.
 - **[Mekanism](https://modrinth.com/mod/mekanism) chemicals**, consumed or produced by a recipe.
+- **[Tempad](https://modrinth.com/mod/tempad) chronons**, pulled from a nearby Metronome into a
+  hatch buffer and consumed by a recipe.
 
 They all work the same way: a hatch in the multiblock shape carries the resource, and a recipe
 condition declares what the recipe needs from it. Every integration is optional and independent, so
@@ -310,6 +312,63 @@ crash, so check the id first if a machine refuses to run.
 - A craft starts only when the full input amount is present and there is room for the full output.
 - Nothing is taken if the craft cannot start.
 
+## Chronons
+
+Requires Tempad. Without it, none of this registers and `miei:chronon` recipes never run.
+
+### Chronon Input Hatch
+
+| Hatch | Item ID | Buffer |
+|---|---|---|
+| Chronon Input Hatch | `modern_industrialization:chronon_input_hatch` | 10000 chronons |
+
+The hatch has no cable or pipe. Place a Tempad Metronome anywhere within 8 blocks of it and the
+hatch draws from that Metronome at up to 500 chronons per tick until its buffer is full. The
+Metronome must have finished booting and must have an owner, since the chronons come from the
+owner's Metronome pool. If several Metronomes are in range the nearest one is used.
+
+The hatch remembers which Metronome it found and keeps using it. If that Metronome is broken or
+moved, the hatch notices on its next tick and searches again. When there is no Metronome in range
+the search backs off: it retries after 1 second, then 2, 4 and 8, and from then on every 10
+seconds. Placing a Metronome next to a hatch that has been waiting a while can therefore take up to
+10 seconds to register. Jade shows the countdown to the next search.
+
+The hatch also exposes Tempad's chronon capability on every side, accepting chronons and refusing
+extraction, so anything that can push chronons into a block can fill it directly.
+
+### Charging by hand
+
+Sneak and right-click the hatch with any chronon battery to empty it into the buffer on the spot.
+This works with anything Tempad lets you draw chronons out of, including the Chronon Cell, a
+Tempad and a Chronometer, so a hatch can be topped up without a Metronome nearby at all. The
+transfer stops when the buffer is full, and the amount moved is shown above your hotbar.
+
+### The chronon recipe condition
+
+```json
+{
+  "type": "modern_industrialization:assembler",
+  "eu": 32,
+  "duration": 200,
+  "item_outputs": [{ "item": "minecraft:diamond", "amount": 1 }],
+  "process_conditions": [
+    { "type": "miei:chronon", "amount": 2000 }
+  ]
+}
+```
+
+| Field | Meaning |
+|---|---|
+| `amount` | Chronons consumed when the craft starts. |
+
+### How a chronon craft behaves
+
+- Amounts are pooled across every Chronon Input Hatch in the structure.
+- A craft starts only when the buffers together hold the full amount, and the chronons are taken
+  from them at that moment. Nothing is drawn from the Metronome as part of the craft itself; the
+  hatch refills on its own afterwards.
+- Nothing is taken if the craft cannot start.
+
 ## JEI and Jade
 
 Both are optional and need no configuration.
@@ -328,6 +387,7 @@ it does and how to connect it.
 | Air | Air in mL, current and danger pressure, and whether a Security Upgrade is fitted |
 | Heat | Temperature in Kelvin |
 | Chemical | Chemical name, stored amount and capacity |
+| Chronon | Stored chronons and capacity, the linked Metronome's position, or a note that none is in range and when the next search happens |
 
 Hatch contents are server-side only, so Jade requests them from the server as you look at the block.
 Each hatch family is a separate Jade provider, so they can be toggled individually in Jade's config.
@@ -351,6 +411,7 @@ Industrialization's own machines.
 | Create | 6.0 or newer | optional, needed for stress units |
 | PneumaticCraft: Repressurized | 8.2.23 or newer | optional, needed for compressed air and heat |
 | Mekanism | 10.7.19 or newer | optional, needed for chemicals |
+| Tempad | 3.0.4 or newer | optional, needed for chronons |
 | JEI | 19.36 or newer | optional, adds hatch information pages |
 | Jade | 15.10 or newer | optional, adds hatch contents to the tooltip |
 

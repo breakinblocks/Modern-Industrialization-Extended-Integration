@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.chemical.mekanism.ChemicalHatches;
+import com.breakinblocks.miei.chronon.tempad.ChrononHatches;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatHatches;
 import com.breakinblocks.miei.matter.replication.MatterHatches;
 import com.breakinblocks.miei.pressure.pneumaticcraft.AirHatches;
@@ -41,6 +42,9 @@ public final class MIEIJeiPlugin implements IModPlugin {
         }
         if (MIEI.MEKANISM) {
             info(registration, ChemicalHatches.stacks(), "chemical");
+        }
+        if (MIEI.TEMPAD) {
+            info(registration, ChrononHatches.stacks(), "chronon");
         }
     }
 
