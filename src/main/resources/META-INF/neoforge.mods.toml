@@ -7,7 +7,7 @@ config = "miei.mixins.json"
 
 [[mods]]
 modId = "miei"
-version = "${mod_version}"
+version = "${version}"
 displayName = "Modern Industrial Extended Integration"
 authors = "Saereth"
 description = '''
