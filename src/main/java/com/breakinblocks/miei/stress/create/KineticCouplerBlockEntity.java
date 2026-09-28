@@ -1,11 +1,9 @@
 package com.breakinblocks.miei.stress.create;
 
 import com.breakinblocks.miei.stress.StressHatchBlockEntity;
-
 import com.simibubi.create.content.kinetics.KineticNetwork;
 import com.simibubi.create.content.kinetics.base.DirectionalKineticBlock;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;

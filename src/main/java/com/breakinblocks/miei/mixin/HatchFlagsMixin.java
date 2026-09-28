@@ -1,12 +1,9 @@
 package com.breakinblocks.miei.mixin;
 
-import java.util.Set;
-
-import com.breakinblocks.miei.MIEI;
-
 import aztech.modern_industrialization.machines.multiblocks.HatchFlags;
 import aztech.modern_industrialization.machines.multiblocks.HatchType;
-
+import com.breakinblocks.miei.MIEI;
+import java.util.Set;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

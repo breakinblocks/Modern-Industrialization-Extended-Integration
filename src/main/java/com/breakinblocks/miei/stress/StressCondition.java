@@ -1,14 +1,11 @@
 package com.breakinblocks.miei.stress;
 
-import java.util.List;
-
+import aztech.modern_industrialization.machines.recipe.MachineRecipe;
+import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
-import aztech.modern_industrialization.machines.recipe.MachineRecipe;
-import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
-
+import java.util.List;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -16,14 +13,16 @@ import net.minecraft.network.codec.StreamCodec;
 
 public record StressCondition(double su, int rpm) implements MachineProcessCondition {
     public static final MapCodec<StressCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        Codec.DOUBLE.fieldOf("su").forGetter(StressCondition::su),
-        Codec.INT.optionalFieldOf("rpm", 0).forGetter(StressCondition::rpm)
-    ).apply(instance, StressCondition::new));
+                    Codec.DOUBLE.fieldOf("su").forGetter(StressCondition::su),
+                    Codec.INT.optionalFieldOf("rpm", 0).forGetter(StressCondition::rpm))
+            .apply(instance, StressCondition::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, StressCondition> STREAM_CODEC = StreamCodec.composite(
-        ByteBufCodecs.DOUBLE, StressCondition::su,
-        ByteBufCodecs.VAR_INT, StressCondition::rpm,
-        StressCondition::new);
+            ByteBufCodecs.DOUBLE,
+            StressCondition::su,
+            ByteBufCodecs.VAR_INT,
+            StressCondition::rpm,
+            StressCondition::new);
 
     @Override
     public boolean canProcessRecipe(Context context, MachineRecipe recipe) {

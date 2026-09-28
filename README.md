@@ -19,6 +19,9 @@ They all work the same way: a hatch in the multiblock shape carries the resource
 condition declares what the recipe needs from it. Every integration is optional and independent, so
 install whichever ones you want. Modern Industrialization is the only hard requirement.
 
+There is also a `miei:no_energy` condition that needs no other mod at all. It lets a recipe run
+with no EU or steam, so a pack can power a multiblock entirely through the resources above.
+
 ## Matter
 
 Requires Replication. Without it, none of this registers and `miei:matter` recipes never run.
@@ -368,6 +371,65 @@ transfer stops when the buffer is full, and the amount moved is shown above your
   from them at that moment. Nothing is drawn from the Metronome as part of the craft itself; the
   hatch refills on its own afterwards.
 - Nothing is taken if the craft cannot start.
+
+## Recipes without energy
+
+Every Modern Industrialization recipe has to declare `eu` and `duration`, and a machine will not
+even look for a recipe until it can draw 1 EU. That makes it hard to build a multiblock that is
+driven purely by matter, stress, air, heat, chemicals or chronons. The `miei:no_energy` condition
+removes the energy requirement from a single recipe.
+
+```json
+{
+  "type": "modern_industrialization:assembler",
+  "eu": 32,
+  "duration": 200,
+  "item_outputs": [{ "item": "minecraft:diamond", "amount": 1 }],
+  "process_conditions": [
+    { "type": "miei:no_energy" },
+    { "type": "miei:stress", "su": 512.0, "rpm": 64 }
+  ]
+}
+```
+
+The condition has no fields. It works in any MI crafting machine, electric or steam, single block or
+multiblock, and does not need a hatch of any kind.
+
+The same idea with chronons as the only power source. This assembler needs a Chronon Input Hatch
+in its shape and no energy hatch at all; the 2000 chronons are taken from the hatch buffers when
+the craft starts, and the machine then works through the 32 EU/t for 200 ticks without drawing
+anything:
+
+```json
+{
+  "type": "modern_industrialization:assembler",
+  "eu": 32,
+  "duration": 200,
+  "item_inputs": [{ "item": "minecraft:iron_ingot", "amount": 1 }],
+  "item_outputs": [{ "item": "tempad:time_steel", "amount": 1 }],
+  "process_conditions": [
+    { "type": "miei:no_energy" },
+    { "type": "miei:chronon", "amount": 2000 }
+  ]
+}
+```
+
+### How an energy-free craft behaves
+
+- The recipe draws no EU and no steam at any point. A structure with no energy hatch, or a machine
+  whose buffer is empty, runs it at full speed.
+- `eu` and `duration` are still required by Modern Industrialization, and `eu` still sets the
+  crafting rate: the machine works through `eu` per tick for `duration` ticks, clamped to its
+  tier's base and maximum. That range is 8 to 128 for electric multiblocks, 8 to 32 for LV
+  machines, a fixed 2 or 4 for bronze and steel steam machines, and higher with overclock upgrades.
+  Inside the range the recipe takes exactly `duration` ticks; below it the machine runs faster,
+  above it slower, exactly as a powered machine would.
+- Lubricant overclocking and overdrive apply as normal.
+- A machine with no energy only considers recipes carrying `miei:no_energy`. It will not lock its
+  inputs into a normal recipe it could never finish.
+- A machine that does have energy behaves as before for every other recipe.
+- Machines with no energy only start searching for recipes once a `miei:no_energy` recipe exists for
+  their machine type. Packs that ship none pay nothing.
 
 ## JEI and Jade
 

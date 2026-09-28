@@ -53,5 +53,6 @@
   "miei.jei.info.chronon": "Place in a Modern Industrialization multiblock to give it access to Tempad chronons. The hatch looks for a Metronome within 8 blocks and draws from it into an internal buffer of 10,000 chronons. Recipes consume chronons from that buffer when they start.",
   "miei.chronon.transferred": "Transferred %s chronons (%s / %s)",
   "miei.chronon.hatch_full": "Chronon buffer is already full",
-  "miei.chronon.battery_empty": "Nothing left to transfer"
+  "miei.chronon.battery_empty": "Nothing left to transfer",
+  "miei.condition.no_energy": "Requires no energy"
 }

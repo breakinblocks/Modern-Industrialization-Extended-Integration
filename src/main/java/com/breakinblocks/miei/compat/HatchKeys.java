@@ -28,6 +28,5 @@ public final class HatchKeys {
     public static final String CHRONON_NEXT_SCAN = "MieiChrononNextScan";
     public static final String CHRONON_RADIUS = "MieiChrononRadius";
 
-    private HatchKeys() {
-    }
+    private HatchKeys() {}
 }

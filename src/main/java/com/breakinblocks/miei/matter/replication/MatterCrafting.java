@@ -1,22 +1,19 @@
 package com.breakinblocks.miei.matter.replication;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.breakinblocks.miei.matter.MatterCondition;
-import com.breakinblocks.miei.mixin.MultiblockMachineBlockEntityAccessor;
-import com.buuz135.replication.api.MatterType;
-
 import aztech.modern_industrialization.machines.MachineBlockEntity;
 import aztech.modern_industrialization.machines.multiblocks.HatchBlockEntity;
 import aztech.modern_industrialization.machines.multiblocks.MultiblockMachineBlockEntity;
 import aztech.modern_industrialization.machines.multiblocks.ShapeMatcher;
 import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
+import com.breakinblocks.miei.matter.MatterCondition;
+import com.breakinblocks.miei.mixin.MultiblockMachineBlockEntityAccessor;
+import com.buuz135.replication.api.MatterType;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class MatterCrafting {
-    private MatterCrafting() {
-    }
+    private MatterCrafting() {}
 
     public static MatterType type(MatterCondition condition) {
         for (MatterType type : MatterType.values()) {
@@ -46,8 +43,8 @@ public final class MatterCrafting {
 
     public static boolean canProcess(MachineBlockEntity machine, MatterCondition condition) {
         return condition.output()
-            ? space(machine, condition) >= condition.amount()
-            : available(machine, condition) >= condition.amount();
+                ? space(machine, condition) >= condition.amount()
+                : available(machine, condition) >= condition.amount();
     }
 
     public static double available(MachineBlockEntity machine, MatterCondition condition) {

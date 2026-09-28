@@ -1,15 +1,14 @@
 package com.breakinblocks.miei.heat.pneumaticcraft;
 
-import com.breakinblocks.miei.compat.HatchInfo;
-import com.breakinblocks.miei.compat.HatchKeys;
-import net.minecraft.nbt.CompoundTag;
-
 import aztech.modern_industrialization.inventory.MIInventory;
 import aztech.modern_industrialization.machines.BEP;
 import aztech.modern_industrialization.machines.components.OrientationComponent;
 import aztech.modern_industrialization.machines.gui.MachineGuiParameters;
 import aztech.modern_industrialization.machines.multiblocks.HatchBlockEntity;
 import aztech.modern_industrialization.machines.multiblocks.HatchType;
+import com.breakinblocks.miei.compat.HatchInfo;
+import com.breakinblocks.miei.compat.HatchKeys;
+import net.minecraft.nbt.CompoundTag;
 
 public final class HeatHatchBlockEntity extends HatchBlockEntity implements HatchInfo {
     private final HeatExchanger exchanger;

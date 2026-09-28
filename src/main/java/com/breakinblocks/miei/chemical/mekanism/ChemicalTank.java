@@ -1,5 +1,6 @@
 package com.breakinblocks.miei.chemical.mekanism;
 
+import aztech.modern_industrialization.machines.MachineComponent;
 import mekanism.api.Action;
 import mekanism.api.AutomationType;
 import mekanism.api.chemical.BasicChemicalTank;
@@ -7,9 +8,6 @@ import mekanism.api.chemical.Chemical;
 import mekanism.api.chemical.ChemicalStack;
 import mekanism.api.chemical.IChemicalHandler;
 import mekanism.api.chemical.IChemicalTank;
-
-import aztech.modern_industrialization.machines.MachineComponent;
-
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -21,8 +19,8 @@ public final class ChemicalTank implements IChemicalHandler, MachineComponent.Se
     public ChemicalTank(boolean input, long capacity, Runnable onChange) {
         this.input = input;
         this.tank = input
-            ? BasicChemicalTank.inputModern(capacity, stack -> true, onChange::run)
-            : BasicChemicalTank.output(capacity, onChange::run);
+                ? BasicChemicalTank.inputModern(capacity, stack -> true, onChange::run)
+                : BasicChemicalTank.output(capacity, onChange::run);
     }
 
     public boolean isInput() {
@@ -54,7 +52,8 @@ public final class ChemicalTank implements IChemicalHandler, MachineComponent.Se
         if (accepted <= 0) {
             return 0;
         }
-        ChemicalStack leftover = tank.insert(new ChemicalStack(chemical, accepted), Action.EXECUTE, AutomationType.INTERNAL);
+        ChemicalStack leftover =
+                tank.insert(new ChemicalStack(chemical, accepted), Action.EXECUTE, AutomationType.INTERNAL);
         return accepted - leftover.getAmount();
     }
 

@@ -1,21 +1,18 @@
 package com.breakinblocks.miei.heat.pneumaticcraft;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.breakinblocks.miei.heat.HeatCondition;
-import com.breakinblocks.miei.mixin.MultiblockMachineBlockEntityAccessor;
-
 import aztech.modern_industrialization.machines.MachineBlockEntity;
 import aztech.modern_industrialization.machines.multiblocks.HatchBlockEntity;
 import aztech.modern_industrialization.machines.multiblocks.MultiblockMachineBlockEntity;
 import aztech.modern_industrialization.machines.multiblocks.ShapeMatcher;
 import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
+import com.breakinblocks.miei.heat.HeatCondition;
+import com.breakinblocks.miei.mixin.MultiblockMachineBlockEntityAccessor;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class HeatCrafting {
-    private HeatCrafting() {
-    }
+    private HeatCrafting() {}
 
     public static List<HeatHatchBlockEntity> hatches(MachineBlockEntity machine) {
         if (!(machine instanceof MultiblockMachineBlockEntity multiblock)) {

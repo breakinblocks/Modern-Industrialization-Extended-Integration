@@ -1,7 +1,5 @@
 package com.breakinblocks.miei.compat.jei;
 
-import java.util.List;
-
 import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.chemical.mekanism.ChemicalHatches;
 import com.breakinblocks.miei.chronon.tempad.ChrononHatches;
@@ -10,12 +8,11 @@ import com.breakinblocks.miei.matter.replication.MatterHatches;
 import com.breakinblocks.miei.pressure.pneumaticcraft.AirHatches;
 import com.breakinblocks.miei.stress.StressHatches;
 import com.breakinblocks.miei.stress.create.CreateSupport;
-
+import java.util.List;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.IRecipeRegistration;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -50,8 +47,8 @@ public final class MIEIJeiPlugin implements IModPlugin {
 
     private static void info(IRecipeRegistration registration, List<ItemStack> stacks, String key) {
         if (!stacks.isEmpty()) {
-            registration.addIngredientInfo(stacks, VanillaTypes.ITEM_STACK,
-                Component.translatable("miei.jei.info." + key));
+            registration.addIngredientInfo(
+                    stacks, VanillaTypes.ITEM_STACK, Component.translatable("miei.jei.info." + key));
         }
     }
 }

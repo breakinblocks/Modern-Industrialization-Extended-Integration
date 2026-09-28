@@ -1,23 +1,20 @@
 package com.breakinblocks.miei.stress;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import com.breakinblocks.miei.MIEI;
-import com.breakinblocks.miei.mixin.MultiblockMachineBlockEntityAccessor;
-
 import aztech.modern_industrialization.machines.MachineBlockEntity;
 import aztech.modern_industrialization.machines.multiblocks.HatchBlockEntity;
 import aztech.modern_industrialization.machines.multiblocks.MultiblockMachineBlockEntity;
 import aztech.modern_industrialization.machines.multiblocks.ShapeMatcher;
 import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
+import com.breakinblocks.miei.MIEI;
+import com.breakinblocks.miei.mixin.MultiblockMachineBlockEntityAccessor;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public final class StressCrafting {
-    private StressCrafting() {
-    }
+    private StressCrafting() {}
 
     public static List<StressHatchBlockEntity> hatches(MachineBlockEntity machine) {
         if (!(machine instanceof MultiblockMachineBlockEntity multiblock)) {

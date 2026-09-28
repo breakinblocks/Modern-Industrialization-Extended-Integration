@@ -1,10 +1,8 @@
 package com.breakinblocks.miei.heat.pneumaticcraft;
 
+import aztech.modern_industrialization.machines.MachineComponent;
 import me.desht.pneumaticcraft.api.PneumaticRegistry;
 import me.desht.pneumaticcraft.api.heat.IHeatExchangerLogic;
-
-import aztech.modern_industrialization.machines.MachineComponent;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;

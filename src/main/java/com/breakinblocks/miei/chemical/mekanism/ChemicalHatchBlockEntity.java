@@ -1,19 +1,17 @@
 package com.breakinblocks.miei.chemical.mekanism;
 
-import com.breakinblocks.miei.compat.HatchInfo;
-import com.breakinblocks.miei.compat.HatchKeys;
-import mekanism.api.MekanismAPI;
-import mekanism.api.chemical.ChemicalStack;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
-
 import aztech.modern_industrialization.inventory.MIInventory;
 import aztech.modern_industrialization.machines.BEP;
 import aztech.modern_industrialization.machines.components.OrientationComponent;
 import aztech.modern_industrialization.machines.gui.MachineGuiParameters;
 import aztech.modern_industrialization.machines.multiblocks.HatchBlockEntity;
 import aztech.modern_industrialization.machines.multiblocks.HatchType;
+import com.breakinblocks.miei.compat.HatchInfo;
+import com.breakinblocks.miei.compat.HatchKeys;
+import mekanism.api.MekanismAPI;
+import mekanism.api.chemical.ChemicalStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 
 public final class ChemicalHatchBlockEntity extends HatchBlockEntity implements HatchInfo {
     private final boolean input;

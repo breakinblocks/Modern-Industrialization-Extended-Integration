@@ -1,13 +1,5 @@
 package com.breakinblocks.miei.pressure.pneumaticcraft;
 
-import java.util.List;
-
-import com.breakinblocks.miei.compat.HatchInfo;
-import com.breakinblocks.miei.compat.HatchKeys;
-
-import me.desht.pneumaticcraft.api.pressure.PressureTier;
-import me.desht.pneumaticcraft.common.upgrades.ModUpgrades;
-
 import aztech.modern_industrialization.inventory.ConfigurableItemStack;
 import aztech.modern_industrialization.inventory.MIInventory;
 import aztech.modern_industrialization.inventory.SlotPositions;
@@ -16,7 +8,11 @@ import aztech.modern_industrialization.machines.components.OrientationComponent;
 import aztech.modern_industrialization.machines.gui.MachineGuiParameters;
 import aztech.modern_industrialization.machines.multiblocks.HatchBlockEntity;
 import aztech.modern_industrialization.machines.multiblocks.HatchType;
-
+import com.breakinblocks.miei.compat.HatchInfo;
+import com.breakinblocks.miei.compat.HatchKeys;
+import java.util.List;
+import me.desht.pneumaticcraft.api.pressure.PressureTier;
+import me.desht.pneumaticcraft.common.upgrades.ModUpgrades;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -32,9 +28,13 @@ public final class AirHatchBlockEntity extends HatchBlockEntity implements Hatch
         this.tank = new AirTank(tier, volume);
         registerComponents(tank);
 
-        ConfigurableItemStack upgradeSlot = ConfigurableItemStack.lockedInputSlot(ModUpgrades.SECURITY.get().getItem());
-        this.inventory = new MIInventory(List.of(upgradeSlot), List.of(),
-            new SlotPositions.Builder().addSlot(80, 40).build(), SlotPositions.empty());
+        ConfigurableItemStack upgradeSlot =
+                ConfigurableItemStack.lockedInputSlot(ModUpgrades.SECURITY.get().getItem());
+        this.inventory = new MIInventory(
+                List.of(upgradeSlot),
+                List.of(),
+                new SlotPositions.Builder().addSlot(80, 40).build(),
+                SlotPositions.empty());
         registerComponents(inventory);
     }
 

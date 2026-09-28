@@ -1,26 +1,21 @@
 package com.breakinblocks.miei.chemical.mekanism;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.breakinblocks.miei.chemical.ChemicalCondition;
-import com.breakinblocks.miei.mixin.MultiblockMachineBlockEntityAccessor;
-
-import mekanism.api.MekanismAPI;
-import mekanism.api.chemical.Chemical;
-
-import net.minecraft.core.Holder;
-
 import aztech.modern_industrialization.machines.MachineBlockEntity;
 import aztech.modern_industrialization.machines.multiblocks.HatchBlockEntity;
 import aztech.modern_industrialization.machines.multiblocks.MultiblockMachineBlockEntity;
 import aztech.modern_industrialization.machines.multiblocks.ShapeMatcher;
 import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
+import com.breakinblocks.miei.chemical.ChemicalCondition;
+import com.breakinblocks.miei.mixin.MultiblockMachineBlockEntityAccessor;
+import java.util.ArrayList;
+import java.util.List;
+import mekanism.api.MekanismAPI;
+import mekanism.api.chemical.Chemical;
+import net.minecraft.core.Holder;
 
 public final class ChemicalCrafting {
-    private ChemicalCrafting() {
-    }
+    private ChemicalCrafting() {}
 
     public static Holder<Chemical> chemical(ChemicalCondition condition) {
         return MekanismAPI.CHEMICAL_REGISTRY.getHolder(condition.chemical()).orElse(null);
@@ -48,8 +43,8 @@ public final class ChemicalCrafting {
             return false;
         }
         return condition.output()
-            ? space(machine, condition) >= condition.amount()
-            : available(machine, condition) >= condition.amount();
+                ? space(machine, condition) >= condition.amount()
+                : available(machine, condition) >= condition.amount();
     }
 
     public static long available(MachineBlockEntity machine, ChemicalCondition condition) {

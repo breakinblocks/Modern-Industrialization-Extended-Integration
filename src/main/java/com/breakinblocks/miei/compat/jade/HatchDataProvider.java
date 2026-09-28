@@ -1,10 +1,8 @@
 package com.breakinblocks.miei.compat.jade;
 
 import com.breakinblocks.miei.compat.HatchInfo;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IServerDataProvider;
 

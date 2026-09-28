@@ -1,10 +1,14 @@
 package com.breakinblocks.miei;
 
+import aztech.modern_industrialization.MI;
+import aztech.modern_industrialization.machines.models.MachineCasings;
+import aztech.modern_industrialization.machines.recipe.condition.MachineProcessConditions;
 import com.breakinblocks.miei.chemical.ChemicalCondition;
 import com.breakinblocks.miei.chemical.mekanism.ChemicalHatches;
 import com.breakinblocks.miei.chronon.ChrononCondition;
 import com.breakinblocks.miei.chronon.tempad.ChrononHatches;
 import com.breakinblocks.miei.chronon.tempad.ChrononTransfer;
+import com.breakinblocks.miei.energy.NoEnergyCondition;
 import com.breakinblocks.miei.heat.HeatCondition;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatHatches;
 import com.breakinblocks.miei.matter.MatterCondition;
@@ -13,11 +17,7 @@ import com.breakinblocks.miei.pressure.PressureCondition;
 import com.breakinblocks.miei.pressure.pneumaticcraft.AirHatches;
 import com.breakinblocks.miei.stress.StressCondition;
 import com.breakinblocks.miei.stress.create.CreateSupport;
-
-import aztech.modern_industrialization.machines.recipe.condition.MachineProcessConditions;
-
 import net.minecraft.resources.ResourceLocation;
-
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
@@ -41,6 +41,7 @@ public final class MIEI {
         MachineProcessConditions.register(id("heat"), HeatCondition.CODEC, HeatCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("chemical"), ChemicalCondition.CODEC, ChemicalCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("chronon"), ChrononCondition.CODEC, ChrononCondition.STREAM_CODEC);
+        MachineProcessConditions.register(id("no_energy"), NoEnergyCondition.CODEC, NoEnergyCondition.STREAM_CODEC);
         if (REPLICATION) {
             modBus.addListener((RegisterCapabilitiesEvent event) -> MatterHatches.registerCapabilities(event));
         }
@@ -64,5 +65,9 @@ public final class MIEI {
 
     public static ResourceLocation id(String path) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    }
+
+    public static boolean hasCasing(String name) {
+        return MachineCasings.registeredCasings.containsKey(MI.id(name));
     }
 }

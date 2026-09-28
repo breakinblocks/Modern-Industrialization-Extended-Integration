@@ -1,10 +1,8 @@
 package com.breakinblocks.miei.chronon.tempad;
 
+import aztech.modern_industrialization.machines.MachineComponent;
 import earth.terrarium.tempad.api.ActionType;
 import earth.terrarium.tempad.api.tva_device.ChrononHandler;
-
-import aztech.modern_industrialization.machines.MachineComponent;
-
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 

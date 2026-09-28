@@ -1,16 +1,13 @@
 package com.breakinblocks.miei.matter;
 
-import java.util.List;
-
+import aztech.modern_industrialization.machines.recipe.MachineRecipe;
+import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
 import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.matter.replication.MatterCrafting;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
-import aztech.modern_industrialization.machines.recipe.MachineRecipe;
-import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
-
+import java.util.List;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -18,16 +15,19 @@ import net.minecraft.network.codec.StreamCodec;
 
 public record MatterCondition(String matter, double amount, boolean output) implements MachineProcessCondition {
     public static final MapCodec<MatterCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-        Codec.STRING.fieldOf("matter").forGetter(MatterCondition::matter),
-        Codec.DOUBLE.fieldOf("amount").forGetter(MatterCondition::amount),
-        Codec.BOOL.optionalFieldOf("output", false).forGetter(MatterCondition::output)
-    ).apply(instance, MatterCondition::new));
+                    Codec.STRING.fieldOf("matter").forGetter(MatterCondition::matter),
+                    Codec.DOUBLE.fieldOf("amount").forGetter(MatterCondition::amount),
+                    Codec.BOOL.optionalFieldOf("output", false).forGetter(MatterCondition::output))
+            .apply(instance, MatterCondition::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, MatterCondition> STREAM_CODEC = StreamCodec.composite(
-        ByteBufCodecs.STRING_UTF8, MatterCondition::matter,
-        ByteBufCodecs.DOUBLE, MatterCondition::amount,
-        ByteBufCodecs.BOOL, MatterCondition::output,
-        MatterCondition::new);
+            ByteBufCodecs.STRING_UTF8,
+            MatterCondition::matter,
+            ByteBufCodecs.DOUBLE,
+            MatterCondition::amount,
+            ByteBufCodecs.BOOL,
+            MatterCondition::output,
+            MatterCondition::new);
 
     @Override
     public boolean canProcessRecipe(Context context, MachineRecipe recipe) {
@@ -37,8 +37,10 @@ public record MatterCondition(String matter, double amount, boolean output) impl
     @Override
     public void appendDescription(List<Component> list) {
         String shown = amount == Math.floor(amount) ? String.valueOf((long) amount) : String.format("%.2f", amount);
-        list.add(Component.translatable(output ? "miei.condition.matter_output" : "miei.condition.matter_input",
-            shown, Component.translatable("miei.matter." + matter.toLowerCase())));
+        list.add(Component.translatable(
+                output ? "miei.condition.matter_output" : "miei.condition.matter_input",
+                shown,
+                Component.translatable("miei.matter." + matter.toLowerCase())));
     }
 
     @Override

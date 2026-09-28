@@ -1,14 +1,11 @@
 package com.breakinblocks.miei.matter.replication;
 
+import aztech.modern_industrialization.machines.MachineComponent;
 import com.buuz135.replication.api.IMatterType;
 import com.buuz135.replication.api.matter_fluid.IMatterHandler;
 import com.buuz135.replication.api.matter_fluid.MatterStack;
-
-import aztech.modern_industrialization.machines.MachineComponent;
-
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 public final class MatterTank implements IMatterHandler, MachineComponent.ServerOnly {
@@ -49,7 +46,10 @@ public final class MatterTank implements IMatterHandler, MachineComponent.Server
     public double take(IMatterType type, double amount, boolean simulate) {
         double taken = Math.min(amount, amountOf(type));
         if (taken > 0 && !simulate) {
-            set(stored.getAmount() - taken <= 0 ? MatterStack.EMPTY : new MatterStack(stored, stored.getAmount() - taken));
+            set(
+                    stored.getAmount() - taken <= 0
+                            ? MatterStack.EMPTY
+                            : new MatterStack(stored, stored.getAmount() - taken));
         }
         return taken;
     }
@@ -97,7 +97,11 @@ public final class MatterTank implements IMatterHandler, MachineComponent.Server
 
     @Override
     public MatterStack drain(MatterStack resource, IFluidHandler.FluidAction action) {
-        if (input || resource == null || resource.isEmpty() || stored.isEmpty() || stored.getMatterType() != resource.getMatterType()) {
+        if (input
+                || resource == null
+                || resource.isEmpty()
+                || stored.isEmpty()
+                || stored.getMatterType() != resource.getMatterType()) {
             return MatterStack.EMPTY;
         }
         return drain(resource.getAmount(), action);
@@ -122,6 +126,8 @@ public final class MatterTank implements IMatterHandler, MachineComponent.Server
 
     @Override
     public void readNbt(CompoundTag tag, HolderLookup.Provider registries, boolean upgrading) {
-        stored = tag.contains("matter") ? MatterStack.loadMatterStackFromNBT(tag.getCompound("matter")) : MatterStack.EMPTY;
+        stored = tag.contains("matter")
+                ? MatterStack.loadMatterStackFromNBT(tag.getCompound("matter"))
+                : MatterStack.EMPTY;
     }
 }

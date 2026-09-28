@@ -1,10 +1,8 @@
 package com.breakinblocks.miei.chronon.tempad;
 
-import java.util.function.BooleanSupplier;
-
 import earth.terrarium.tempad.api.ActionType;
 import earth.terrarium.tempad.api.tva_device.ChrononHandler;
-
+import java.util.function.BooleanSupplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -13,7 +11,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
-
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 
@@ -115,7 +112,8 @@ public final class MetronomeLink {
                     if (distance >= bestDistance) {
                         continue;
                     }
-                    ChrononHandler handler = level.getCapability(capability, pos, candidate.getBlockState(), candidate, Direction.UP);
+                    ChrononHandler handler =
+                            level.getCapability(capability, pos, candidate.getBlockState(), candidate, Direction.UP);
                     if (handler != null) {
                         best = pos;
                         bestHandler = handler;
@@ -127,8 +125,7 @@ public final class MetronomeLink {
         if (best == null) {
             return null;
         }
-        cache = BlockCapabilityCache.create(capability, level, best.immutable(), Direction.UP, valid, () -> {
-        });
+        cache = BlockCapabilityCache.create(capability, level, best.immutable(), Direction.UP, valid, () -> {});
         return bestHandler;
     }
 

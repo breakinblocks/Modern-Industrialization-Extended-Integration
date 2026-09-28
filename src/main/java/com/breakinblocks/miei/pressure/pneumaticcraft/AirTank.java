@@ -1,13 +1,10 @@
 package com.breakinblocks.miei.pressure.pneumaticcraft;
 
+import aztech.modern_industrialization.machines.MachineComponent;
 import java.util.List;
-
 import me.desht.pneumaticcraft.api.PneumaticRegistry;
 import me.desht.pneumaticcraft.api.pressure.PressureTier;
 import me.desht.pneumaticcraft.api.tileentity.IAirHandlerMachine;
-
-import aztech.modern_industrialization.machines.MachineComponent;
-
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
