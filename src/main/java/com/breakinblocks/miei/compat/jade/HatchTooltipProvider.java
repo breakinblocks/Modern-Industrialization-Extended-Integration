@@ -80,6 +80,10 @@ public final class HatchTooltipProvider implements IBlockComponentProvider {
                         String.format("%.1f", data.getInt(HatchKeys.CHRONON_NEXT_SCAN) / 20f)));
             }
         }
+        if (data.contains(HatchKeys.SOURCE_AMOUNT)) {
+            tooltip.add(Component.translatable(
+                    "miei.jade.source", data.getInt(HatchKeys.SOURCE_AMOUNT), data.getInt(HatchKeys.SOURCE_CAPACITY)));
+        }
     }
 
     private static String amount(double value) {

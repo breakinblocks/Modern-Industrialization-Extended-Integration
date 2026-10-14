@@ -6,6 +6,7 @@ import com.breakinblocks.miei.chronon.tempad.ChrononHatches;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatHatches;
 import com.breakinblocks.miei.matter.replication.MatterHatches;
 import com.breakinblocks.miei.pressure.pneumaticcraft.AirHatches;
+import com.breakinblocks.miei.source.arsnouveau.SourceHatches;
 import com.breakinblocks.miei.stress.StressHatches;
 import com.breakinblocks.miei.stress.create.CreateSupport;
 import java.util.List;
@@ -42,6 +43,9 @@ public final class MIEIJeiPlugin implements IModPlugin {
         }
         if (MIEI.TEMPAD) {
             info(registration, ChrononHatches.stacks(), "chronon");
+        }
+        if (MIEI.ARS_NOUVEAU) {
+            info(registration, SourceHatches.stacks(), "source");
         }
     }
 

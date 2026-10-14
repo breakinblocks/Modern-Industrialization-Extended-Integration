@@ -15,6 +15,8 @@ import com.breakinblocks.miei.matter.MatterCondition;
 import com.breakinblocks.miei.matter.replication.MatterHatches;
 import com.breakinblocks.miei.pressure.PressureCondition;
 import com.breakinblocks.miei.pressure.pneumaticcraft.AirHatches;
+import com.breakinblocks.miei.source.SourceCondition;
+import com.breakinblocks.miei.source.arsnouveau.SourceHatches;
 import com.breakinblocks.miei.stress.StressCondition;
 import com.breakinblocks.miei.stress.create.CreateSupport;
 import net.minecraft.resources.ResourceLocation;
@@ -33,6 +35,7 @@ public final class MIEI {
     public static final boolean PNEUMATIC = ModList.get().isLoaded("pneumaticcraft");
     public static final boolean MEKANISM = ModList.get().isLoaded("mekanism");
     public static final boolean TEMPAD = ModList.get().isLoaded("tempad");
+    public static final boolean ARS_NOUVEAU = ModList.get().isLoaded("ars_nouveau");
 
     public MIEI(IEventBus modBus) {
         MachineProcessConditions.register(id("matter"), MatterCondition.CODEC, MatterCondition.STREAM_CODEC);
@@ -41,6 +44,7 @@ public final class MIEI {
         MachineProcessConditions.register(id("heat"), HeatCondition.CODEC, HeatCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("chemical"), ChemicalCondition.CODEC, ChemicalCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("chronon"), ChrononCondition.CODEC, ChrononCondition.STREAM_CODEC);
+        MachineProcessConditions.register(id("source"), SourceCondition.CODEC, SourceCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("no_energy"), NoEnergyCondition.CODEC, NoEnergyCondition.STREAM_CODEC);
         if (REPLICATION) {
             modBus.addListener((RegisterCapabilitiesEvent event) -> MatterHatches.registerCapabilities(event));
@@ -60,6 +64,9 @@ public final class MIEI {
         if (TEMPAD) {
             modBus.addListener((RegisterCapabilitiesEvent event) -> ChrononHatches.registerCapabilities(event));
             ChrononTransfer.register(NeoForge.EVENT_BUS);
+        }
+        if (ARS_NOUVEAU) {
+            modBus.addListener((RegisterCapabilitiesEvent event) -> SourceHatches.registerCapabilities(event));
         }
     }
 

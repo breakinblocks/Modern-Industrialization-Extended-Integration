@@ -1,0 +1,46 @@
+package com.breakinblocks.miei.source.arsnouveau;
+
+import aztech.modern_industrialization.inventory.MIInventory;
+import aztech.modern_industrialization.machines.BEP;
+import aztech.modern_industrialization.machines.components.OrientationComponent;
+import aztech.modern_industrialization.machines.gui.MachineGuiParameters;
+import aztech.modern_industrialization.machines.multiblocks.HatchBlockEntity;
+import aztech.modern_industrialization.machines.multiblocks.HatchType;
+import com.breakinblocks.miei.compat.HatchInfo;
+import com.breakinblocks.miei.compat.HatchKeys;
+import net.minecraft.nbt.CompoundTag;
+
+public final class SourceHatchBlockEntity extends HatchBlockEntity implements HatchInfo {
+    private final SourceBuffer buffer;
+
+    public SourceHatchBlockEntity(BEP bep, String id, int capacity) {
+        super(bep, new MachineGuiParameters.Builder(id, false).build(), OrientationComponent.Params.noFacingNoOutput());
+        this.buffer = new SourceBuffer(capacity, this::setChanged);
+        registerComponents(buffer);
+    }
+
+    public SourceBuffer buffer() {
+        return buffer;
+    }
+
+    @Override
+    public HatchType getHatchType() {
+        return SourceHatches.TYPE;
+    }
+
+    @Override
+    public boolean upgradesToSteel() {
+        return false;
+    }
+
+    @Override
+    public MIInventory getInventory() {
+        return MIInventory.EMPTY;
+    }
+
+    @Override
+    public void addJadeData(CompoundTag tag) {
+        tag.putInt(HatchKeys.SOURCE_AMOUNT, buffer.stored());
+        tag.putInt(HatchKeys.SOURCE_CAPACITY, buffer.capacity());
+    }
+}

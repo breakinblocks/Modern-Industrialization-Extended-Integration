@@ -54,5 +54,9 @@
   "miei.chronon.transferred": "Transferred %s chronons (%s / %s)",
   "miei.chronon.hatch_full": "Chronon buffer is already full",
   "miei.chronon.battery_empty": "Nothing left to transfer",
-  "miei.condition.no_energy": "Requires no energy"
+  "miei.condition.no_energy": "Requires no energy",
+  "miei.hatch_type.source_input": "Source Input Hatch",
+  "miei.condition.source": "Consumes %s source",
+  "miei.jade.source": "Source: %s / %s",
+  "miei.jei.info.source": "Place in a Modern Industrialization multiblock to give it access to Ars Nouveau source. Feed it with a relay linked by a Dominion Wand, or with an AE2 export bus when Ars Énergistique is installed. Recipes consume source from the hatch when they start."
 }

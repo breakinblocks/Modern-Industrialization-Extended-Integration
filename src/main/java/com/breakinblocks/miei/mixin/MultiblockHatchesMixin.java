@@ -7,6 +7,7 @@ import com.breakinblocks.miei.chronon.tempad.ChrononHatches;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatHatches;
 import com.breakinblocks.miei.matter.replication.MatterHatches;
 import com.breakinblocks.miei.pressure.pneumaticcraft.AirHatches;
+import com.breakinblocks.miei.source.arsnouveau.SourceHatches;
 import com.breakinblocks.miei.stress.StressHatches;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,6 +40,9 @@ public abstract class MultiblockHatchesMixin {
         }
         if (MIEI.TEMPAD) {
             ChrononHatches.register();
+        }
+        if (MIEI.ARS_NOUVEAU) {
+            SourceHatches.register();
         }
     }
 }

@@ -7,6 +7,7 @@ import com.breakinblocks.miei.chronon.tempad.ChrononHatchBlockEntity;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatHatchBlockEntity;
 import com.breakinblocks.miei.matter.replication.MatterHatchBlockEntity;
 import com.breakinblocks.miei.pressure.pneumaticcraft.AirHatchBlockEntity;
+import com.breakinblocks.miei.source.arsnouveau.SourceHatchBlockEntity;
 import com.breakinblocks.miei.stress.StressHatchBlockEntity;
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaCommonRegistration;
@@ -38,6 +39,10 @@ public final class MIEIJadePlugin implements IWailaPlugin {
         if (MIEI.TEMPAD) {
             registration.registerBlockDataProvider(
                     new HatchDataProvider(MIEI.id("chronon_hatch")), ChrononHatchBlockEntity.class);
+        }
+        if (MIEI.ARS_NOUVEAU) {
+            registration.registerBlockDataProvider(
+                    new HatchDataProvider(MIEI.id("source_hatch")), SourceHatchBlockEntity.class);
         }
     }
 

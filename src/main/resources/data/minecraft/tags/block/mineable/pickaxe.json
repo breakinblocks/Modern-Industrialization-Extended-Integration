@@ -5,6 +5,10 @@
       "required": false
     },
     {
+      "id": "modern_industrialization:bronze_stress_input_hatch",
+      "required": false
+    },
+    {
       "id": "modern_industrialization:chronon_input_hatch",
       "required": false
     },
@@ -33,7 +37,27 @@
       "required": false
     },
     {
+      "id": "modern_industrialization:ev_source_input_hatch",
+      "required": false
+    },
+    {
       "id": "modern_industrialization:ev_stress_input_hatch",
+      "required": false
+    },
+    {
+      "id": "modern_industrialization:hv_air_input_hatch",
+      "required": false
+    },
+    {
+      "id": "modern_industrialization:hv_heat_hatch",
+      "required": false
+    },
+    {
+      "id": "modern_industrialization:hv_source_input_hatch",
+      "required": false
+    },
+    {
+      "id": "modern_industrialization:hv_stress_input_hatch",
       "required": false
     },
     {
@@ -61,7 +85,47 @@
       "required": false
     },
     {
+      "id": "modern_industrialization:iv_source_input_hatch",
+      "required": false
+    },
+    {
       "id": "modern_industrialization:iv_stress_input_hatch",
+      "required": false
+    },
+    {
+      "id": "modern_industrialization:lv_air_input_hatch",
+      "required": false
+    },
+    {
+      "id": "modern_industrialization:lv_heat_hatch",
+      "required": false
+    },
+    {
+      "id": "modern_industrialization:lv_source_input_hatch",
+      "required": false
+    },
+    {
+      "id": "modern_industrialization:lv_stress_input_hatch",
+      "required": false
+    },
+    {
+      "id": "modern_industrialization:mv_air_input_hatch",
+      "required": false
+    },
+    {
+      "id": "modern_industrialization:mv_heat_hatch",
+      "required": false
+    },
+    {
+      "id": "modern_industrialization:mv_source_input_hatch",
+      "required": false
+    },
+    {
+      "id": "modern_industrialization:mv_stress_input_hatch",
+      "required": false
+    },
+    {
+      "id": "modern_industrialization:steel_stress_input_hatch",
       "required": false
     },
     {
@@ -86,6 +150,10 @@
     },
     {
       "id": "modern_industrialization:superconductor_matter_output_hatch",
+      "required": false
+    },
+    {
+      "id": "modern_industrialization:superconductor_source_input_hatch",
       "required": false
     },
     {

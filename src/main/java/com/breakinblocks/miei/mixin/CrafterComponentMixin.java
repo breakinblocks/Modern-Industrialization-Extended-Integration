@@ -12,6 +12,7 @@ import com.breakinblocks.miei.energy.NoEnergyCrafting;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatCrafting;
 import com.breakinblocks.miei.matter.replication.MatterCrafting;
 import com.breakinblocks.miei.pressure.pneumaticcraft.PressureCrafting;
+import com.breakinblocks.miei.source.arsnouveau.SourceCrafting;
 import com.breakinblocks.miei.stress.StressCrafting;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.spongepowered.asm.mixin.Final;
@@ -91,6 +92,18 @@ public abstract class CrafterComponentMixin {
         if (cir.getReturnValueZ()
                 && MIEI.TEMPAD
                 && !ChrononCrafting.take(conditionContext.getBlockEntity(), recipe, simulate)) {
+            cir.setReturnValue(false);
+        }
+    }
+
+    @Inject(
+            method = "takeItemInputs(Laztech/modern_industrialization/machines/recipe/MachineRecipe;Z)Z",
+            at = @At("RETURN"),
+            cancellable = true)
+    private void miei$takeSource(MachineRecipe recipe, boolean simulate, CallbackInfoReturnable<Boolean> cir) {
+        if (cir.getReturnValueZ()
+                && MIEI.ARS_NOUVEAU
+                && !SourceCrafting.take(conditionContext.getBlockEntity(), recipe, simulate)) {
             cir.setReturnValue(false);
         }
     }

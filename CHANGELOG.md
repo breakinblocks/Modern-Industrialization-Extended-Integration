@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.21.1-1.0.3
+
+- Added Ars Nouveau source input hatches and `miei:source` recipe condition
+- Fixed LV, MV, HV, bronze and steel hatches dropping nothing when broken
+
 ## 1.21.1-1.0.2
 
 - Fixed startup crash without an IV tier

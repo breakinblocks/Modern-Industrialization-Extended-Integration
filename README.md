@@ -14,6 +14,8 @@ draw on resources from other mods as part of their recipes:
 - **[Mekanism](https://modrinth.com/mod/mekanism) chemicals**, consumed or produced by a recipe.
 - **[Tempad](https://modrinth.com/mod/tempad) chronons**, pulled from a nearby Metronome into a
   hatch buffer and consumed by a recipe.
+- **[Ars Nouveau](https://modrinth.com/mod/ars-nouveau) source**, fed in by relays or an AE2 export
+  bus and consumed by a recipe.
 
 They all work the same way: a hatch in the multiblock shape carries the resource, and a recipe
 condition declares what the recipe needs from it. Every integration is optional and independent, so
@@ -372,11 +374,61 @@ transfer stops when the buffer is full, and the amount moved is shown above your
   hatch refills on its own afterwards.
 - Nothing is taken if the craft cannot start.
 
+## Source
+
+Requires Ars Nouveau. Without it, none of this registers and `miei:source` recipes never run.
+
+### Source Input Hatches
+
+| Hatch | Item ID | Capacity |
+|---|---|---|
+| LV Source Input Hatch | `modern_industrialization:lv_source_input_hatch` | 10000 |
+| MV Source Input Hatch | `modern_industrialization:mv_source_input_hatch` | 25000 |
+| HV Source Input Hatch | `modern_industrialization:hv_source_input_hatch` | 50000 |
+| EV Source Input Hatch | `modern_industrialization:ev_source_input_hatch` | 100000 |
+| IV Source Input Hatch | `modern_industrialization:iv_source_input_hatch` | 250000 |
+| SV Source Input Hatch | `modern_industrialization:superconductor_source_input_hatch` | 1000000 |
+
+The IV hatch only exists in packs that add an IV casing tier.
+
+The hatch exposes Ars Nouveau's source capability on every side, accepting source and refusing
+extraction. Anything that pushes source into a block through that capability can fill it:
+
+- **Relays.** Link a relay to the hatch with a Dominion Wand, the same way you would link one to a
+  Source Jar.
+- **AE2, with [Ars Énergistique](https://modrinth.com/mod/ars-energistique).** Point an export bus
+  at the hatch with source in its filter, and source stored in the ME network is pushed straight in.
+
+### The source recipe condition
+
+```json
+{
+  "type": "modern_industrialization:assembler",
+  "eu": 32,
+  "duration": 200,
+  "item_outputs": [{ "item": "ars_nouveau:source_gem", "amount": 1 }],
+  "process_conditions": [
+    { "type": "miei:source", "amount": 1000 }
+  ]
+}
+```
+
+| Field | Meaning |
+|---|---|
+| `amount` | Source consumed when the craft starts. |
+
+### How a source craft behaves
+
+- Amounts are pooled across every Source Input Hatch in the structure.
+- A craft starts only when the hatches together hold the full amount, and the source is taken at that
+  moment.
+- Nothing is taken if the craft cannot start.
+
 ## Recipes without energy
 
 Every Modern Industrialization recipe has to declare `eu` and `duration`, and a machine will not
 even look for a recipe until it can draw 1 EU. That makes it hard to build a multiblock that is
-driven purely by matter, stress, air, heat, chemicals or chronons. The `miei:no_energy` condition
+driven purely by matter, stress, air, heat, chemicals, chronons or source. The `miei:no_energy` condition
 removes the energy requirement from a single recipe.
 
 ```json
@@ -450,6 +502,7 @@ it does and how to connect it.
 | Heat | Temperature in Kelvin |
 | Chemical | Chemical name, stored amount and capacity |
 | Chronon | Stored chronons and capacity, the linked Metronome's position, or a note that none is in range and when the next search happens |
+| Source | Stored source and capacity |
 
 Hatch contents are server-side only, so Jade requests them from the server as you look at the block.
 Each hatch family is a separate Jade provider, so they can be toggled individually in Jade's config.
@@ -474,6 +527,8 @@ Industrialization's own machines.
 | PneumaticCraft: Repressurized | 8.2.23 or newer | optional, needed for compressed air and heat |
 | Mekanism | 10.7.19 or newer | optional, needed for chemicals |
 | Tempad | 3.0.4 or newer | optional, needed for chronons |
+| Ars Nouveau | 5.13 or newer | optional, needed for source |
+| Ars Énergistique | 2.1 or newer | optional, lets an AE2 export bus fill source hatches |
 | JEI | 19.36 or newer | optional, adds hatch information pages |
 | Jade | 15.10 or newer | optional, adds hatch contents to the tooltip |
 
