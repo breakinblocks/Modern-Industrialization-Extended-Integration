@@ -65,13 +65,29 @@ public final class MatterCrafting {
         return total;
     }
 
-    public static boolean take(MachineBlockEntity machine, MachineRecipe recipe, boolean simulate) {
+    public static int maxCrafts(MachineBlockEntity machine, MachineRecipe recipe) {
+        double max = Integer.MAX_VALUE;
         for (MatterCondition condition : conditions(recipe, false)) {
-            if (available(machine, condition) < condition.amount()) {
+            if (condition.amount() > 0) {
+                max = Math.min(max, Math.floor(available(machine, condition) / condition.amount()));
+            }
+        }
+        for (MatterCondition condition : conditions(recipe, true)) {
+            if (condition.amount() > 0) {
+                max = Math.min(max, Math.floor(space(machine, condition) / condition.amount()));
+            }
+        }
+        return (int) max;
+    }
+
+    public static boolean take(MachineBlockEntity machine, MachineRecipe recipe, boolean simulate, int multiplier) {
+        for (MatterCondition condition : conditions(recipe, false)) {
+            double amount = condition.amount() * multiplier;
+            if (available(machine, condition) < amount) {
                 return false;
             }
             if (!simulate) {
-                double remaining = condition.amount();
+                double remaining = amount;
                 for (MatterHatchBlockEntity hatch : hatches(machine, true)) {
                     remaining -= hatch.tank().take(type(condition), remaining, false);
                     if (remaining <= 0) {
@@ -83,13 +99,14 @@ public final class MatterCrafting {
         return true;
     }
 
-    public static boolean put(MachineBlockEntity machine, MachineRecipe recipe, boolean simulate) {
+    public static boolean put(MachineBlockEntity machine, MachineRecipe recipe, boolean simulate, int multiplier) {
         for (MatterCondition condition : conditions(recipe, true)) {
-            if (space(machine, condition) < condition.amount()) {
+            double amount = condition.amount() * multiplier;
+            if (space(machine, condition) < amount) {
                 return false;
             }
             if (!simulate) {
-                double remaining = condition.amount();
+                double remaining = amount;
                 for (MatterHatchBlockEntity hatch : hatches(machine, false)) {
                     remaining -= hatch.tank().add(type(condition), remaining, false);
                     if (remaining <= 0) {

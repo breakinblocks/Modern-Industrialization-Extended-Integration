@@ -71,13 +71,29 @@ public final class ChemicalCrafting {
         return total;
     }
 
-    public static boolean take(MachineBlockEntity machine, MachineRecipe recipe, boolean simulate) {
+    public static int maxCrafts(MachineBlockEntity machine, MachineRecipe recipe) {
+        long max = Integer.MAX_VALUE;
         for (ChemicalCondition condition : conditions(recipe, false)) {
-            if (chemical(condition) == null || available(machine, condition) < condition.amount()) {
+            if (condition.amount() > 0) {
+                max = Math.min(max, available(machine, condition) / condition.amount());
+            }
+        }
+        for (ChemicalCondition condition : conditions(recipe, true)) {
+            if (condition.amount() > 0) {
+                max = Math.min(max, space(machine, condition) / condition.amount());
+            }
+        }
+        return (int) max;
+    }
+
+    public static boolean take(MachineBlockEntity machine, MachineRecipe recipe, boolean simulate, int multiplier) {
+        for (ChemicalCondition condition : conditions(recipe, false)) {
+            long amount = condition.amount() * multiplier;
+            if (chemical(condition) == null || available(machine, condition) < amount) {
                 return false;
             }
             if (!simulate) {
-                long remaining = condition.amount();
+                long remaining = amount;
                 for (ChemicalHatchBlockEntity hatch : hatches(machine, true)) {
                     remaining -= hatch.tank().take(chemical(condition), remaining);
                     if (remaining <= 0) {
@@ -89,13 +105,14 @@ public final class ChemicalCrafting {
         return true;
     }
 
-    public static boolean put(MachineBlockEntity machine, MachineRecipe recipe, boolean simulate) {
+    public static boolean put(MachineBlockEntity machine, MachineRecipe recipe, boolean simulate, int multiplier) {
         for (ChemicalCondition condition : conditions(recipe, true)) {
-            if (chemical(condition) == null || space(machine, condition) < condition.amount()) {
+            long amount = condition.amount() * multiplier;
+            if (chemical(condition) == null || space(machine, condition) < amount) {
                 return false;
             }
             if (!simulate) {
-                long remaining = condition.amount();
+                long remaining = amount;
                 for (ChemicalHatchBlockEntity hatch : hatches(machine, false)) {
                     remaining -= hatch.tank().add(chemical(condition), remaining);
                     if (remaining <= 0) {

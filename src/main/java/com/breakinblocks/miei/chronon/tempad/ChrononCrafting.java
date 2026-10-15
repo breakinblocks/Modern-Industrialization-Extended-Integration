@@ -43,13 +43,26 @@ public final class ChrononCrafting {
         return available(hatches(machine)) >= condition.amount();
     }
 
-    public static boolean take(MachineBlockEntity machine, MachineRecipe recipe, boolean simulate) {
+    private static int needed(MachineRecipe recipe) {
         int needed = 0;
         for (MachineProcessCondition condition : recipe.conditions) {
             if (condition instanceof ChrononCondition chronon) {
                 needed += chronon.amount();
             }
         }
+        return needed;
+    }
+
+    public static int maxCrafts(MachineBlockEntity machine, MachineRecipe recipe) {
+        int needed = needed(recipe);
+        if (needed <= 0) {
+            return Integer.MAX_VALUE;
+        }
+        return available(hatches(machine)) / needed;
+    }
+
+    public static boolean take(MachineBlockEntity machine, MachineRecipe recipe, boolean simulate, int multiplier) {
+        long needed = (long) needed(recipe) * multiplier;
         if (needed <= 0) {
             return true;
         }
@@ -60,7 +73,7 @@ public final class ChrononCrafting {
         if (simulate) {
             return true;
         }
-        int remaining = needed;
+        int remaining = (int) needed;
         for (ChrononHatchBlockEntity hatch : hatches) {
             hatch.link().validate();
             remaining -= hatch.buffer().take(remaining);

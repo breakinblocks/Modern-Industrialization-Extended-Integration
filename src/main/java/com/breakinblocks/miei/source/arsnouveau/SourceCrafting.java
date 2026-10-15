@@ -43,13 +43,26 @@ public final class SourceCrafting {
         return available(hatches(machine)) >= condition.amount();
     }
 
-    public static boolean take(MachineBlockEntity machine, MachineRecipe recipe, boolean simulate) {
+    private static int needed(MachineRecipe recipe) {
         int needed = 0;
         for (MachineProcessCondition condition : recipe.conditions) {
             if (condition instanceof SourceCondition source) {
                 needed += source.amount();
             }
         }
+        return needed;
+    }
+
+    public static int maxCrafts(MachineBlockEntity machine, MachineRecipe recipe) {
+        int needed = needed(recipe);
+        if (needed <= 0) {
+            return Integer.MAX_VALUE;
+        }
+        return available(hatches(machine)) / needed;
+    }
+
+    public static boolean take(MachineBlockEntity machine, MachineRecipe recipe, boolean simulate, int multiplier) {
+        long needed = (long) needed(recipe) * multiplier;
         if (needed <= 0) {
             return true;
         }
@@ -60,7 +73,7 @@ public final class SourceCrafting {
         if (simulate) {
             return true;
         }
-        int remaining = needed;
+        int remaining = (int) needed;
         for (SourceHatchBlockEntity hatch : hatches) {
             remaining -= hatch.buffer().take(remaining);
             if (remaining <= 0) {

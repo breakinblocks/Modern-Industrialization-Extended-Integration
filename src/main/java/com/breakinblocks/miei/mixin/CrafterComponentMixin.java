@@ -5,15 +5,12 @@ import aztech.modern_industrialization.machines.components.CrafterComponent.Beha
 import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
 import aztech.modern_industrialization.util.Simulation;
-import com.breakinblocks.miei.MIEI;
-import com.breakinblocks.miei.chemical.mekanism.ChemicalCrafting;
-import com.breakinblocks.miei.chronon.tempad.ChrononCrafting;
+import com.breakinblocks.miei.RecipeResources;
+import com.breakinblocks.miei.RunningCheck;
 import com.breakinblocks.miei.energy.NoEnergyCrafting;
-import com.breakinblocks.miei.heat.pneumaticcraft.HeatCrafting;
-import com.breakinblocks.miei.matter.replication.MatterCrafting;
-import com.breakinblocks.miei.pressure.pneumaticcraft.PressureCrafting;
-import com.breakinblocks.miei.source.arsnouveau.SourceCrafting;
 import com.breakinblocks.miei.stress.StressCrafting;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,70 +37,8 @@ public abstract class CrafterComponentMixin {
             method = "takeItemInputs(Laztech/modern_industrialization/machines/recipe/MachineRecipe;Z)Z",
             at = @At("RETURN"),
             cancellable = true)
-    private void miei$takeMatter(MachineRecipe recipe, boolean simulate, CallbackInfoReturnable<Boolean> cir) {
-        if (cir.getReturnValueZ()
-                && MIEI.REPLICATION
-                && !MatterCrafting.take(conditionContext.getBlockEntity(), recipe, simulate)) {
-            cir.setReturnValue(false);
-        }
-    }
-
-    @Inject(
-            method = "takeItemInputs(Laztech/modern_industrialization/machines/recipe/MachineRecipe;Z)Z",
-            at = @At("RETURN"),
-            cancellable = true)
-    private void miei$takeAir(MachineRecipe recipe, boolean simulate, CallbackInfoReturnable<Boolean> cir) {
-        if (cir.getReturnValueZ()
-                && MIEI.PNEUMATIC
-                && !PressureCrafting.take(conditionContext.getBlockEntity(), recipe, simulate)) {
-            cir.setReturnValue(false);
-        }
-    }
-
-    @Inject(
-            method = "takeItemInputs(Laztech/modern_industrialization/machines/recipe/MachineRecipe;Z)Z",
-            at = @At("RETURN"),
-            cancellable = true)
-    private void miei$takeHeat(MachineRecipe recipe, boolean simulate, CallbackInfoReturnable<Boolean> cir) {
-        if (cir.getReturnValueZ()
-                && MIEI.PNEUMATIC
-                && !HeatCrafting.take(conditionContext.getBlockEntity(), recipe, simulate)) {
-            cir.setReturnValue(false);
-        }
-    }
-
-    @Inject(
-            method = "takeItemInputs(Laztech/modern_industrialization/machines/recipe/MachineRecipe;Z)Z",
-            at = @At("RETURN"),
-            cancellable = true)
-    private void miei$takeChemical(MachineRecipe recipe, boolean simulate, CallbackInfoReturnable<Boolean> cir) {
-        if (cir.getReturnValueZ()
-                && MIEI.MEKANISM
-                && !ChemicalCrafting.take(conditionContext.getBlockEntity(), recipe, simulate)) {
-            cir.setReturnValue(false);
-        }
-    }
-
-    @Inject(
-            method = "takeItemInputs(Laztech/modern_industrialization/machines/recipe/MachineRecipe;Z)Z",
-            at = @At("RETURN"),
-            cancellable = true)
-    private void miei$takeChronons(MachineRecipe recipe, boolean simulate, CallbackInfoReturnable<Boolean> cir) {
-        if (cir.getReturnValueZ()
-                && MIEI.TEMPAD
-                && !ChrononCrafting.take(conditionContext.getBlockEntity(), recipe, simulate)) {
-            cir.setReturnValue(false);
-        }
-    }
-
-    @Inject(
-            method = "takeItemInputs(Laztech/modern_industrialization/machines/recipe/MachineRecipe;Z)Z",
-            at = @At("RETURN"),
-            cancellable = true)
-    private void miei$takeSource(MachineRecipe recipe, boolean simulate, CallbackInfoReturnable<Boolean> cir) {
-        if (cir.getReturnValueZ()
-                && MIEI.ARS_NOUVEAU
-                && !SourceCrafting.take(conditionContext.getBlockEntity(), recipe, simulate)) {
+    private void miei$takeResources(MachineRecipe recipe, boolean simulate, CallbackInfoReturnable<Boolean> cir) {
+        if (cir.getReturnValueZ() && !RecipeResources.take(conditionContext.getBlockEntity(), recipe, simulate, 1)) {
             cir.setReturnValue(false);
         }
     }
@@ -112,24 +47,9 @@ public abstract class CrafterComponentMixin {
             method = "putItemOutputs(Laztech/modern_industrialization/machines/recipe/MachineRecipe;ZZ)Z",
             at = @At("RETURN"),
             cancellable = true)
-    private void miei$putMatter(
+    private void miei$putResources(
             MachineRecipe recipe, boolean simulate, boolean toRegister, CallbackInfoReturnable<Boolean> cir) {
-        if (cir.getReturnValueZ()
-                && MIEI.REPLICATION
-                && !MatterCrafting.put(conditionContext.getBlockEntity(), recipe, simulate)) {
-            cir.setReturnValue(false);
-        }
-    }
-
-    @Inject(
-            method = "putItemOutputs(Laztech/modern_industrialization/machines/recipe/MachineRecipe;ZZ)Z",
-            at = @At("RETURN"),
-            cancellable = true)
-    private void miei$putChemical(
-            MachineRecipe recipe, boolean simulate, boolean toRegister, CallbackInfoReturnable<Boolean> cir) {
-        if (cir.getReturnValueZ()
-                && MIEI.MEKANISM
-                && !ChemicalCrafting.put(conditionContext.getBlockEntity(), recipe, simulate)) {
+        if (cir.getReturnValueZ() && !RecipeResources.put(conditionContext.getBlockEntity(), recipe, simulate, 1)) {
             cir.setReturnValue(false);
         }
     }
@@ -137,7 +57,19 @@ public abstract class CrafterComponentMixin {
     @Inject(method = "tickRecipe()Z", at = @At("RETURN"))
     private void miei$tickStress(CallbackInfoReturnable<Boolean> cir) {
         MachineRecipe running = cir.getReturnValueZ() && activeRecipe != null ? activeRecipe.value() : null;
-        StressCrafting.updateDemand(conditionContext.getBlockEntity(), running);
+        StressCrafting.updateDemand(conditionContext.getBlockEntity(), running, 1);
+    }
+
+    @WrapOperation(
+            method = "tickRecipe()Z",
+            at =
+                    @At(
+                            value = "INVOKE",
+                            target =
+                                    "Laztech/modern_industrialization/machines/recipe/MachineRecipe;conditionsMatch(Laztech/modern_industrialization/machines/recipe/condition/MachineProcessCondition$Context;)Z"))
+    private boolean miei$conditionsWhileRunning(
+            MachineRecipe recipe, MachineProcessCondition.Context context, Operation<Boolean> original) {
+        return RunningCheck.run(() -> original.call(recipe, context));
     }
 
     @Redirect(

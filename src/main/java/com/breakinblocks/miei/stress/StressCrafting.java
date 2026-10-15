@@ -38,6 +38,24 @@ public final class StressCrafting {
         if (hatches.isEmpty()) {
             return false;
         }
+        return spare(hatches, condition) >= condition.su();
+    }
+
+    public static int maxCrafts(MachineBlockEntity machine, MachineRecipe recipe) {
+        double max = Integer.MAX_VALUE;
+        List<StressHatchBlockEntity> hatches = null;
+        for (MachineProcessCondition condition : recipe.conditions) {
+            if (condition instanceof StressCondition stress && stress.su() > 0) {
+                if (hatches == null) {
+                    hatches = hatches(machine);
+                }
+                max = Math.min(max, Math.floor(spare(hatches, stress) / stress.su()));
+            }
+        }
+        return (int) max;
+    }
+
+    private static double spare(List<StressHatchBlockEntity> hatches, StressCondition condition) {
         Set<Long> counted = new HashSet<>();
         double spare = 0;
         for (StressHatchBlockEntity hatch : hatches) {
@@ -48,10 +66,10 @@ public final class StressCrafting {
                 spare += hatch.spare();
             }
         }
-        return spare >= condition.su();
+        return spare;
     }
 
-    public static void updateDemand(MachineBlockEntity machine, MachineRecipe recipe) {
+    public static void updateDemand(MachineBlockEntity machine, MachineRecipe recipe, int multiplier) {
         if (!MIEI.CREATE) {
             return;
         }
@@ -67,7 +85,7 @@ public final class StressCrafting {
                 }
             }
         }
-        double share = total / hatches.size();
+        double share = total * multiplier / hatches.size();
         for (StressHatchBlockEntity hatch : hatches) {
             hatch.setDemand(share);
         }

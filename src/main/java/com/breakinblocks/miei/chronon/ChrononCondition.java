@@ -3,6 +3,7 @@ package com.breakinblocks.miei.chronon;
 import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
 import com.breakinblocks.miei.MIEI;
+import com.breakinblocks.miei.RunningCheck;
 import com.breakinblocks.miei.chronon.tempad.ChrononCrafting;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -23,7 +24,7 @@ public record ChrononCondition(int amount) implements MachineProcessCondition {
 
     @Override
     public boolean canProcessRecipe(Context context, MachineRecipe recipe) {
-        return MIEI.TEMPAD && ChrononCrafting.canProcess(context.getBlockEntity(), this);
+        return MIEI.TEMPAD && (RunningCheck.active() || ChrononCrafting.canProcess(context.getBlockEntity(), this));
     }
 
     @Override

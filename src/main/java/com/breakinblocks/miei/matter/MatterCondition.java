@@ -3,6 +3,7 @@ package com.breakinblocks.miei.matter;
 import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
 import com.breakinblocks.miei.MIEI;
+import com.breakinblocks.miei.RunningCheck;
 import com.breakinblocks.miei.matter.replication.MatterCrafting;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -31,7 +32,8 @@ public record MatterCondition(String matter, double amount, boolean output) impl
 
     @Override
     public boolean canProcessRecipe(Context context, MachineRecipe recipe) {
-        return MIEI.REPLICATION && MatterCrafting.canProcess(context.getBlockEntity(), this);
+        return MIEI.REPLICATION
+                && ((!output && RunningCheck.active()) || MatterCrafting.canProcess(context.getBlockEntity(), this));
     }
 
     @Override

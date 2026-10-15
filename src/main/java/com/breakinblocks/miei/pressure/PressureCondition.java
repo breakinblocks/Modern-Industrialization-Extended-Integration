@@ -3,6 +3,7 @@ package com.breakinblocks.miei.pressure;
 import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
 import com.breakinblocks.miei.MIEI;
+import com.breakinblocks.miei.RunningCheck;
 import com.breakinblocks.miei.pressure.pneumaticcraft.PressureCrafting;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -28,7 +29,7 @@ public record PressureCondition(int air, float pressure) implements MachineProce
 
     @Override
     public boolean canProcessRecipe(Context context, MachineRecipe recipe) {
-        return MIEI.PNEUMATIC && PressureCrafting.canProcess(context.getBlockEntity(), this);
+        return MIEI.PNEUMATIC && (RunningCheck.active() || PressureCrafting.canProcess(context.getBlockEntity(), this));
     }
 
     @Override

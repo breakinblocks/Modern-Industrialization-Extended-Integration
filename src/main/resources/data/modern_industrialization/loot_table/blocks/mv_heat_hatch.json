@@ -1,4 +1,10 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "modern_industrialization:mv_heat_hatch"
+    }
+  ],
   "type": "minecraft:block",
   "pools": [
     {

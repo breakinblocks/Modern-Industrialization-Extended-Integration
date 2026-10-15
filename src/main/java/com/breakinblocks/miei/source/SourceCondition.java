@@ -3,6 +3,7 @@ package com.breakinblocks.miei.source;
 import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
 import com.breakinblocks.miei.MIEI;
+import com.breakinblocks.miei.RunningCheck;
 import com.breakinblocks.miei.source.arsnouveau.SourceCrafting;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -23,7 +24,7 @@ public record SourceCondition(int amount) implements MachineProcessCondition {
 
     @Override
     public boolean canProcessRecipe(Context context, MachineRecipe recipe) {
-        return MIEI.ARS_NOUVEAU && SourceCrafting.canProcess(context.getBlockEntity(), this);
+        return MIEI.ARS_NOUVEAU && (RunningCheck.active() || SourceCrafting.canProcess(context.getBlockEntity(), this));
     }
 
     @Override

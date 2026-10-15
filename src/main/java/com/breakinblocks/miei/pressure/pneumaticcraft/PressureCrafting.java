@@ -45,13 +45,24 @@ public final class PressureCrafting {
         return total;
     }
 
-    public static boolean take(MachineBlockEntity machine, MachineRecipe recipe, boolean simulate) {
+    public static int maxCrafts(MachineBlockEntity machine, MachineRecipe recipe) {
+        int max = Integer.MAX_VALUE;
         for (PressureCondition condition : conditions(recipe)) {
-            if (available(machine, condition) < condition.air()) {
+            if (condition.air() > 0) {
+                max = Math.min(max, available(machine, condition) / condition.air());
+            }
+        }
+        return max;
+    }
+
+    public static boolean take(MachineBlockEntity machine, MachineRecipe recipe, boolean simulate, int multiplier) {
+        for (PressureCondition condition : conditions(recipe)) {
+            long air = (long) condition.air() * multiplier;
+            if (available(machine, condition) < air) {
                 return false;
             }
             if (!simulate) {
-                int remaining = condition.air();
+                int remaining = (int) air;
                 for (AirHatchBlockEntity hatch : hatches(machine)) {
                     if (hatch.tank().pressure() < condition.pressure()) {
                         continue;

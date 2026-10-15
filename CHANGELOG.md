@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.21.1-1.0.4
+
+- Fixed Source, chronon, air, matter and chemical recipes losing crafts when the hatch runs low (breakinblocks/Modern-Industrialization-Extended-Integration#3)
+- Fixed the overclock resetting with an Overdrive Module when a hatch runs empty (breakinblocks/Modern-Industrialization-Extended-Integration#3)
+- Fixed MIEI recipe conditions not working in the Multi Processing Array and Processing Array (breakinblocks/Modern-Industrialization-Extended-Integration#2)
+- Fixed loot table errors in the log for hatches that are not registered
+
 ## 1.21.1-1.0.3
 
 - Added Ars Nouveau source input hatches and `miei:source` recipe condition

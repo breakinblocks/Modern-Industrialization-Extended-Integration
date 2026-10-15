@@ -7,9 +7,14 @@
     "CrafterComponentMixin",
     "HatchFlagsMixin",
     "MultiblockHatchesMixin",
-    "MultiblockMachineBlockEntityAccessor"
+    "MultiblockMachineBlockEntityAccessor",
+    "tesseract.ModularCrafterComponentAccessor",
+    "tesseract.ModularCrafterComponentMixin",
+    "tesseract.MultipliedCrafterComponentAccessor",
+    "tesseract.MultipliedCrafterComponentMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "plugin": "com.breakinblocks.miei.mixin.MIEIMixinPlugin"
 }

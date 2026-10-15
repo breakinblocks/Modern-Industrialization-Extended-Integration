@@ -3,6 +3,7 @@ package com.breakinblocks.miei.chemical;
 import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
 import com.breakinblocks.miei.MIEI;
+import com.breakinblocks.miei.RunningCheck;
 import com.breakinblocks.miei.chemical.mekanism.ChemicalCrafting;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -33,7 +34,8 @@ public record ChemicalCondition(ResourceLocation chemical, long amount, boolean 
 
     @Override
     public boolean canProcessRecipe(Context context, MachineRecipe recipe) {
-        return MIEI.MEKANISM && ChemicalCrafting.canProcess(context.getBlockEntity(), this);
+        return MIEI.MEKANISM
+                && ((!output && RunningCheck.active()) || ChemicalCrafting.canProcess(context.getBlockEntity(), this));
     }
 
     @Override

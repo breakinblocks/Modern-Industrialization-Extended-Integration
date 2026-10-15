@@ -45,14 +45,14 @@ public final class HeatCrafting {
         return !inRange(machine, condition).isEmpty();
     }
 
-    public static boolean take(MachineBlockEntity machine, MachineRecipe recipe, boolean simulate) {
+    public static boolean take(MachineBlockEntity machine, MachineRecipe recipe, boolean simulate, int multiplier) {
         for (HeatCondition condition : conditions(recipe)) {
             List<HeatHatchBlockEntity> usable = inRange(machine, condition);
             if (usable.isEmpty()) {
                 return false;
             }
             if (!simulate && condition.heat() > 0) {
-                double share = condition.heat() / usable.size();
+                double share = condition.heat() * multiplier / usable.size();
                 for (HeatHatchBlockEntity hatch : usable) {
                     hatch.exchanger().draw(share);
                 }
