@@ -21,8 +21,10 @@ import com.breakinblocks.miei.stress.StressCondition;
 import com.breakinblocks.miei.stress.create.CreateSupport;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
 
@@ -37,7 +39,8 @@ public final class MIEI {
     public static final boolean TEMPAD = ModList.get().isLoaded("tempad");
     public static final boolean ARS_NOUVEAU = ModList.get().isLoaded("ars_nouveau");
 
-    public MIEI(IEventBus modBus) {
+    public MIEI(IEventBus modBus, ModContainer container) {
+        container.registerConfig(ModConfig.Type.COMMON, MIEIConfig.SPEC);
         MachineProcessConditions.register(id("matter"), MatterCondition.CODEC, MatterCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("stress"), StressCondition.CODEC, StressCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("pressure"), PressureCondition.CODEC, PressureCondition.STREAM_CODEC);

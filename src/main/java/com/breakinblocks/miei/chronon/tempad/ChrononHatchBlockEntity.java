@@ -1,20 +1,29 @@
 package com.breakinblocks.miei.chronon.tempad;
 
+import aztech.modern_industrialization.inventory.ConfigurableItemStack;
 import aztech.modern_industrialization.inventory.MIInventory;
+import aztech.modern_industrialization.inventory.SlotPositions;
 import aztech.modern_industrialization.machines.BEP;
 import aztech.modern_industrialization.machines.components.OrientationComponent;
 import aztech.modern_industrialization.machines.gui.MachineGuiParameters;
 import aztech.modern_industrialization.machines.multiblocks.HatchBlockEntity;
 import aztech.modern_industrialization.machines.multiblocks.HatchType;
+import com.breakinblocks.miei.MIEIConfig;
 import com.breakinblocks.miei.compat.HatchInfo;
 import com.breakinblocks.miei.compat.HatchKeys;
+import earth.terrarium.tempad.api.tva_device.ChrononHandler;
+import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.items.IItemHandler;
 
 public final class ChrononHatchBlockEntity extends HatchBlockEntity implements HatchInfo {
     private final ChrononBuffer buffer;
     private final MetronomeLink link;
+    private final MIInventory inventory;
+    private final IItemHandler itemHandler;
     private final int rate;
 
     public ChrononHatchBlockEntity(BEP bep, String id, int capacity, int rate) {
@@ -23,6 +32,19 @@ public final class ChrononHatchBlockEntity extends HatchBlockEntity implements H
         this.link = new MetronomeLink(() -> !isRemoved());
         this.rate = rate;
         registerComponents(buffer);
+
+        if (MIEIConfig.chrononItemSlot()) {
+            this.inventory = new MIInventory(
+                    List.of(ConfigurableItemStack.standardIOSlot(true)),
+                    List.of(),
+                    new SlotPositions.Builder().addSlot(80, 40).build(),
+                    SlotPositions.empty());
+            this.itemHandler = new ChrononSlotHandler(inventory.itemStorage.itemHandler);
+            registerComponents(inventory);
+        } else {
+            this.inventory = MIInventory.EMPTY;
+            this.itemHandler = null;
+        }
     }
 
     public ChrononBuffer buffer() {
@@ -33,11 +55,24 @@ public final class ChrononHatchBlockEntity extends HatchBlockEntity implements H
         return link;
     }
 
+    public IItemHandler itemHandler() {
+        return itemHandler;
+    }
+
+    private ConfigurableItemStack slot() {
+        List<ConfigurableItemStack> stacks = inventory.getItemStacks();
+        return stacks.isEmpty() ? null : stacks.get(0);
+    }
+
     @Override
     public void tick() {
         super.tick();
         if (level instanceof ServerLevel serverLevel) {
-            link.draw(serverLevel, worldPosition, buffer, rate);
+            int drawn = link.draw(serverLevel, worldPosition, buffer, rate);
+            ConfigurableItemStack slot = slot();
+            if (slot != null) {
+                ChrononItems.draw(slot, buffer, rate - drawn);
+            }
         }
     }
 
@@ -59,7 +94,7 @@ public final class ChrononHatchBlockEntity extends HatchBlockEntity implements H
 
     @Override
     public MIInventory getInventory() {
-        return MIInventory.EMPTY;
+        return inventory;
     }
 
     @Override
@@ -72,6 +107,17 @@ public final class ChrononHatchBlockEntity extends HatchBlockEntity implements H
         } else if (level != null) {
             tag.putInt(HatchKeys.CHRONON_RADIUS, MetronomeLink.RADIUS);
             tag.putInt(HatchKeys.CHRONON_NEXT_SCAN, link.ticksUntilScan(level.getGameTime()));
+        }
+        ConfigurableItemStack slot = slot();
+        if (slot == null) {
+            return;
+        }
+        ItemStack stack = ChrononItems.stackOf(slot);
+        ChrononHandler handler = ChrononItems.handler(stack);
+        if (handler != null) {
+            tag.putString(HatchKeys.CHRONON_ITEM, stack.getDescriptionId());
+            tag.putInt(HatchKeys.CHRONON_ITEM_POWER, handler.getPower());
+            tag.putInt(HatchKeys.CHRONON_ITEM_CAPACITY, handler.getMaxPower());
         }
     }
 }

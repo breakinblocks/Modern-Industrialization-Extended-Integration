@@ -27,6 +27,9 @@ public final class HatchKeys {
     public static final String CHRONON_SOURCE = "MieiChrononSource";
     public static final String CHRONON_NEXT_SCAN = "MieiChrononNextScan";
     public static final String CHRONON_RADIUS = "MieiChrononRadius";
+    public static final String CHRONON_ITEM = "MieiChrononItem";
+    public static final String CHRONON_ITEM_POWER = "MieiChrononItemPower";
+    public static final String CHRONON_ITEM_CAPACITY = "MieiChrononItemCapacity";
 
     public static final String SOURCE_AMOUNT = "MieiSourceAmount";
     public static final String SOURCE_CAPACITY = "MieiSourceCapacity";

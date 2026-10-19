@@ -79,6 +79,13 @@ public final class HatchTooltipProvider implements IBlockComponentProvider {
                         "miei.jade.chronon_next_scan",
                         String.format("%.1f", data.getInt(HatchKeys.CHRONON_NEXT_SCAN) / 20f)));
             }
+            if (data.contains(HatchKeys.CHRONON_ITEM)) {
+                tooltip.add(Component.translatable(
+                        "miei.jade.chronon_item",
+                        Component.translatable(data.getString(HatchKeys.CHRONON_ITEM)),
+                        data.getInt(HatchKeys.CHRONON_ITEM_POWER),
+                        data.getInt(HatchKeys.CHRONON_ITEM_CAPACITY)));
+            }
         }
         if (data.contains(HatchKeys.SOURCE_AMOUNT)) {
             tooltip.add(Component.translatable(

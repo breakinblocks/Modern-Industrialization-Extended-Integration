@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 
 public final class ChrononHatches {
@@ -45,6 +46,10 @@ public final class ChrononHatches {
                     ChrononHandler.Capabilities.getBlock(),
                     definition.blockEntityType().get(),
                     (hatch, side) -> hatch.buffer());
+            event.registerBlockEntity(
+                    Capabilities.ItemHandler.BLOCK,
+                    definition.blockEntityType().get(),
+                    (hatch, side) -> hatch.itemHandler());
         }
     }
 

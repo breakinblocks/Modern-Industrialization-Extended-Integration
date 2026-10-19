@@ -4,8 +4,10 @@
   "package": "com.breakinblocks.miei.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "ConfigurableItemSlotAccessor",
     "CrafterComponentMixin",
     "HatchFlagsMixin",
+    "MachineMenuCommonMixin",
     "MultiblockHatchesMixin",
     "MultiblockMachineBlockEntityAccessor",
     "tesseract.ModularCrafterComponentAccessor",

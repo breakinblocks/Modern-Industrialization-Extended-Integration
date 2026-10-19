@@ -56,29 +56,30 @@ public final class MetronomeLink {
         nextScan = 0;
     }
 
-    public void draw(ServerLevel level, BlockPos center, ChrononBuffer buffer, int rate) {
+    public int draw(ServerLevel level, BlockPos center, ChrononBuffer buffer, int rate) {
         ChrononHandler handler = validate();
         if (handler == null) {
             long now = level.getGameTime();
             if (now < nextScan) {
-                return;
+                return 0;
             }
             handler = scan(level, center);
             if (handler == null) {
                 nextScan = now + interval;
                 interval = Math.min(interval * 2, MAX_INTERVAL);
-                return;
+                return 0;
             }
             interval = FIRST_INTERVAL;
         }
         int room = buffer.room();
         if (room <= 0) {
-            return;
+            return 0;
         }
         int taken = handler.extract(Math.min(room, rate), ActionType.Execute);
-        if (taken > 0) {
-            buffer.add(taken);
+        if (taken <= 0) {
+            return 0;
         }
+        return buffer.add(taken);
     }
 
     private ChrononHandler scan(ServerLevel level, BlockPos center) {

@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.21.1-1.0.5
+
+- Added an item slot to the Chronon Input Hatch that drains a charged Chronon Cell or Battery, so chronon recipes can run before a Metronome exists
+- Pipes and hoppers can insert chronon items into the hatch and only extract spent ones
+- Added the `chronon_item_slot` common config option (default true) to turn the Chronon Input Hatch item slot off
+
 ## 1.21.1-1.0.4
 
 - Fixed Source, chronon, air, matter and chemical recipes losing crafts when the hatch runs low (breakinblocks/Modern-Industrialization-Extended-Integration#3)
