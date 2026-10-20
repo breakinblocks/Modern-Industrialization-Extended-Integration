@@ -1,6 +1,7 @@
 package com.breakinblocks.miei.compat.jade;
 
 import aztech.modern_industrialization.machines.MachineBlock;
+import aztech.modern_industrialization.machines.MachineBlockEntity;
 import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.chemical.mekanism.ChemicalHatchBlockEntity;
 import com.breakinblocks.miei.chronon.tempad.ChrononHatchBlockEntity;
@@ -18,6 +19,7 @@ import snownee.jade.api.WailaPlugin;
 public final class MIEIJadePlugin implements IWailaPlugin {
     @Override
     public void register(IWailaCommonRegistration registration) {
+        registration.registerBlockDataProvider(StageDataProvider.INSTANCE, MachineBlockEntity.class);
         if (MIEI.REPLICATION) {
             registration.registerBlockDataProvider(
                     new HatchDataProvider(MIEI.id("matter_hatch")), MatterHatchBlockEntity.class);

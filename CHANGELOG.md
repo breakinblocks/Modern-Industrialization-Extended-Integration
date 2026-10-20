@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.21.1-1.0.6
+
+- Added `miei:stage` recipe condition
+- Added Jade line showing which stage a machine is waiting for
+
 ## 1.21.1-1.0.5
 
 - Added an item slot to the Chronon Input Hatch that drains a charged Chronon Cell or Battery, so chronon recipes can run before a Metronome exists

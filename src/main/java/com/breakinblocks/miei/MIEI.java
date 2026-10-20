@@ -17,6 +17,8 @@ import com.breakinblocks.miei.pressure.PressureCondition;
 import com.breakinblocks.miei.pressure.pneumaticcraft.AirHatches;
 import com.breakinblocks.miei.source.SourceCondition;
 import com.breakinblocks.miei.source.arsnouveau.SourceHatches;
+import com.breakinblocks.miei.stage.PlayerStages;
+import com.breakinblocks.miei.stage.StageCondition;
 import com.breakinblocks.miei.stress.StressCondition;
 import com.breakinblocks.miei.stress.create.CreateSupport;
 import net.minecraft.resources.ResourceLocation;
@@ -49,6 +51,8 @@ public final class MIEI {
         MachineProcessConditions.register(id("chronon"), ChrononCondition.CODEC, ChrononCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("source"), SourceCondition.CODEC, SourceCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("no_energy"), NoEnergyCondition.CODEC, NoEnergyCondition.STREAM_CODEC);
+        MachineProcessConditions.register(id("stage"), StageCondition.CODEC, StageCondition.STREAM_CODEC);
+        PlayerStages.register(NeoForge.EVENT_BUS);
         if (REPLICATION) {
             modBus.addListener((RegisterCapabilitiesEvent event) -> MatterHatches.registerCapabilities(event));
         }

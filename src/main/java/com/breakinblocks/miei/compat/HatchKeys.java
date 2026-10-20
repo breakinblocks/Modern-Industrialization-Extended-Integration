@@ -34,5 +34,8 @@ public final class HatchKeys {
     public static final String SOURCE_AMOUNT = "MieiSourceAmount";
     public static final String SOURCE_CAPACITY = "MieiSourceCapacity";
 
+    public static final String STAGE_WAITING = "MieiStageWaiting";
+    public static final String STAGE_NO_OWNER = "MieiStageNoOwner";
+
     private HatchKeys() {}
 }

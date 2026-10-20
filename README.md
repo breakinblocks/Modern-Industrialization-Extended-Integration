@@ -22,7 +22,8 @@ condition declares what the recipe needs from it. Every integration is optional 
 install whichever ones you want. Modern Industrialization is the only hard requirement.
 
 There is also a `miei:no_energy` condition that needs no other mod at all. It lets a recipe run
-with no EU or steam, so a pack can power a multiblock entirely through the resources above.
+with no EU or steam, so a pack can power a multiblock entirely through the resources above, and a
+`miei:stage` condition that locks a recipe behind a player stage.
 
 ## Matter
 
@@ -483,6 +484,65 @@ anything:
 - Machines with no energy only start searching for recipes once a `miei:no_energy` recipe exists for
   their machine type. Packs that ship none pay nothing.
 
+## Recipes gated by stage
+
+The `miei:stage` condition locks a recipe behind a player stage. The machine runs the recipe only
+while the player who placed it has that stage. Like `miei:no_energy` it needs no hatch and no other
+mod.
+
+```json
+{
+  "type": "modern_industrialization:assembler",
+  "eu": 32,
+  "duration": 200,
+  "item_inputs": [{ "item": "minecraft:iron_ingot", "amount": 1 }],
+  "item_outputs": [{ "item": "minecraft:diamond", "amount": 1 }],
+  "process_conditions": [
+    { "type": "miei:stage", "stage": "ftb_era_modern" }
+  ]
+}
+```
+
+Stages are read from the player's entity tags. That is where KubeJS stores its stages unless Game
+Stages is installed, so stages granted by KubeJS scripts, FTB Quests stage rewards and `/tag`
+all count.
+
+### Naming a stage
+
+Stage ids are usually internal names that players should not have to read. In JEI, REI or EMI a
+stage-gated recipe shows a knowledge book icon along its top edge. Hovering it shows the condition
+as "Requires stage" followed by the translation of the lang key `miei.stage.<stage>`, where
+`<stage>` is the id exactly as written in the recipe. When that key has no translation, the raw
+stage id is shown instead. The Jade line described below uses the same name.
+
+MIEI ships no stage names, since stages belong to the pack. Add one entry per stage to
+`kubejs/assets/miei/lang/en_us.json`, or to the same path in any resource pack:
+
+```json
+{
+  "miei.stage.ftb_era_modern": "Modern Era"
+}
+```
+
+With that entry the recipe reads "Requires stage Modern Era". Lang files from every namespace are
+merged, so the entries can also go in a lang file the pack already has. Other languages work the
+same way, with a file per locale such as `de_de.json`. Names are client side: press F3 + T to
+reload them without restarting.
+
+### How a stage-gated craft behaves
+
+- The owner is the player who placed the machine, or the controller of a multiblock. Machines placed
+  by anything other than a player have no owner and never run stage-gated recipes.
+- The stage is checked every tick while the recipe runs, so removing it stops the machine.
+- When the owner is offline the machine uses the stages they had when they logged out. After a
+  server restart, an offline owner's stages are read from their saved player data.
+- Stack several `miei:stage` conditions to require more than one stage.
+- Modern Industrialization's machine screen never says why a recipe is not running. With Jade
+  installed, looking at the machine shows "Waiting for stage" in red for each stage it is missing,
+  but only when that stage is the thing holding it back: the inputs are present and there is room
+  for the outputs. A machine with no owner also says so. The line clears once the stage is granted
+  and the recipe starts, or about 6 seconds after the recipe stops being a candidate.
+
 ## JEI and Jade
 
 Both are optional and need no configuration.
@@ -503,6 +563,9 @@ it does and how to connect it.
 | Chemical | Chemical name, stored amount and capacity |
 | Chronon | Stored chronons and capacity, the linked Metronome's position, or a note that none is in range and when the next search happens |
 | Source | Stored source and capacity |
+
+Looking at a machine whose stage-gated recipe is blocked shows which stages it is waiting for. See
+[Recipes gated by stage](#recipes-gated-by-stage).
 
 Hatch contents are server-side only, so Jade requests them from the server as you look at the block.
 Each hatch family is a separate Jade provider, so they can be toggled individually in Jade's config.

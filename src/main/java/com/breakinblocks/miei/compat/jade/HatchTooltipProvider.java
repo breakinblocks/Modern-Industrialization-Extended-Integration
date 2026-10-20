@@ -2,8 +2,12 @@ package com.breakinblocks.miei.compat.jade;
 
 import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.compat.HatchKeys;
+import com.breakinblocks.miei.stage.StageCondition;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import snownee.jade.api.BlockAccessor;
@@ -90,6 +94,16 @@ public final class HatchTooltipProvider implements IBlockComponentProvider {
         if (data.contains(HatchKeys.SOURCE_AMOUNT)) {
             tooltip.add(Component.translatable(
                     "miei.jade.source", data.getInt(HatchKeys.SOURCE_AMOUNT), data.getInt(HatchKeys.SOURCE_CAPACITY)));
+        }
+        if (data.contains(HatchKeys.STAGE_WAITING)) {
+            ListTag stages = data.getList(HatchKeys.STAGE_WAITING, Tag.TAG_STRING);
+            for (int i = 0; i < stages.size(); i++) {
+                tooltip.add(Component.translatable("miei.jade.stage_waiting", StageCondition.name(stages.getString(i)))
+                        .withStyle(ChatFormatting.RED));
+            }
+            if (data.getBoolean(HatchKeys.STAGE_NO_OWNER)) {
+                tooltip.add(Component.translatable("miei.jade.stage_no_owner").withStyle(ChatFormatting.RED));
+            }
         }
     }
 
