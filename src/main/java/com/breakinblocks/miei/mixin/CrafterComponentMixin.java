@@ -9,6 +9,7 @@ import com.breakinblocks.miei.RecipeResources;
 import com.breakinblocks.miei.RunningCheck;
 import com.breakinblocks.miei.energy.NoEnergyCrafting;
 import com.breakinblocks.miei.stress.StressCrafting;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -54,12 +55,19 @@ public abstract class CrafterComponentMixin {
         }
     }
 
-    @Inject(method = "getRecipeMaxEu(JJI)J", at = @At("RETURN"), cancellable = true)
-    private void miei$freeRecipeRate(long eu, long totalEnergy, int efficiencyTicks, CallbackInfoReturnable<Long> cir) {
-        if (cir.getReturnValueJ() > 0 || activeRecipe == null || !NoEnergyCrafting.isFree(activeRecipe.value())) {
-            return;
+    @ModifyExpressionValue(
+            method = "tickRecipe()Z",
+            at =
+                    @At(
+                            value = "INVOKE",
+                            target =
+                                    "Laztech/modern_industrialization/machines/components/CrafterComponent;getRecipeMaxEu(JJI)J"))
+    private long miei$freeRecipeRate(long rate) {
+        if (rate > 0 || activeRecipe == null || !NoEnergyCrafting.isFree(activeRecipe.value())) {
+            return rate;
         }
-        cir.setReturnValue(Math.min(totalEnergy, Math.max(behavior.getBaseRecipeEu(), eu)));
+        MachineRecipe recipe = activeRecipe.value();
+        return Math.min(recipe.getTotalEu(), Math.max(behavior.getBaseRecipeEu(), recipe.eu));
     }
 
     @Inject(method = "tickRecipe()Z", at = @At("RETURN"))
