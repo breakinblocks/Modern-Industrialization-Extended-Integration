@@ -78,7 +78,7 @@ public abstract class ModularCrafterComponentMixin {
                                     "Lnet/swedz/tesseract/neoforge/compat/mi/component/craft/AbstractModularCrafterComponent;doConditionsMatchForRecipe(Ljava/lang/Object;)Z"))
     private boolean miei$conditionsWhileRunning(
             AbstractModularCrafterComponent<?> crafter, Object recipe, Operation<Boolean> original) {
-        return RunningCheck.run(() -> original.call(crafter, recipe));
+        return RunningCheck.run(miei$multiplier(), () -> original.call(crafter, recipe));
     }
 
     @WrapOperation(

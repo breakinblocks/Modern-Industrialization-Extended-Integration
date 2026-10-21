@@ -5,6 +5,7 @@ import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import com.breakinblocks.miei.chemical.mekanism.ChemicalCrafting;
 import com.breakinblocks.miei.chronon.tempad.ChrononCrafting;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatCrafting;
+import com.breakinblocks.miei.laser.nautec.LaserCrafting;
 import com.breakinblocks.miei.matter.replication.MatterCrafting;
 import com.breakinblocks.miei.pressure.pneumaticcraft.PressureCrafting;
 import com.breakinblocks.miei.source.arsnouveau.SourceCrafting;
@@ -46,6 +47,9 @@ public final class RecipeResources {
         }
         if (MIEI.ARS_NOUVEAU) {
             max = Math.min(max, SourceCrafting.maxCrafts(machine, recipe));
+        }
+        if (MIEI.NAUTEC) {
+            max = Math.min(max, LaserCrafting.maxCrafts(machine, recipe));
         }
         return max;
     }

@@ -16,6 +16,7 @@ draw on resources from other mods as part of their recipes:
   hatch buffer and consumed by a recipe.
 - **[Ars Nouveau](https://modrinth.com/mod/ars-nouveau) source**, fed in by relays or an AE2 export
   bus and consumed by a recipe.
+- **Nautec lasers**, as a beam strength and purity the recipe needs for its whole duration.
 
 They all work the same way: a hatch in the multiblock shape carries the resource, and a recipe
 condition declares what the recipe needs from it. Every integration is optional and independent, so
@@ -431,11 +432,57 @@ extraction. Anything that pushes source into a block through that capability can
   moment.
 - Nothing is taken if the craft cannot start.
 
+## Lasers
+
+Requires Nautec. Without it, none of this registers and `miei:laser` recipes never run.
+
+### Nautechnical Hatch
+
+| Hatch | Item ID |
+|---|---|
+| Nautechnical Hatch | `modern_industrialization:nautechnical_hatch` |
+
+Aim a Nautec laser at any face of the hatch, the same way you would aim one at a Nautec machine. The
+hatch accepts beams on every side and stores nothing: it only reports what is reaching it right now.
+Several beams into one hatch add their AP together, and their purity is merged the way Nautec merges
+beams that meet. If a beam stops, the hatch reads zero within two ticks.
+
+### The laser recipe condition
+
+```json
+{
+  "type": "modern_industrialization:assembler",
+  "eu": 32,
+  "duration": 200,
+  "item_outputs": [{ "item": "minecraft:prismarine_crystals", "amount": 4 }],
+  "process_conditions": [
+    { "type": "miei:laser", "power": 500, "purity": 0.75 }
+  ]
+}
+```
+
+| Field | Meaning |
+|---|---|
+| `power` | Laser strength in AP the multiblock must be receiving. At least 1. |
+| `purity` | Optional minimum beam purity, from 0 to 1. Defaults to 0. |
+
+### How a laser craft behaves
+
+- Power is added up across every Nautechnical Hatch in the structure, and purity is merged across
+  them the same way.
+- A craft starts only while the beams meet both requirements.
+- The requirement is checked every tick for the whole duration. Whenever the beams fall short, the
+  craft pauses and keeps its progress, then carries on once they recover.
+- Nothing is consumed, and a stronger beam does not make the craft faster.
+- In a parallel crafter such as the Multi Processing Array, each copy needs its own `power`. A
+  machine receiving 1,500 AP runs at most three copies of a 500 AP recipe at once, and while it
+  runs, the beams must keep supplying `power` times the number of copies. Purity does not scale.
+
 ## Recipes without energy
 
 Every Modern Industrialization recipe has to declare `eu` and `duration`, and a machine will not
 even look for a recipe until it can draw 1 EU. That makes it hard to build a multiblock that is
-driven purely by matter, stress, air, heat, chemicals, chronons or source. The `miei:no_energy` condition
+driven purely by matter, stress, air, heat, chemicals, chronons, source or lasers. The `miei:no_energy` condition
 removes the energy requirement from a single recipe.
 
 ```json
@@ -569,6 +616,7 @@ it does and how to connect it.
 | Chemical | Chemical name, stored amount and capacity |
 | Chronon | Stored chronons and capacity, the linked Metronome's position, or a note that none is in range and when the next search happens |
 | Source | Stored source and capacity |
+| Nautechnical | AP and purity of the beams reaching it, or a note that no beam is |
 
 Looking at a machine whose stage-gated recipe is blocked shows which stages it is waiting for. See
 [Recipes gated by stage](#recipes-gated-by-stage).
@@ -597,6 +645,7 @@ Industrialization's own machines.
 | Mekanism | 10.7.19 or newer | optional, needed for chemicals |
 | Tempad | 3.0.4 or newer | optional, needed for chronons |
 | Ars Nouveau | 5.13 or newer | optional, needed for source |
+| Nautec | 2.0.19 or newer | optional, needed for lasers |
 | Ars Énergistique | 2.1 or newer | optional, lets an AE2 export bus fill source hatches |
 | JEI | 19.36 or newer | optional, adds hatch information pages |
 | Jade | 15.10 or newer | optional, adds hatch contents to the tooltip |

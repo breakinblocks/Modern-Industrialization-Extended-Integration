@@ -11,6 +11,8 @@ import com.breakinblocks.miei.chronon.tempad.ChrononTransfer;
 import com.breakinblocks.miei.energy.NoEnergyCondition;
 import com.breakinblocks.miei.heat.HeatCondition;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatHatches;
+import com.breakinblocks.miei.laser.LaserCondition;
+import com.breakinblocks.miei.laser.nautec.LaserHatches;
 import com.breakinblocks.miei.matter.MatterCondition;
 import com.breakinblocks.miei.matter.replication.MatterHatches;
 import com.breakinblocks.miei.pressure.PressureCondition;
@@ -40,6 +42,7 @@ public final class MIEI {
     public static final boolean MEKANISM = ModList.get().isLoaded("mekanism");
     public static final boolean TEMPAD = ModList.get().isLoaded("tempad");
     public static final boolean ARS_NOUVEAU = ModList.get().isLoaded("ars_nouveau");
+    public static final boolean NAUTEC = ModList.get().isLoaded("nautec");
 
     public MIEI(IEventBus modBus, ModContainer container) {
         container.registerConfig(ModConfig.Type.COMMON, MIEIConfig.SPEC);
@@ -50,6 +53,7 @@ public final class MIEI {
         MachineProcessConditions.register(id("chemical"), ChemicalCondition.CODEC, ChemicalCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("chronon"), ChrononCondition.CODEC, ChrononCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("source"), SourceCondition.CODEC, SourceCondition.STREAM_CODEC);
+        MachineProcessConditions.register(id("laser"), LaserCondition.CODEC, LaserCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("no_energy"), NoEnergyCondition.CODEC, NoEnergyCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("stage"), StageCondition.CODEC, StageCondition.STREAM_CODEC);
         PlayerStages.register(NeoForge.EVENT_BUS);
@@ -74,6 +78,9 @@ public final class MIEI {
         }
         if (ARS_NOUVEAU) {
             modBus.addListener((RegisterCapabilitiesEvent event) -> SourceHatches.registerCapabilities(event));
+        }
+        if (NAUTEC) {
+            modBus.addListener((RegisterCapabilitiesEvent event) -> LaserHatches.registerCapabilities(event));
         }
     }
 

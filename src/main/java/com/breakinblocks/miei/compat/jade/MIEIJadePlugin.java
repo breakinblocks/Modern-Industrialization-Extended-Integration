@@ -6,6 +6,7 @@ import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.chemical.mekanism.ChemicalHatchBlockEntity;
 import com.breakinblocks.miei.chronon.tempad.ChrononHatchBlockEntity;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatHatchBlockEntity;
+import com.breakinblocks.miei.laser.nautec.LaserHatchBlockEntity;
 import com.breakinblocks.miei.matter.replication.MatterHatchBlockEntity;
 import com.breakinblocks.miei.pressure.pneumaticcraft.AirHatchBlockEntity;
 import com.breakinblocks.miei.source.arsnouveau.SourceHatchBlockEntity;
@@ -45,6 +46,10 @@ public final class MIEIJadePlugin implements IWailaPlugin {
         if (MIEI.ARS_NOUVEAU) {
             registration.registerBlockDataProvider(
                     new HatchDataProvider(MIEI.id("source_hatch")), SourceHatchBlockEntity.class);
+        }
+        if (MIEI.NAUTEC) {
+            registration.registerBlockDataProvider(
+                    new HatchDataProvider(MIEI.id("laser_hatch")), LaserHatchBlockEntity.class);
         }
     }
 

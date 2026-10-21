@@ -3,6 +3,7 @@ package com.breakinblocks.miei.compat.jade;
 import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.compat.HatchKeys;
 import com.breakinblocks.miei.stage.StageCondition;
+import java.util.Locale;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -94,6 +95,17 @@ public final class HatchTooltipProvider implements IBlockComponentProvider {
         if (data.contains(HatchKeys.SOURCE_AMOUNT)) {
             tooltip.add(Component.translatable(
                     "miei.jade.source", data.getInt(HatchKeys.SOURCE_AMOUNT), data.getInt(HatchKeys.SOURCE_CAPACITY)));
+        }
+        if (data.contains(HatchKeys.LASER_POWER)) {
+            int power = data.getInt(HatchKeys.LASER_POWER);
+            if (power > 0) {
+                tooltip.add(Component.translatable(
+                        "miei.jade.laser",
+                        String.format(Locale.ROOT, "%,d", power),
+                        String.format(Locale.ROOT, "%.2f", data.getFloat(HatchKeys.LASER_PURITY))));
+            } else {
+                tooltip.add(Component.translatable("miei.jade.laser_none").withStyle(ChatFormatting.GRAY));
+            }
         }
         if (data.contains(HatchKeys.STAGE_WAITING)) {
             ListTag stages = data.getList(HatchKeys.STAGE_WAITING, Tag.TAG_STRING);

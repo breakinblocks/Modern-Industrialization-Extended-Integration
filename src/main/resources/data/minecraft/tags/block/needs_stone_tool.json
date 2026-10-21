@@ -159,6 +159,10 @@
     {
       "id": "modern_industrialization:superconductor_stress_input_hatch",
       "required": false
+    },
+    {
+      "id": "modern_industrialization:nautechnical_hatch",
+      "required": false
     }
   ]
 }

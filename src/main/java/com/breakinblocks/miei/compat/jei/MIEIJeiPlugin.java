@@ -4,6 +4,7 @@ import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.chemical.mekanism.ChemicalHatches;
 import com.breakinblocks.miei.chronon.tempad.ChrononHatches;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatHatches;
+import com.breakinblocks.miei.laser.nautec.LaserHatches;
 import com.breakinblocks.miei.matter.replication.MatterHatches;
 import com.breakinblocks.miei.pressure.pneumaticcraft.AirHatches;
 import com.breakinblocks.miei.source.arsnouveau.SourceHatches;
@@ -46,6 +47,9 @@ public final class MIEIJeiPlugin implements IModPlugin {
         }
         if (MIEI.ARS_NOUVEAU) {
             info(registration, SourceHatches.stacks(), "source");
+        }
+        if (MIEI.NAUTEC) {
+            info(registration, LaserHatches.stacks(), "laser");
         }
     }
 

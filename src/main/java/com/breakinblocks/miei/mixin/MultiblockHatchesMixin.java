@@ -5,6 +5,7 @@ import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.chemical.mekanism.ChemicalHatches;
 import com.breakinblocks.miei.chronon.tempad.ChrononHatches;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatHatches;
+import com.breakinblocks.miei.laser.nautec.LaserHatches;
 import com.breakinblocks.miei.matter.replication.MatterHatches;
 import com.breakinblocks.miei.pressure.pneumaticcraft.AirHatches;
 import com.breakinblocks.miei.source.arsnouveau.SourceHatches;
@@ -43,6 +44,9 @@ public abstract class MultiblockHatchesMixin {
         }
         if (MIEI.ARS_NOUVEAU) {
             SourceHatches.register();
+        }
+        if (MIEI.NAUTEC) {
+            LaserHatches.register();
         }
     }
 }

@@ -62,5 +62,11 @@
   "miei.hatch_type.source_input": "Source Input Hatch",
   "miei.condition.source": "Consumes %s source",
   "miei.jade.source": "Source: %s / %s",
-  "miei.jei.info.source": "Place in a Modern Industrialization multiblock to give it access to Ars Nouveau source. Feed it with a relay linked by a Dominion Wand, or with an AE2 export bus when Ars Énergistique is installed. Recipes consume source from the hatch when they start."
+  "miei.jei.info.source": "Place in a Modern Industrialization multiblock to give it access to Ars Nouveau source. Feed it with a relay linked by a Dominion Wand, or with an AE2 export bus when Ars Énergistique is installed. Recipes consume source from the hatch when they start.",
+  "miei.hatch_type.laser_input": "Nautechnical Hatch",
+  "miei.condition.laser": "Requires a laser of %s AP",
+  "miei.condition.laser_purity": "Requires laser purity %s or higher",
+  "miei.jade.laser": "Receiving %s AP at purity %s",
+  "miei.jade.laser_none": "No laser beam",
+  "miei.jei.info.laser": "Place in a Modern Industrialization multiblock and aim a Nautec laser at any face of it. Recipes can require a laser of a given strength and purity, and only make progress while the beams reaching the multiblock meet it. Beams into several hatches add their power together."
 }
