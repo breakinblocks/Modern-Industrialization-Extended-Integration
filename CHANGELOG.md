@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.21.1-1.0.7
+
+- Fixed Matter Input and Output Hatches never receiving matter from a Replication network. A hatch now reaches the tanks of any network it touches, so one input hatch serves every matter type on the network
+
 ## 1.21.1-1.0.6
 
 - Added `miei:stage` recipe condition

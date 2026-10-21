@@ -66,6 +66,10 @@ repositories {
         content { includeGroup 'thedarkcolour' }
     }
     maven {
+        url = 'https://cursemaven.com'
+        content { includeGroup 'curse.maven' }
+    }
+    maven {
         url = 'https://modmaven.dev'
         content {
             includeGroup 'aztech'
@@ -92,6 +96,7 @@ dependencies {
     implementation "aztech:Modern-Industrialization:${project.mi_version}"
     implementation "dev.technici4n:GrandPower:${project.grandpower_version}"
     implementation "maven.modrinth:replication:${project.replication_version}"
+    compileOnly("curse.maven:titanium-287342:${project.titanium_file}") { transitive = false }
     implementation "maven.modrinth:pneumaticcraft-repressurized:${project.pnc_version}"
     implementation "maven.modrinth:mekanism:${project.mekanism_version}"
     compileOnly "maven.modrinth:tempad:${project.tempad_version}"

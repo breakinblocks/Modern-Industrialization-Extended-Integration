@@ -9,8 +9,20 @@ import aztech.modern_industrialization.machines.recipe.condition.MachineProcessC
 import com.breakinblocks.miei.matter.MatterCondition;
 import com.breakinblocks.miei.mixin.MultiblockMachineBlockEntityAccessor;
 import com.buuz135.replication.api.MatterType;
+import com.buuz135.replication.api.matter_fluid.IMatterTank;
+import com.buuz135.replication.api.matter_fluid.MatterStack;
+import com.buuz135.replication.api.network.IMatterTanksConsumer;
+import com.buuz135.replication.api.network.IMatterTanksSupplier;
+import com.buuz135.replication.block.tile.NetworkBlockEntity;
+import com.buuz135.replication.network.MatterNetwork;
+import com.hrznstudio.titanium.block_network.element.NetworkElement;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 public final class MatterCrafting {
     private MatterCrafting() {}
@@ -41,6 +53,68 @@ public final class MatterCrafting {
         return out;
     }
 
+    public static List<MatterNetwork> networks(List<MatterHatchBlockEntity> hatches) {
+        List<MatterNetwork> out = new ArrayList<>();
+        for (MatterHatchBlockEntity hatch : hatches) {
+            Level level = hatch.getLevel();
+            if (level == null) {
+                continue;
+            }
+            for (Direction direction : Direction.values()) {
+                BlockPos neighbour = hatch.getBlockPos().relative(direction);
+                if (!level.isLoaded(neighbour)) {
+                    continue;
+                }
+                if (level.getBlockEntity(neighbour) instanceof NetworkBlockEntity<?> node) {
+                    MatterNetwork network = node.getNetwork();
+                    if (network != null && !out.contains(network)) {
+                        out.add(network);
+                    }
+                }
+            }
+        }
+        return out;
+    }
+
+    public static List<IMatterTank> networkTanks(List<MatterNetwork> networks, boolean input) {
+        List<IMatterTank> out = new ArrayList<>();
+        for (MatterNetwork network : networks) {
+            List<NetworkElement> elements = new ArrayList<>(network.getMatterStacksHolders());
+            elements.addAll(input ? network.getMatterStacksSuppliers() : network.getMatterStacksConsumers());
+            for (NetworkElement element : elements) {
+                Level level = element.getLevel();
+                if (level == null || !level.isLoaded(element.getPos())) {
+                    continue;
+                }
+                BlockEntity blockEntity = level.getBlockEntity(element.getPos());
+                List<? extends IMatterTank> tanks = null;
+                if (input && blockEntity instanceof IMatterTanksSupplier supplier) {
+                    tanks = supplier.getTanks();
+                } else if (!input && blockEntity instanceof IMatterTanksConsumer consumer) {
+                    tanks = consumer.getTanks();
+                }
+                if (tanks == null) {
+                    continue;
+                }
+                for (IMatterTank tank : tanks) {
+                    if (!out.contains(tank)) {
+                        out.add(tank);
+                    }
+                }
+            }
+        }
+        return out;
+    }
+
+    private static double held(IMatterTank tank, MatterType type) {
+        MatterStack stored = tank.getMatter();
+        return stored == null || stored.isEmpty() || stored.getMatterType() != type ? 0 : stored.getAmount();
+    }
+
+    private static double room(IMatterTank tank, MatterType type) {
+        return tank.fill(new MatterStack(type, tank.getCapacity()), IFluidHandler.FluidAction.SIMULATE);
+    }
+
     public static boolean canProcess(MachineBlockEntity machine, MatterCondition condition) {
         return condition.output()
                 ? space(machine, condition) >= condition.amount()
@@ -49,18 +123,26 @@ public final class MatterCrafting {
 
     public static double available(MachineBlockEntity machine, MatterCondition condition) {
         MatterType type = type(condition);
+        List<MatterHatchBlockEntity> hatches = hatches(machine, true);
         double total = 0;
-        for (MatterHatchBlockEntity hatch : hatches(machine, true)) {
+        for (MatterHatchBlockEntity hatch : hatches) {
             total += hatch.tank().amountOf(type);
+        }
+        for (IMatterTank tank : networkTanks(networks(hatches), true)) {
+            total += held(tank, type);
         }
         return total;
     }
 
     public static double space(MachineBlockEntity machine, MatterCondition condition) {
         MatterType type = type(condition);
+        List<MatterHatchBlockEntity> hatches = hatches(machine, false);
         double total = 0;
-        for (MatterHatchBlockEntity hatch : hatches(machine, false)) {
+        for (MatterHatchBlockEntity hatch : hatches) {
             total += hatch.tank().spaceFor(type);
+        }
+        for (IMatterTank tank : networkTanks(networks(hatches), false)) {
+            total += room(tank, type);
         }
         return total;
     }
@@ -87,12 +169,28 @@ public final class MatterCrafting {
                 return false;
             }
             if (!simulate) {
+                MatterType type = type(condition);
+                List<MatterHatchBlockEntity> hatches = hatches(machine, true);
                 double remaining = amount;
-                for (MatterHatchBlockEntity hatch : hatches(machine, true)) {
-                    remaining -= hatch.tank().take(type(condition), remaining, false);
+                for (MatterHatchBlockEntity hatch : hatches) {
+                    remaining -= hatch.tank().take(type, remaining, false);
                     if (remaining <= 0) {
                         break;
                     }
+                }
+                if (remaining > 0) {
+                    List<MatterNetwork> networks = networks(hatches);
+                    for (IMatterTank tank : networkTanks(networks, true)) {
+                        double share = Math.min(remaining, held(tank, type));
+                        if (share > 0) {
+                            remaining -= tank.drain(new MatterStack(type, share), IFluidHandler.FluidAction.EXECUTE)
+                                    .getAmount();
+                        }
+                        if (remaining <= 0) {
+                            break;
+                        }
+                    }
+                    networks.forEach(network -> network.onTankValueChanged(type));
                 }
             }
         }
@@ -106,12 +204,24 @@ public final class MatterCrafting {
                 return false;
             }
             if (!simulate) {
+                MatterType type = type(condition);
+                List<MatterHatchBlockEntity> hatches = hatches(machine, false);
                 double remaining = amount;
-                for (MatterHatchBlockEntity hatch : hatches(machine, false)) {
-                    remaining -= hatch.tank().add(type(condition), remaining, false);
+                for (MatterHatchBlockEntity hatch : hatches) {
+                    remaining -= hatch.tank().add(type, remaining, false);
                     if (remaining <= 0) {
                         break;
                     }
+                }
+                if (remaining > 0) {
+                    List<MatterNetwork> networks = networks(hatches);
+                    for (IMatterTank tank : networkTanks(networks, false)) {
+                        remaining -= tank.fill(new MatterStack(type, remaining), IFluidHandler.FluidAction.EXECUTE);
+                        if (remaining <= 0) {
+                            break;
+                        }
+                    }
+                    networks.forEach(network -> network.onTankValueChanged(type));
                 }
             }
         }

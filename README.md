@@ -52,6 +52,12 @@ enforced: a network cannot drain an input hatch, and it cannot push matter into 
 Connect them to Replication with the same matter pipes and network parts you already use. Hatches
 expose Replication's matter handler capability on every side.
 
+A hatch touching a matter pipe, tank or other Replication network block also reaches that network's
+tanks. An input condition takes matter from the multiblock's input hatches first and then from the
+tanks on any network those hatches touch, and an output condition fills the output hatches first and
+then those networks' tanks. One input hatch on a network therefore serves every matter type the
+network holds, whatever the hatch itself stores.
+
 ### The matter recipe condition
 
 Recipes can declare a `miei:matter` process condition. A multiblock will not start a craft unless

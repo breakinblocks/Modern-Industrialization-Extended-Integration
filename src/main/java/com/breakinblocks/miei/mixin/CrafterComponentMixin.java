@@ -54,6 +54,14 @@ public abstract class CrafterComponentMixin {
         }
     }
 
+    @Inject(method = "getRecipeMaxEu(JJI)J", at = @At("RETURN"), cancellable = true)
+    private void miei$freeRecipeRate(long eu, long totalEnergy, int efficiencyTicks, CallbackInfoReturnable<Long> cir) {
+        if (cir.getReturnValueJ() > 0 || activeRecipe == null || !NoEnergyCrafting.isFree(activeRecipe.value())) {
+            return;
+        }
+        cir.setReturnValue(Math.min(totalEnergy, Math.max(behavior.getBaseRecipeEu(), eu)));
+    }
+
     @Inject(method = "tickRecipe()Z", at = @At("RETURN"))
     private void miei$tickStress(CallbackInfoReturnable<Boolean> cir) {
         MachineRecipe running = cir.getReturnValueZ() && activeRecipe != null ? activeRecipe.value() : null;
