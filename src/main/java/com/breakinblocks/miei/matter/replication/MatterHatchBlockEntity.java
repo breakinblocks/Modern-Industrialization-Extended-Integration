@@ -9,7 +9,9 @@ import aztech.modern_industrialization.machines.multiblocks.HatchType;
 import com.breakinblocks.miei.compat.HatchInfo;
 import com.breakinblocks.miei.compat.HatchKeys;
 import com.buuz135.replication.api.matter_fluid.MatterStack;
+import java.util.List;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 
 public final class MatterHatchBlockEntity extends HatchBlockEntity implements HatchInfo {
     private final boolean input;
@@ -47,15 +49,21 @@ public final class MatterHatchBlockEntity extends HatchBlockEntity implements Ha
 
     @Override
     public void addJadeData(CompoundTag tag) {
-        MatterStack stored = tank.stored();
-        if (stored.isEmpty()) {
+        List<MatterStack> contents = tank.contents();
+        if (contents.isEmpty()) {
             tag.putBoolean(HatchKeys.MATTER_EMPTY, true);
             return;
         }
-        tag.putString(
-                HatchKeys.MATTER_TYPE,
-                "miei.matter." + stored.getMatterType().getName().toLowerCase());
-        tag.putDouble(HatchKeys.MATTER_AMOUNT, stored.getAmount());
+        ListTag list = new ListTag();
+        for (MatterStack stack : contents) {
+            CompoundTag entry = new CompoundTag();
+            entry.putString(
+                    HatchKeys.MATTER_TYPE,
+                    "miei.matter." + stack.getMatterType().getName().toLowerCase());
+            entry.putDouble(HatchKeys.MATTER_AMOUNT, stack.getAmount());
+            list.add(entry);
+        }
+        tag.put(HatchKeys.MATTER_LIST, list);
         tag.putDouble(HatchKeys.MATTER_CAPACITY, tank.capacity());
     }
 }

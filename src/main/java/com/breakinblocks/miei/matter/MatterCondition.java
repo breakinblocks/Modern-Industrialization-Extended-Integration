@@ -42,7 +42,8 @@ public record MatterCondition(String matter, double amount, boolean output) impl
         list.add(Component.translatable(
                 output ? "miei.condition.matter_output" : "miei.condition.matter_input",
                 shown,
-                Component.translatable("miei.matter." + matter.toLowerCase())));
+                Component.translatable("miei.matter."
+                        + matter.substring(matter.indexOf(':') + 1).toLowerCase())));
     }
 
     @Override

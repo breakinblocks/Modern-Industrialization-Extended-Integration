@@ -8,6 +8,8 @@ import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
 import com.breakinblocks.miei.matter.MatterCondition;
 import com.breakinblocks.miei.mixin.MultiblockMachineBlockEntityAccessor;
+import com.buuz135.replication.ReplicationRegistry;
+import com.buuz135.replication.api.IMatterType;
 import com.buuz135.replication.api.MatterType;
 import com.buuz135.replication.api.matter_fluid.IMatterTank;
 import com.buuz135.replication.api.matter_fluid.MatterStack;
@@ -18,8 +20,11 @@ import com.buuz135.replication.network.MatterNetwork;
 import com.hrznstudio.titanium.block_network.element.NetworkElement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
@@ -27,9 +32,22 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 public final class MatterCrafting {
     private MatterCrafting() {}
 
-    public static MatterType type(MatterCondition condition) {
+    public static IMatterType type(MatterCondition condition) {
+        String name = condition.matter();
+        Registry<IMatterType> registry = ReplicationRegistry.MATTER_TYPES_REGISTRY;
+        if (registry != null) {
+            ResourceLocation id = ResourceLocation.tryParse(name.toLowerCase(Locale.ROOT));
+            if (name.indexOf(':') >= 0 && id != null && registry.containsKey(id)) {
+                return registry.get(id);
+            }
+            for (IMatterType type : registry) {
+                if (type.getName().equalsIgnoreCase(name)) {
+                    return type;
+                }
+            }
+        }
         for (MatterType type : MatterType.values()) {
-            if (type.getName().equalsIgnoreCase(condition.matter())) {
+            if (type.getName().equalsIgnoreCase(name)) {
                 return type;
             }
         }
@@ -106,12 +124,12 @@ public final class MatterCrafting {
         return out;
     }
 
-    private static double held(IMatterTank tank, MatterType type) {
+    private static double held(IMatterTank tank, IMatterType type) {
         MatterStack stored = tank.getMatter();
         return stored == null || stored.isEmpty() || stored.getMatterType() != type ? 0 : stored.getAmount();
     }
 
-    private static double room(IMatterTank tank, MatterType type) {
+    private static double room(IMatterTank tank, IMatterType type) {
         return tank.fill(new MatterStack(type, tank.getCapacity()), IFluidHandler.FluidAction.SIMULATE);
     }
 
@@ -122,7 +140,7 @@ public final class MatterCrafting {
     }
 
     public static double available(MachineBlockEntity machine, MatterCondition condition) {
-        MatterType type = type(condition);
+        IMatterType type = type(condition);
         List<MatterHatchBlockEntity> hatches = hatches(machine, true);
         double total = 0;
         for (MatterHatchBlockEntity hatch : hatches) {
@@ -135,7 +153,7 @@ public final class MatterCrafting {
     }
 
     public static double space(MachineBlockEntity machine, MatterCondition condition) {
-        MatterType type = type(condition);
+        IMatterType type = type(condition);
         List<MatterHatchBlockEntity> hatches = hatches(machine, false);
         double total = 0;
         for (MatterHatchBlockEntity hatch : hatches) {
@@ -169,7 +187,7 @@ public final class MatterCrafting {
                 return false;
             }
             if (!simulate) {
-                MatterType type = type(condition);
+                IMatterType type = type(condition);
                 List<MatterHatchBlockEntity> hatches = hatches(machine, true);
                 double remaining = amount;
                 for (MatterHatchBlockEntity hatch : hatches) {
@@ -204,7 +222,7 @@ public final class MatterCrafting {
                 return false;
             }
             if (!simulate) {
-                MatterType type = type(condition);
+                IMatterType type = type(condition);
                 List<MatterHatchBlockEntity> hatches = hatches(machine, false);
                 double remaining = amount;
                 for (MatterHatchBlockEntity hatch : hatches) {

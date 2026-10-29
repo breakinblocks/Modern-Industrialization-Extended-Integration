@@ -28,12 +28,16 @@ public final class HatchTooltipProvider implements IBlockComponentProvider {
         if (data == null) {
             return;
         }
-        if (data.contains(HatchKeys.MATTER_TYPE)) {
-            tooltip.add(Component.translatable(
-                    "miei.jade.matter",
-                    Component.translatable(data.getString(HatchKeys.MATTER_TYPE)),
-                    amount(data.getDouble(HatchKeys.MATTER_AMOUNT)),
-                    amount(data.getDouble(HatchKeys.MATTER_CAPACITY))));
+        if (data.contains(HatchKeys.MATTER_LIST)) {
+            double capacity = data.getDouble(HatchKeys.MATTER_CAPACITY);
+            for (Tag entry : data.getList(HatchKeys.MATTER_LIST, Tag.TAG_COMPOUND)) {
+                CompoundTag matter = (CompoundTag) entry;
+                tooltip.add(Component.translatable(
+                        "miei.jade.matter",
+                        Component.translatable(matter.getString(HatchKeys.MATTER_TYPE)),
+                        amount(matter.getDouble(HatchKeys.MATTER_AMOUNT)),
+                        amount(capacity)));
+            }
         } else if (data.contains(HatchKeys.MATTER_EMPTY)) {
             tooltip.add(Component.translatable("miei.jade.empty"));
         }

@@ -44,7 +44,9 @@ position. They come in three tiers, matching MI's casing tiers:
 | SV Matter Input Hatch | `modern_industrialization:superconductor_matter_input_hatch` |
 | SV Matter Output Hatch | `modern_industrialization:superconductor_matter_output_hatch` |
 
-Each hatch holds up to 8000 of a single matter type.
+Each hatch holds up to 8000 of every matter type at once, so one hatch can feed a recipe that needs
+several types whether it is filled from a network, by an AE2 storage bus or by anything else that
+inserts matter.
 
 Input hatches accept matter from a Replication network and hand it to the multiblock. Output hatches
 collect matter produced by a recipe and let a Replication network pull it out. The direction is

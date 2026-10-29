@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.21.1-1.0.8
+
+- `miei:matter` conditions accept matter types added by other mods, by name or full id (for example `continuum2:paradox`). They used to fall back to Empty for anything outside Replication's built-in types
+- A matter hatch holds up to 8000 of every matter type at once instead of 8000 of one type, so a single hatch can feed a recipe that needs several types even when something inserts matter into it directly. Jade lists every type it holds
+
 ## 1.21.1-1.0.7
 
 - Added Nautechnical Hatch and `miei:laser` recipe condition for Nautec lasers

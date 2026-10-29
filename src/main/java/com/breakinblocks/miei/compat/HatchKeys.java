@@ -5,6 +5,7 @@ public final class HatchKeys {
     public static final String MATTER_AMOUNT = "MieiMatterAmount";
     public static final String MATTER_CAPACITY = "MieiMatterCapacity";
     public static final String MATTER_EMPTY = "MieiMatterEmpty";
+    public static final String MATTER_LIST = "MieiMatterList";
 
     public static final String STRESS_LINKED = "MieiStressLinked";
     public static final String STRESS_SPEED = "MieiStressSpeed";
