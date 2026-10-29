@@ -4,7 +4,9 @@ import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
 import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.RunningCheck;
+import com.breakinblocks.miei.compat.ConditionIcons;
 import com.breakinblocks.miei.source.arsnouveau.SourceCrafting;
+import com.breakinblocks.miei.source.arsnouveau.SourceHatches;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -13,6 +15,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.item.ItemStack;
 
 public record SourceCondition(int amount) implements MachineProcessCondition {
     public static final MapCodec<SourceCondition> CODEC = RecordCodecBuilder.mapCodec(
@@ -30,6 +33,11 @@ public record SourceCondition(int amount) implements MachineProcessCondition {
     @Override
     public void appendDescription(List<Component> list) {
         list.add(Component.translatable("miei.condition.source", amount));
+    }
+
+    @Override
+    public ItemStack icon() {
+        return MIEI.ARS_NOUVEAU ? ConditionIcons.hatch(SourceHatches.stacks(), false) : ItemStack.EMPTY;
     }
 
     @Override

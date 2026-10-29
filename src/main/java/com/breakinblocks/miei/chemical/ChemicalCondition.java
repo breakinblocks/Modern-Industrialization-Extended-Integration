@@ -5,6 +5,8 @@ import aztech.modern_industrialization.machines.recipe.condition.MachineProcessC
 import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.RunningCheck;
 import com.breakinblocks.miei.chemical.mekanism.ChemicalCrafting;
+import com.breakinblocks.miei.chemical.mekanism.ChemicalHatches;
+import com.breakinblocks.miei.compat.ConditionIcons;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -14,6 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 public record ChemicalCondition(ResourceLocation chemical, long amount, boolean output)
         implements MachineProcessCondition {
@@ -44,6 +47,11 @@ public record ChemicalCondition(ResourceLocation chemical, long amount, boolean 
                 output ? "miei.condition.chemical_output" : "miei.condition.chemical_input",
                 amount,
                 Component.translatable("chemical." + chemical.getNamespace() + "." + chemical.getPath())));
+    }
+
+    @Override
+    public ItemStack icon() {
+        return MIEI.MEKANISM ? ConditionIcons.hatch(ChemicalHatches.stacks(), output) : ItemStack.EMPTY;
     }
 
     @Override

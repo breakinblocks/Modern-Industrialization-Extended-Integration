@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.21.1-1.0.9
+
+- Every MIEI recipe condition now shows its hatch as an icon in JEI, the way Modern Industrialization's own conditions do, and hovering it lists what the recipe needs. A recipe whose only costs were matter, chemicals, chronon, heat, air, source, laser power or stress used to show nothing, because the conditions had no icon and the viewer skipped them
+
 ## 1.21.1-1.0.8
 
 - `miei:matter` conditions accept matter types added by other mods, by name or full id (for example `continuum2:paradox`). They used to fall back to Empty for anything outside Replication's built-in types

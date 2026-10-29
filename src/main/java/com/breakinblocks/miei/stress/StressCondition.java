@@ -2,6 +2,8 @@ package com.breakinblocks.miei.stress;
 
 import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
+import com.breakinblocks.miei.MIEI;
+import com.breakinblocks.miei.compat.ConditionIcons;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -10,6 +12,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.item.ItemStack;
 
 public record StressCondition(double su, int rpm) implements MachineProcessCondition {
     public static final MapCodec<StressCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -36,6 +39,11 @@ public record StressCondition(double su, int rpm) implements MachineProcessCondi
         if (rpm > 0) {
             list.add(Component.translatable("miei.condition.stress_rpm", rpm));
         }
+    }
+
+    @Override
+    public ItemStack icon() {
+        return MIEI.CREATE ? ConditionIcons.hatch(StressHatches.stacks(), false) : ItemStack.EMPTY;
     }
 
     @Override

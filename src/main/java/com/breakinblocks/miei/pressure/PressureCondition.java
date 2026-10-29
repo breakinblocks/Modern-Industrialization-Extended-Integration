@@ -4,6 +4,8 @@ import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
 import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.RunningCheck;
+import com.breakinblocks.miei.compat.ConditionIcons;
+import com.breakinblocks.miei.pressure.pneumaticcraft.AirHatches;
 import com.breakinblocks.miei.pressure.pneumaticcraft.PressureCrafting;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -13,6 +15,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.item.ItemStack;
 
 public record PressureCondition(int air, float pressure) implements MachineProcessCondition {
     public static final MapCodec<PressureCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -41,6 +44,11 @@ public record PressureCondition(int air, float pressure) implements MachineProce
                     : String.format("%.1f", pressure);
             list.add(Component.translatable("miei.condition.pressure_min", shown));
         }
+    }
+
+    @Override
+    public ItemStack icon() {
+        return MIEI.PNEUMATIC ? ConditionIcons.hatch(AirHatches.stacks(), false) : ItemStack.EMPTY;
     }
 
     @Override

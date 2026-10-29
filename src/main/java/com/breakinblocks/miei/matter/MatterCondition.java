@@ -4,7 +4,9 @@ import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
 import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.RunningCheck;
+import com.breakinblocks.miei.compat.ConditionIcons;
 import com.breakinblocks.miei.matter.replication.MatterCrafting;
+import com.breakinblocks.miei.matter.replication.MatterHatches;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -13,6 +15,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.item.ItemStack;
 
 public record MatterCondition(String matter, double amount, boolean output) implements MachineProcessCondition {
     public static final MapCodec<MatterCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -44,6 +47,11 @@ public record MatterCondition(String matter, double amount, boolean output) impl
                 shown,
                 Component.translatable("miei.matter."
                         + matter.substring(matter.indexOf(':') + 1).toLowerCase())));
+    }
+
+    @Override
+    public ItemStack icon() {
+        return MIEI.REPLICATION ? ConditionIcons.hatch(MatterHatches.stacks(), output) : ItemStack.EMPTY;
     }
 
     @Override

@@ -3,7 +3,9 @@ package com.breakinblocks.miei.heat;
 import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
 import com.breakinblocks.miei.MIEI;
+import com.breakinblocks.miei.compat.ConditionIcons;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatCrafting;
+import com.breakinblocks.miei.heat.pneumaticcraft.HeatHatches;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -12,6 +14,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.item.ItemStack;
 
 public record HeatCondition(int min, int max, double heat) implements MachineProcessCondition {
     public static final int NO_MAX = Integer.MAX_VALUE;
@@ -53,6 +56,11 @@ public record HeatCondition(int min, int max, double heat) implements MachinePro
             String shown = heat == Math.floor(heat) ? String.valueOf((long) heat) : String.format("%.1f", heat);
             list.add(Component.translatable("miei.condition.heat_draw", shown));
         }
+    }
+
+    @Override
+    public ItemStack icon() {
+        return MIEI.PNEUMATIC ? ConditionIcons.hatch(HeatHatches.stacks(), false) : ItemStack.EMPTY;
     }
 
     @Override

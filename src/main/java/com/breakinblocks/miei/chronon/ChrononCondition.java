@@ -5,6 +5,8 @@ import aztech.modern_industrialization.machines.recipe.condition.MachineProcessC
 import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.RunningCheck;
 import com.breakinblocks.miei.chronon.tempad.ChrononCrafting;
+import com.breakinblocks.miei.chronon.tempad.ChrononHatches;
+import com.breakinblocks.miei.compat.ConditionIcons;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -13,6 +15,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.item.ItemStack;
 
 public record ChrononCondition(int amount) implements MachineProcessCondition {
     public static final MapCodec<ChrononCondition> CODEC = RecordCodecBuilder.mapCodec(
@@ -30,6 +33,11 @@ public record ChrononCondition(int amount) implements MachineProcessCondition {
     @Override
     public void appendDescription(List<Component> list) {
         list.add(Component.translatable("miei.condition.chronon", amount));
+    }
+
+    @Override
+    public ItemStack icon() {
+        return MIEI.TEMPAD ? ConditionIcons.hatch(ChrononHatches.stacks(), false) : ItemStack.EMPTY;
     }
 
     @Override
