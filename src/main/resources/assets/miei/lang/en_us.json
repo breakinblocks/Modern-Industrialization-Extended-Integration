@@ -1,4 +1,5 @@
 {
+  "miei.jei.no_energy": "No energy",
   "miei.condition.matter_input": "Consumes %s %s matter",
   "miei.condition.matter_output": "Produces %s %s matter",
   "miei.hatch_type.matter_input": "Matter Input Hatch",

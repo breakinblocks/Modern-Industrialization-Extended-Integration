@@ -3,6 +3,10 @@
   "minVersion": "0.8",
   "package": "com.breakinblocks.miei.mixin",
   "compatibilityLevel": "JAVA_21",
+  "client": [
+    "client.MachineCategoryNoEnergyMixin",
+    "client.MachineCategoryParamsNoEnergyMixin"
+  ],
   "mixins": [
     "ConfigurableItemSlotAccessor",
     "CrafterComponentMixin",
@@ -10,6 +14,7 @@
     "MachineMenuCommonMixin",
     "MultiblockHatchesMixin",
     "MultiblockMachineBlockEntityAccessor",
+    "replication.MatterPipeBlockMixin",
     "tesseract.ModularCrafterComponentAccessor",
     "tesseract.ModularCrafterComponentMixin",
     "tesseract.MultipliedCrafterComponentAccessor",

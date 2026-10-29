@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 
 public final class MatterHatches {
@@ -63,6 +64,15 @@ public final class MatterHatches {
                     definition.blockEntityType().get(),
                     (hatch, side) -> hatch.tank());
         }
+    }
+
+    public static boolean isHatch(Block block) {
+        for (MachineDefinition<MatterHatchBlockEntity> definition : DEFINITIONS) {
+            if (definition.asBlock() == block) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static List<ItemStack> stacks() {

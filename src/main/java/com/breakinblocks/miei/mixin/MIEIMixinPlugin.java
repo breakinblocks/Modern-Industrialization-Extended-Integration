@@ -10,8 +10,11 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 public final class MIEIMixinPlugin implements IMixinConfigPlugin {
     private static final String TESSERACT_PACKAGE = "com.breakinblocks.miei.mixin.tesseract.";
     private static final String TESSERACT_MOD_ID = "tesseract_api";
+    private static final String REPLICATION_PACKAGE = "com.breakinblocks.miei.mixin.replication.";
+    private static final String REPLICATION_MOD_ID = "replication";
 
     private Boolean tesseractPresent;
+    private Boolean replicationPresent;
 
     @Override
     public void onLoad(String mixinPackage) {}
@@ -25,6 +28,9 @@ public final class MIEIMixinPlugin implements IMixinConfigPlugin {
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         if (mixinClassName.startsWith(TESSERACT_PACKAGE)) {
             return tesseractPresent();
+        }
+        if (mixinClassName.startsWith(REPLICATION_PACKAGE)) {
+            return replicationPresent();
         }
         return true;
     }
@@ -48,5 +54,12 @@ public final class MIEIMixinPlugin implements IMixinConfigPlugin {
             tesseractPresent = LoadingModList.get().getModFileById(TESSERACT_MOD_ID) != null;
         }
         return tesseractPresent;
+    }
+
+    private boolean replicationPresent() {
+        if (replicationPresent == null) {
+            replicationPresent = LoadingModList.get().getModFileById(REPLICATION_MOD_ID) != null;
+        }
+        return replicationPresent;
     }
 }

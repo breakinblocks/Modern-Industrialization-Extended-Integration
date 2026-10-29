@@ -18,7 +18,10 @@ public final class MatterHatchBlockEntity extends HatchBlockEntity implements Ha
     private final MatterTank tank;
 
     public MatterHatchBlockEntity(BEP bep, String id, boolean input, double capacity) {
-        super(bep, new MachineGuiParameters.Builder(id, false).build(), OrientationComponent.Params.noFacingNoOutput());
+        super(
+                bep,
+                new MachineGuiParameters.Builder(id, false).build(),
+                OrientationComponent.Params.noFacing(false, false));
         this.input = input;
         this.tank = new MatterTank(input, capacity, this::setChanged);
         registerComponents(tank);

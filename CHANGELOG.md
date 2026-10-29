@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.21.1-1.0.10
+
+- Matter hatches have a side the wrench can turn, so Modern Industrialization's wrench overlay shows on them like it does on item and fluid hatches. A hatch still reads the network through whichever side a pipe touches
+- Replication matter pipes draw a connection to matter hatches. They always fed the hatch, but showed no arm joining it, which looked broken
+- Recipes with the `miei:no_energy` condition show "No energy" in JEI instead of an EU/t cost, without the energy icon, and their tooltip lists only the recipe's conditions instead of a total EU cost and steam lines that never applied
+
 ## 1.21.1-1.0.9
 
 - Every MIEI recipe condition now shows its hatch as an icon in JEI, the way Modern Industrialization's own conditions do, and hovering it lists what the recipe needs. A recipe whose only costs were matter, chemicals, chronon, heat, air, source, laser power or stress used to show nothing, because the conditions had no icon and the viewer skipped them
