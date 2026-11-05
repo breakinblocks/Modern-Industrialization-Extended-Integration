@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.21.1-1.0.12
+
+- When more than one recipe matches what a machine holds, the one with the most recipe conditions is tried first. Modern Industrialization tried them in no fixed order, so a pack that added a stress or matter version of a stock recipe got whichever one it happened to pick, which could change from one restart to the next. A machine now runs the conditioned version whenever its hatches can supply it and uses the plain recipe otherwise
+- Fixed Jade chronon bar on the Chronon Input Hatch (FTBTesting/Testing-Issues#4837)
+
+## 1.21.1-1.0.11
+
+- New common config option `stack_stress_hatches`. When true, the default and the old behaviour, a multiblock adds up the spare stress of every Stress Input Hatch on a separate kinetic network and splits the load between them. When false only the hatch with the most spare stress at the recipe's RPM counts and it carries the whole load, so a machine can never draw more than one network can carry. Packs that cap kinetic networks by tier, as Create Tiers does, can set it to false so extra hatches on separate capped networks cannot add up past that cap
+
 ## 1.21.1-1.0.10
 
 - Matter hatches have a side the wrench can turn, so Modern Industrialization's wrench overlay shows on them like it does on item and fluid hatches. A hatch still reads the network through whichever side a pipe touches

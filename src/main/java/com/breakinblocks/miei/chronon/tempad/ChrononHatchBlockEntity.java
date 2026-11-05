@@ -20,11 +20,15 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
 
 public final class ChrononHatchBlockEntity extends HatchBlockEntity implements HatchInfo {
+    private static final int SYNC_INTERVAL = 10;
+
     private final ChrononBuffer buffer;
     private final MetronomeLink link;
     private final MIInventory inventory;
     private final IItemHandler itemHandler;
     private final int rate;
+    private int syncedStored;
+    private long nextSync;
 
     public ChrononHatchBlockEntity(BEP bep, String id, int capacity, int rate) {
         super(bep, new MachineGuiParameters.Builder(id, false).build(), OrientationComponent.Params.noFacingNoOutput());
@@ -73,7 +77,18 @@ public final class ChrononHatchBlockEntity extends HatchBlockEntity implements H
             if (slot != null) {
                 ChrononItems.draw(slot, buffer, rate - drawn);
             }
+            syncBuffer(serverLevel.getGameTime());
         }
+    }
+
+    private void syncBuffer(long now) {
+        int stored = buffer.stored();
+        if (stored == syncedStored || now < nextSync) {
+            return;
+        }
+        syncedStored = stored;
+        nextSync = now + SYNC_INTERVAL;
+        sync(false);
     }
 
     @Override

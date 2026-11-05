@@ -6,7 +6,7 @@ import earth.terrarium.tempad.api.tva_device.ChrononHandler;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
 
-public final class ChrononBuffer implements ChrononHandler, MachineComponent.ServerOnly {
+public final class ChrononBuffer implements ChrononHandler, MachineComponent {
     private final int capacity;
     private final Runnable onChange;
     private int stored;

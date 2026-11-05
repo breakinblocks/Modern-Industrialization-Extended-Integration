@@ -7,6 +7,7 @@ import aztech.modern_industrialization.machines.multiblocks.ShapeMatcher;
 import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
 import com.breakinblocks.miei.MIEI;
+import com.breakinblocks.miei.MIEIConfig;
 import com.breakinblocks.miei.mixin.MultiblockMachineBlockEntityAccessor;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -56,6 +57,10 @@ public final class StressCrafting {
     }
 
     private static double spare(List<StressHatchBlockEntity> hatches, StressCondition condition) {
+        if (!MIEIConfig.stackStressHatches()) {
+            StressHatchBlockEntity primary = primary(hatches, condition.rpm());
+            return primary == null ? 0 : primary.spare();
+        }
         Set<Long> counted = new HashSet<>();
         double spare = 0;
         for (StressHatchBlockEntity hatch : hatches) {
@@ -69,6 +74,19 @@ public final class StressCrafting {
         return spare;
     }
 
+    private static StressHatchBlockEntity primary(List<StressHatchBlockEntity> hatches, int rpm) {
+        StressHatchBlockEntity best = null;
+        for (StressHatchBlockEntity hatch : hatches) {
+            if (!hatch.isLinked() || Math.abs(hatch.speed()) < Math.max(1, rpm)) {
+                continue;
+            }
+            if (best == null || hatch.spare() > best.spare()) {
+                best = hatch;
+            }
+        }
+        return best;
+    }
+
     public static void updateDemand(MachineBlockEntity machine, MachineRecipe recipe, int multiplier) {
         if (!MIEI.CREATE) {
             return;
@@ -78,16 +96,25 @@ public final class StressCrafting {
             return;
         }
         double total = 0;
+        int rpm = 0;
         if (recipe != null) {
             for (MachineProcessCondition condition : recipe.conditions) {
                 if (condition instanceof StressCondition stress) {
                     total += stress.su();
+                    rpm = Math.max(rpm, stress.rpm());
                 }
             }
         }
-        double share = total * multiplier / hatches.size();
+        if (MIEIConfig.stackStressHatches()) {
+            double share = total * multiplier / hatches.size();
+            for (StressHatchBlockEntity hatch : hatches) {
+                hatch.setDemand(share);
+            }
+            return;
+        }
+        StressHatchBlockEntity primary = primary(hatches, rpm);
         for (StressHatchBlockEntity hatch : hatches) {
-            hatch.setDemand(share);
+            hatch.setDemand(hatch == primary ? total * multiplier : 0);
         }
     }
 }

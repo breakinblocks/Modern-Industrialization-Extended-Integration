@@ -1,8 +1,10 @@
 package com.breakinblocks.miei.mixin;
 
+import aztech.modern_industrialization.inventory.ConfigurableItemStack;
 import aztech.modern_industrialization.machines.components.CrafterComponent;
 import aztech.modern_industrialization.machines.components.CrafterComponent.Behavior;
 import aztech.modern_industrialization.machines.recipe.MachineRecipe;
+import aztech.modern_industrialization.machines.recipe.MachineRecipeType;
 import aztech.modern_industrialization.machines.recipe.condition.MachineProcessCondition;
 import aztech.modern_industrialization.util.Simulation;
 import com.breakinblocks.miei.RecipeResources;
@@ -12,6 +14,11 @@ import com.breakinblocks.miei.stress.StressCrafting;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,6 +40,27 @@ public abstract class CrafterComponentMixin {
 
     @Shadow
     private RecipeHolder<MachineRecipe> activeRecipe;
+
+    @Inject(
+            method =
+                    "getRecipes(Lnet/minecraft/server/level/ServerLevel;Laztech/modern_industrialization/machines/recipe/MachineRecipeType;Ljava/util/List;)Ljava/util/Collection;",
+            at = @At("RETURN"),
+            cancellable = true)
+    private static void miei$preferConditionedRecipes(
+            ServerLevel level,
+            MachineRecipeType type,
+            List<ConfigurableItemStack> inputs,
+            CallbackInfoReturnable<Collection<RecipeHolder<MachineRecipe>>> cir) {
+        Collection<RecipeHolder<MachineRecipe>> recipes = cir.getReturnValue();
+        if (recipes.size() < 2) {
+            return;
+        }
+        List<RecipeHolder<MachineRecipe>> sorted = new ArrayList<>(recipes);
+        sorted.sort(Comparator.comparingInt((RecipeHolder<MachineRecipe> holder) ->
+                        holder.value().conditions.size())
+                .reversed());
+        cir.setReturnValue(sorted);
+    }
 
     @Inject(
             method = "takeItemInputs(Laztech/modern_industrialization/machines/recipe/MachineRecipe;Z)Z",
