@@ -39,7 +39,13 @@ public final class StressCrafting {
         if (hatches.isEmpty()) {
             return false;
         }
-        return spare(hatches, condition) >= condition.su();
+        if (spare(hatches, condition) >= condition.su()) {
+            return true;
+        }
+        for (StressHatchBlockEntity hatch : hatches) {
+            hatch.noteUnmet(condition.su(), condition.rpm());
+        }
+        return false;
     }
 
     public static int maxCrafts(MachineBlockEntity machine, MachineRecipe recipe) {

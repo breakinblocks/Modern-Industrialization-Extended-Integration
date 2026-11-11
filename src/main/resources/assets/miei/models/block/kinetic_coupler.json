@@ -1,12 +1,30 @@
 {
-  "parent": "minecraft:block/cube",
+  "parent": "minecraft:block/block",
+  "render_type": "minecraft:cutout",
   "textures": {
     "particle": "create:block/brass_casing",
-    "down": "create:block/brass_casing",
-    "up": "create:block/brass_casing",
-    "north": "create:block/brass_casing",
-    "south": "create:block/axis_top",
-    "east": "create:block/brass_casing",
-    "west": "create:block/brass_casing"
-  }
+    "casing": "create:block/brass_casing",
+    "shaft": "create:block/axis_top"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "down": { "texture": "#casing", "cullface": "down" },
+        "up": { "texture": "#casing", "cullface": "up" },
+        "north": { "texture": "#casing", "cullface": "north" },
+        "south": { "texture": "#casing", "cullface": "south" },
+        "west": { "texture": "#casing", "cullface": "west" },
+        "east": { "texture": "#casing", "cullface": "east" }
+      }
+    },
+    {
+      "from": [0, 0, 16.01],
+      "to": [16, 16, 16.01],
+      "faces": {
+        "south": { "texture": "#shaft", "cullface": "south" }
+      }
+    }
+  ]
 }

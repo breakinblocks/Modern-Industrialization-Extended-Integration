@@ -47,8 +47,18 @@ public final class HatchTooltipProvider implements IBlockComponentProvider {
                         "miei.jade.stress_speed", amount(Math.abs(data.getFloat(HatchKeys.STRESS_SPEED)))));
                 tooltip.add(Component.translatable(
                         "miei.jade.stress_demand", amount(data.getDouble(HatchKeys.STRESS_DEMAND))));
+                tooltip.add(Component.translatable(
+                        "miei.jade.stress_spare", amount(data.getDouble(HatchKeys.STRESS_SPARE))));
             } else {
                 tooltip.add(Component.translatable("miei.jade.stress_unlinked"));
+            }
+            if (data.contains(HatchKeys.STRESS_NEED_SU)) {
+                int rpm = data.getInt(HatchKeys.STRESS_NEED_RPM);
+                String su = amount(data.getDouble(HatchKeys.STRESS_NEED_SU));
+                Component need = rpm > 0
+                        ? Component.translatable("miei.jade.stress_need_rpm", su, rpm)
+                        : Component.translatable("miei.jade.stress_need", su);
+                tooltip.add(need.copy().withStyle(ChatFormatting.RED));
             }
         }
         if (data.contains(HatchKeys.AIR)) {

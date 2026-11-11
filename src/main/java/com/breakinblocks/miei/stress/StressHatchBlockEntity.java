@@ -12,6 +12,7 @@ import net.minecraft.nbt.CompoundTag;
 
 public final class StressHatchBlockEntity extends HatchBlockEntity implements HatchInfo {
     private static final long TIMEOUT = 3;
+    private static final long REQUIREMENT_TIMEOUT = 100;
 
     private double demand;
     private long demandTick = Long.MIN_VALUE;
@@ -19,6 +20,9 @@ public final class StressHatchBlockEntity extends HatchBlockEntity implements Ha
     private double spare;
     private long networkId;
     private long linkTick = Long.MIN_VALUE;
+    private double unmetSu;
+    private int unmetRpm;
+    private long unmetTick = Long.MIN_VALUE;
 
     public StressHatchBlockEntity(BEP bep, String id) {
         super(bep, new MachineGuiParameters.Builder(id, false).build(), OrientationComponent.Params.noFacingNoOutput());
@@ -38,6 +42,19 @@ public final class StressHatchBlockEntity extends HatchBlockEntity implements Ha
         this.spare = spare;
         this.networkId = networkId;
         this.linkTick = now();
+    }
+
+    public void noteUnmet(double su, int rpm) {
+        unmetSu = su;
+        unmetRpm = rpm;
+        unmetTick = now();
+    }
+
+    private boolean hasUnmet() {
+        if (level == null || level.getGameTime() - unmetTick > REQUIREMENT_TIMEOUT) {
+            return false;
+        }
+        return spare() < unmetSu || Math.abs(speed()) < Math.max(1, unmetRpm);
     }
 
     public boolean isLinked() {
@@ -86,6 +103,11 @@ public final class StressHatchBlockEntity extends HatchBlockEntity implements Ha
         if (linked) {
             tag.putFloat(HatchKeys.STRESS_SPEED, speed());
             tag.putDouble(HatchKeys.STRESS_DEMAND, demand());
+            tag.putDouble(HatchKeys.STRESS_SPARE, spare());
+        }
+        if (hasUnmet()) {
+            tag.putDouble(HatchKeys.STRESS_NEED_SU, unmetSu);
+            tag.putInt(HatchKeys.STRESS_NEED_RPM, unmetRpm);
         }
     }
 }

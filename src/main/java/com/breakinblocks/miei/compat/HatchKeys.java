@@ -10,6 +10,9 @@ public final class HatchKeys {
     public static final String STRESS_LINKED = "MieiStressLinked";
     public static final String STRESS_SPEED = "MieiStressSpeed";
     public static final String STRESS_DEMAND = "MieiStressDemand";
+    public static final String STRESS_SPARE = "MieiStressSpare";
+    public static final String STRESS_NEED_SU = "MieiStressNeedSu";
+    public static final String STRESS_NEED_RPM = "MieiStressNeedRpm";
 
     public static final String AIR = "MieiAir";
     public static final String PRESSURE = "MieiPressure";

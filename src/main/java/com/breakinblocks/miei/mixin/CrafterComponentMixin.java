@@ -62,6 +62,21 @@ public abstract class CrafterComponentMixin {
         cir.setReturnValue(sorted);
     }
 
+    @WrapOperation(
+            method = "updateActiveRecipe()Z",
+            at =
+                    @At(
+                            value = "INVOKE",
+                            target =
+                                    "Laztech/modern_industrialization/machines/components/CrafterComponent;overlaps(Laztech/modern_industrialization/machines/recipe/MachineRecipe;Laztech/modern_industrialization/machines/recipe/MachineRecipe;)Z"))
+    private boolean miei$conditionedRecipeWins(
+            CrafterComponent self, MachineRecipe first, MachineRecipe second, Operation<Boolean> original) {
+        if (first.conditions.size() != second.conditions.size()) {
+            return false;
+        }
+        return original.call(self, first, second);
+    }
+
     @Inject(
             method = "takeItemInputs(Laztech/modern_industrialization/machines/recipe/MachineRecipe;Z)Z",
             at = @At("RETURN"),
@@ -91,11 +106,11 @@ public abstract class CrafterComponentMixin {
                             target =
                                     "Laztech/modern_industrialization/machines/components/CrafterComponent;getRecipeMaxEu(JJI)J"))
     private long miei$freeRecipeRate(long rate) {
-        if (rate > 0 || activeRecipe == null || !NoEnergyCrafting.isFree(activeRecipe.value())) {
+        if (activeRecipe == null || !NoEnergyCrafting.isFree(activeRecipe.value())) {
             return rate;
         }
         MachineRecipe recipe = activeRecipe.value();
-        return Math.min(recipe.getTotalEu(), Math.max(behavior.getBaseRecipeEu(), recipe.eu));
+        return Math.min(recipe.getTotalEu(), Math.max(rate, Math.max(behavior.getBaseRecipeEu(), recipe.eu)));
     }
 
     @Inject(method = "tickRecipe()Z", at = @At("RETURN"))

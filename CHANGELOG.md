@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.21.1-1.0.16
+
+- A recipe that needs no energy (defined by the no energy conditional) shows "No energy" on a multiblock's screen instead of a base and current EU/t
+- A machine whose hatches can run both a conditioned recipe and the plain recipe it copies runs the conditioned one. 
+- A Chronon Input Hatch no longer draws from a Tempad Metronome that is still booting.
+- The Kinetic Coupler's shaft side is now a brass casing face with the shaft end drawn on it. It used Create's shaft-end overlay as the whole face, which is almost all transparent, so that side looked missing
+- Jade on a Stress Input Hatch shows how much spare stress the attached network has. When a recipe is waiting for stress the hatch cannot supply, it also shows in red how many SU and how much RPM that recipe needs, so a network that is too slow or capped below the recipe no longer looks the same as a working one
+
 ## 1.21.1-1.0.12
 
 - When more than one recipe matches what a machine holds, the one with the most recipe conditions is tried first. Modern Industrialization tried them in no fixed order, so a pack that added a stress or matter version of a stock recipe got whichever one it happened to pick, which could change from one restart to the next. A machine now runs the conditioned version whenever its hatches can supply it and uses the plain recipe otherwise

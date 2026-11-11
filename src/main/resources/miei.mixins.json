@@ -4,12 +4,15 @@
   "package": "com.breakinblocks.miei.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "client.CraftingMultiblockGuiNoEnergyMixin",
     "client.MachineCategoryNoEnergyMixin",
     "client.MachineCategoryParamsNoEnergyMixin"
   ],
   "mixins": [
     "ConfigurableItemSlotAccessor",
+    "CrafterComponentAccessor",
     "CrafterComponentMixin",
+    "CraftingMultiblockGuiMixin",
     "HatchFlagsMixin",
     "MachineMenuCommonMixin",
     "MultiblockHatchesMixin",

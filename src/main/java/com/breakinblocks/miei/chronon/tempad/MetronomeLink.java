@@ -2,6 +2,7 @@ package com.breakinblocks.miei.chronon.tempad;
 
 import earth.terrarium.tempad.api.ActionType;
 import earth.terrarium.tempad.api.tva_device.ChrononHandler;
+import earth.terrarium.tempad.api.tva_device.impl.BlockChrononContent;
 import java.util.function.BooleanSupplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -75,7 +76,15 @@ public final class MetronomeLink {
         if (room <= 0) {
             return 0;
         }
-        int taken = handler.extract(Math.min(room, rate), ActionType.Execute);
+        ChrononHandler live = level.getCapability(ChrononHandler.Capabilities.getBlock(), cache.pos(), Direction.UP);
+        if (live == null) {
+            unlink();
+            return 0;
+        }
+        if (live instanceof BlockChrononContent) {
+            return 0;
+        }
+        int taken = live.extract(Math.min(room, rate), ActionType.Execute);
         if (taken <= 0) {
             return 0;
         }
