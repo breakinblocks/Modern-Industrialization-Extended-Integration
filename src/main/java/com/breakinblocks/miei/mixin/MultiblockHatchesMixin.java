@@ -4,6 +4,7 @@ import aztech.modern_industrialization.machines.init.MultiblockHatches;
 import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.chemical.mekanism.ChemicalHatches;
 import com.breakinblocks.miei.chronon.tempad.ChrononHatches;
+import com.breakinblocks.miei.enderic.oritech.EnderLaserHatches;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatHatches;
 import com.breakinblocks.miei.laser.nautec.LaserHatches;
 import com.breakinblocks.miei.matter.replication.MatterHatches;
@@ -51,6 +52,9 @@ public abstract class MultiblockHatchesMixin {
         }
         if (MIEI.NUCLEARCRAFT) {
             ParticleHatches.register();
+        }
+        if (MIEI.ORITECH) {
+            EnderLaserHatches.register();
         }
     }
 }

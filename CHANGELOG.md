@@ -3,6 +3,7 @@
 ## 1.21.1-1.0.17
 
 - Added the Particle Beam Hatch and the `miei:particle` recipe condition for NuclearCraft: Neoteric particle beams. Fire an accelerator beam into the hatch on any face, and a recipe can require a particle species with an optional minimum energy, focus and intensity. The recipe pauses when the beam stops and keeps its progress. Registers only when NuclearCraft is installed
+- Added the Enderic Laser Hatch and the `miei:enderic_laser` recipe condition for Oritech. Aim a Laser Arm at the hatch and a recipe can require a minimum delivered rate in RF per tick, pausing and keeping its progress when the laser stops. Registers only when Oritech is installed
 
 ## 1.21.1-1.0.16
 

@@ -18,6 +18,7 @@ draw on resources from other mods as part of their recipes:
   bus and consumed by a recipe.
 - **Nautec lasers**, as a beam strength and purity the recipe needs for its whole duration.
 - **[NuclearCraft: Neoteric](https://www.curseforge.com/minecraft/mc-mods/nuclearcraft-neoteric) particle beams**, as a species, energy, focus and intensity the recipe needs for its whole duration.
+- **[Oritech](https://modrinth.com/mod/oritech) enderic lasers**, as a Laser Arm firing into a hatch at a minimum energy rate for the recipe's whole duration.
 
 They all work the same way: a hatch in the multiblock shape carries the resource, and a recipe
 condition declares what the recipe needs from it. Every integration is optional and independent, so
@@ -532,6 +533,53 @@ In KubeJS: `.registeredCondition({ 'miei:particle': { particle: 'nuclearcraft:ne
 - In a parallel crafter, a non-zero `min_amount` is needed once per copy, so the machine runs at most
   intensity divided by `min_amount` copies at once.
 
+## Enderic lasers
+
+Requires Oritech. Without it, none of this registers and `miei:enderic_laser` recipes never run.
+
+### Enderic Laser Hatch
+
+| Hatch | Item ID |
+|---|---|
+| Enderic Laser Hatch | `modern_industrialization:enderic_laser_hatch` |
+
+Aim an Oritech Laser Arm at any face of the hatch, the same way you would aim one at an Atomic Forge. The
+arm sees the hatch as an energy container, so it fires into it every tick instead of trying to mine it.
+The hatch stores nothing and discards the energy it receives, so the arm only pays its own firing cost.
+It reports how much arrived in the last tick, and reads zero within two ticks of the laser stopping.
+The hatch only answers the arm's own target lookup, so cables and conduits cannot feed it.
+
+### The enderic laser recipe condition
+
+```json
+{
+  "type": "modern_industrialization:assembler",
+  "eu": 32,
+  "duration": 200,
+  "item_outputs": [{ "item": "minecraft:prismarine_crystals", "amount": 4 }],
+  "process_conditions": [
+    { "type": "miei:enderic_laser", "min_rate": 512 }
+  ]
+}
+```
+
+| Field | Meaning |
+|---|---|
+| `min_rate` | Optional minimum energy delivered per tick, in RF/t, added up across every hatch in the structure. Defaults to 0, which only asks for a laser. |
+
+In KubeJS: `.registeredCondition({ 'miei:enderic_laser': { min_rate: 512 } })`.
+
+### How an enderic laser craft behaves
+
+- The rate is added up across every Enderic Laser Hatch in the structure.
+- The requirement is checked every tick for the whole duration. Whenever the laser stops or falls short,
+  the craft pauses and keeps its progress, then carries on once it recovers.
+- Nothing is consumed from the recipe's point of view, and a stronger laser does not make the craft faster.
+  A Laser Arm delivers the same amount each tick it fires, so tune `min_rate` against its energy use per
+  tick and its speed addons.
+- In a parallel crafter, a non-zero `min_rate` is needed once per copy, so the machine runs at most the
+  delivered rate divided by `min_rate` copies at once.
+
 ## Recipes without energy
 
 Every Modern Industrialization recipe has to declare `eu` and `duration`, and a machine will not
@@ -671,6 +719,7 @@ it does and how to connect it.
 | Chronon | Stored chronons and capacity, the linked Metronome's position, or a note that none is in range and when the next search happens |
 | Source | Stored source and capacity |
 | Nautechnical | AP and purity of the beams reaching it, or a note that no beam is |
+| Enderic Laser | RF per tick arriving from Laser Arms, or a note that no laser is |
 
 Looking at a machine whose stage-gated recipe is blocked shows which stages it is waiting for. See
 [Recipes gated by stage](#recipes-gated-by-stage).
@@ -700,6 +749,7 @@ Industrialization's own machines.
 | Tempad | 3.0.4 or newer | optional, needed for chronons |
 | Ars Nouveau | 5.13 or newer | optional, needed for source |
 | Nautec | 2.0.19 or newer | optional, needed for lasers |
+| Oritech | 1.2.13 | optional, needed for enderic lasers |
 | Ars Énergistique | 2.1 or newer | optional, lets an AE2 export bus fill source hatches |
 | JEI | 19.36 or newer | optional, adds hatch information pages |
 | Jade | 15.10 or newer | optional, adds hatch contents to the tooltip |

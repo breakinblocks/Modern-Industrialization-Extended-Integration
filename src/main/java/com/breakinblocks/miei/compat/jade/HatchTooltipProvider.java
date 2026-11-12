@@ -136,6 +136,15 @@ public final class HatchTooltipProvider implements IBlockComponentProvider {
                 tooltip.add(Component.translatable("miei.jade.particle_none").withStyle(ChatFormatting.GRAY));
             }
         }
+        if (data.contains(HatchKeys.ENDER_LASER_RATE)) {
+            long rate = data.getLong(HatchKeys.ENDER_LASER_RATE);
+            if (rate > 0) {
+                tooltip.add(Component.translatable("miei.jade.enderic_laser", String.format(Locale.ROOT, "%,d", rate)));
+            } else {
+                tooltip.add(
+                        Component.translatable("miei.jade.enderic_laser_none").withStyle(ChatFormatting.GRAY));
+            }
+        }
         if (data.contains(HatchKeys.STAGE_WAITING)) {
             ListTag stages = data.getList(HatchKeys.STAGE_WAITING, Tag.TAG_STRING);
             for (int i = 0; i < stages.size(); i++) {

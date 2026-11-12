@@ -3,6 +3,7 @@ package com.breakinblocks.miei.compat.jei;
 import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.chemical.mekanism.ChemicalHatches;
 import com.breakinblocks.miei.chronon.tempad.ChrononHatches;
+import com.breakinblocks.miei.enderic.oritech.EnderLaserHatches;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatHatches;
 import com.breakinblocks.miei.laser.nautec.LaserHatches;
 import com.breakinblocks.miei.matter.replication.MatterHatches;
@@ -54,6 +55,9 @@ public final class MIEIJeiPlugin implements IModPlugin {
         }
         if (MIEI.NUCLEARCRAFT) {
             info(registration, ParticleHatches.stacks(), "particle");
+        }
+        if (MIEI.ORITECH) {
+            info(registration, EnderLaserHatches.stacks(), "enderic_laser");
         }
     }
 

@@ -4,6 +4,7 @@ import aztech.modern_industrialization.machines.MachineBlockEntity;
 import aztech.modern_industrialization.machines.recipe.MachineRecipe;
 import com.breakinblocks.miei.chemical.mekanism.ChemicalCrafting;
 import com.breakinblocks.miei.chronon.tempad.ChrononCrafting;
+import com.breakinblocks.miei.enderic.oritech.EnderLaserCrafting;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatCrafting;
 import com.breakinblocks.miei.laser.nautec.LaserCrafting;
 import com.breakinblocks.miei.matter.replication.MatterCrafting;
@@ -54,6 +55,9 @@ public final class RecipeResources {
         }
         if (MIEI.NUCLEARCRAFT) {
             max = Math.min(max, ParticleCrafting.maxCrafts(machine, recipe));
+        }
+        if (MIEI.ORITECH) {
+            max = Math.min(max, EnderLaserCrafting.maxCrafts(machine, recipe));
         }
         return max;
     }

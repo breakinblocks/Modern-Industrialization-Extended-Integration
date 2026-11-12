@@ -8,6 +8,8 @@ import com.breakinblocks.miei.chemical.mekanism.ChemicalHatches;
 import com.breakinblocks.miei.chronon.ChrononCondition;
 import com.breakinblocks.miei.chronon.tempad.ChrononHatches;
 import com.breakinblocks.miei.chronon.tempad.ChrononTransfer;
+import com.breakinblocks.miei.enderic.EnderLaserCondition;
+import com.breakinblocks.miei.enderic.oritech.EnderLaserHatches;
 import com.breakinblocks.miei.energy.NoEnergyCondition;
 import com.breakinblocks.miei.heat.HeatCondition;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatHatches;
@@ -46,6 +48,7 @@ public final class MIEI {
     public static final boolean ARS_NOUVEAU = ModList.get().isLoaded("ars_nouveau");
     public static final boolean NAUTEC = ModList.get().isLoaded("nautec");
     public static final boolean NUCLEARCRAFT = ModList.get().isLoaded("nuclearcraft");
+    public static final boolean ORITECH = ModList.get().isLoaded("oritech");
 
     public MIEI(IEventBus modBus, ModContainer container) {
         container.registerConfig(ModConfig.Type.COMMON, MIEIConfig.SPEC);
@@ -58,6 +61,8 @@ public final class MIEI {
         MachineProcessConditions.register(id("source"), SourceCondition.CODEC, SourceCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("laser"), LaserCondition.CODEC, LaserCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("particle"), ParticleCondition.CODEC, ParticleCondition.STREAM_CODEC);
+        MachineProcessConditions.register(
+                id("enderic_laser"), EnderLaserCondition.CODEC, EnderLaserCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("no_energy"), NoEnergyCondition.CODEC, NoEnergyCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("stage"), StageCondition.CODEC, StageCondition.STREAM_CODEC);
         PlayerStages.register(NeoForge.EVENT_BUS);
@@ -88,6 +93,9 @@ public final class MIEI {
         }
         if (NUCLEARCRAFT) {
             modBus.addListener((RegisterCapabilitiesEvent event) -> ParticleHatches.registerCapabilities(event));
+        }
+        if (ORITECH) {
+            modBus.addListener((RegisterCapabilitiesEvent event) -> EnderLaserHatches.registerCapabilities(event));
         }
     }
 

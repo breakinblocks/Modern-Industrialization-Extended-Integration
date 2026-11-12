@@ -11,7 +11,7 @@ version = "${version}"
 displayName = "Modern Industrial Extended Integration"
 authors = "Saereth"
 description = '''
-Optional Replication matter, Create stress, PneumaticCraft air and heat, Mekanism chemical, Tempad chronon, Ars Nouveau source and Nautec laser and NuclearCraft particle beam hatches, plus matching recipe conditions, for Modern Industrialization multiblocks.
+Optional Replication matter, Create stress, PneumaticCraft air and heat, Mekanism chemical, Tempad chronon, Ars Nouveau source and Nautec laser, NuclearCraft particle beam and Oritech enderic laser hatches, plus matching recipe conditions, for Modern Industrialization multiblocks.
 '''
 
 [[dependencies.miei]]
@@ -79,6 +79,13 @@ side = "BOTH"
 
 [[dependencies.miei]]
 modId = "nuclearcraft"
+type = "optional"
+versionRange = "*"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.miei]]
+modId = "oritech"
 type = "optional"
 versionRange = "*"
 ordering = "AFTER"

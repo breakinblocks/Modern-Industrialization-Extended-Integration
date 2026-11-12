@@ -5,6 +5,7 @@ import aztech.modern_industrialization.machines.MachineBlockEntity;
 import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.chemical.mekanism.ChemicalHatchBlockEntity;
 import com.breakinblocks.miei.chronon.tempad.ChrononHatchBlockEntity;
+import com.breakinblocks.miei.enderic.oritech.EnderLaserHatchBlockEntity;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatHatchBlockEntity;
 import com.breakinblocks.miei.laser.nautec.LaserHatchBlockEntity;
 import com.breakinblocks.miei.matter.replication.MatterHatchBlockEntity;
@@ -55,6 +56,10 @@ public final class MIEIJadePlugin implements IWailaPlugin {
         if (MIEI.NUCLEARCRAFT) {
             registration.registerBlockDataProvider(
                     new HatchDataProvider(MIEI.id("particle_hatch")), ParticleHatchBlockEntity.class);
+        }
+        if (MIEI.ORITECH) {
+            registration.registerBlockDataProvider(
+                    new HatchDataProvider(MIEI.id("enderic_laser_hatch")), EnderLaserHatchBlockEntity.class);
         }
     }
 
