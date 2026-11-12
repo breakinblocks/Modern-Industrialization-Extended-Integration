@@ -110,6 +110,7 @@ dependencies {
     runtimeOnly "thedarkcolour:kotlinforforge-neoforge:${project.kff_version}"
     compileOnly("maven.modrinth:ars-nouveau:${project.ars_nouveau_version}") { transitive = false }
     compileOnly("com.breakinblocks.nautec:nautec:${project.nautec_version}") { transitive = false }
+    compileOnly files("libs/nuclearcraft-beam-api-1.3.9.jar")
     compileOnly("maven.modrinth:tesseract-api:${project.tesseract_version}") { transitive = false }
 
     compileOnly "mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}"

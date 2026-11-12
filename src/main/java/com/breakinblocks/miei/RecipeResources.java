@@ -7,6 +7,7 @@ import com.breakinblocks.miei.chronon.tempad.ChrononCrafting;
 import com.breakinblocks.miei.heat.pneumaticcraft.HeatCrafting;
 import com.breakinblocks.miei.laser.nautec.LaserCrafting;
 import com.breakinblocks.miei.matter.replication.MatterCrafting;
+import com.breakinblocks.miei.particle.nuclearcraft.ParticleCrafting;
 import com.breakinblocks.miei.pressure.pneumaticcraft.PressureCrafting;
 import com.breakinblocks.miei.source.arsnouveau.SourceCrafting;
 import com.breakinblocks.miei.stress.StressCrafting;
@@ -50,6 +51,9 @@ public final class RecipeResources {
         }
         if (MIEI.NAUTEC) {
             max = Math.min(max, LaserCrafting.maxCrafts(machine, recipe));
+        }
+        if (MIEI.NUCLEARCRAFT) {
+            max = Math.min(max, ParticleCrafting.maxCrafts(machine, recipe));
         }
         return max;
     }

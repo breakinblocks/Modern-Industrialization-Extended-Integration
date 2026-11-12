@@ -41,6 +41,11 @@ public final class HatchKeys {
     public static final String LASER_POWER = "MieiLaserPower";
     public static final String LASER_PURITY = "MieiLaserPurity";
 
+    public static final String PARTICLE_ID = "MieiParticleId";
+    public static final String PARTICLE_AMOUNT = "MieiParticleAmount";
+    public static final String PARTICLE_ENERGY = "MieiParticleEnergy";
+    public static final String PARTICLE_FOCUS = "MieiParticleFocus";
+
     public static final String STAGE_WAITING = "MieiStageWaiting";
     public static final String STAGE_NO_OWNER = "MieiStageNoOwner";
 

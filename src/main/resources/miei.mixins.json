@@ -17,6 +17,7 @@
     "MachineMenuCommonMixin",
     "MultiblockHatchesMixin",
     "MultiblockMachineBlockEntityAccessor",
+    "nuclearcraft.BeamConnectionMixin",
     "replication.MatterPipeBlockMixin",
     "tesseract.ModularCrafterComponentAccessor",
     "tesseract.ModularCrafterComponentMixin",

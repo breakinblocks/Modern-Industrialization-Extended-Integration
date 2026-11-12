@@ -163,6 +163,14 @@
     {
       "id": "modern_industrialization:nautechnical_hatch",
       "required": false
+    },
+    {
+      "id": "modern_industrialization:particle_beam_hatch",
+      "required": false
+    },
+    {
+      "id": "modern_industrialization:particle_beam_hatch",
+      "required": false
     }
   ]
 }

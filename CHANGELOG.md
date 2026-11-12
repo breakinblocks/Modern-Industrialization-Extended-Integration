@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.21.1-1.0.17
+
+- Added the Particle Beam Hatch and the `miei:particle` recipe condition for NuclearCraft: Neoteric particle beams. Fire an accelerator beam into the hatch on any face, and a recipe can require a particle species with an optional minimum energy, focus and intensity. The recipe pauses when the beam stops and keeps its progress. Registers only when NuclearCraft is installed
+
 ## 1.21.1-1.0.16
 
 - A recipe that needs no energy (defined by the no energy conditional) shows "No energy" on a multiblock's screen instead of a base and current EU/t

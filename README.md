@@ -17,6 +17,7 @@ draw on resources from other mods as part of their recipes:
 - **[Ars Nouveau](https://modrinth.com/mod/ars-nouveau) source**, fed in by relays or an AE2 export
   bus and consumed by a recipe.
 - **Nautec lasers**, as a beam strength and purity the recipe needs for its whole duration.
+- **[NuclearCraft: Neoteric](https://www.curseforge.com/minecraft/mc-mods/nuclearcraft-neoteric) particle beams**, as a species, energy, focus and intensity the recipe needs for its whole duration.
 
 They all work the same way: a hatch in the multiblock shape carries the resource, and a recipe
 condition declares what the recipe needs from it. Every integration is optional and independent, so
@@ -479,6 +480,57 @@ beams that meet. If a beam stops, the hatch reads zero within two ticks.
 - In a parallel crafter such as the Multi Processing Array, each copy needs its own `power`. A
   machine receiving 1,500 AP runs at most three copies of a 500 AP recipe at once, and while it
   runs, the beams must keep supplying `power` times the number of copies. Purity does not scale.
+
+## Particle beams
+
+Requires NuclearCraft: Neoteric. Without it, none of this registers and `miei:particle` recipes never run.
+
+### Particle Beam Hatch
+
+| Hatch | Item ID |
+|---|---|
+| Particle Beam Hatch | `modern_industrialization:particle_beam_hatch` |
+
+Fire a beam at any face of the hatch the way you would fire one at a Target Chamber: put a line of
+NuclearCraft Particle Beam blocks between an Accelerator Beam Port in output mode (or a Creative
+Particle Source) and the hatch. The hatch accepts beams on every side and stores nothing: it only reports
+what reached it in the last tick. The beam is absorbed, so it does not carry on to anything else. Beams
+of the same species, energy and focus into one hatch add their intensity together, and a beam that
+differs from one already arriving the same tick is refused. If the beam stops, the hatch reads zero
+within two ticks.
+
+### The particle recipe condition
+
+```json
+{
+  "type": "modern_industrialization:assembler",
+  "eu": 32,
+  "duration": 200,
+  "item_outputs": [{ "item": "minecraft:prismarine_crystals", "amount": 4 }],
+  "process_conditions": [
+    { "type": "miei:particle", "particle": "nuclearcraft:neutron", "min_energy": 1000 }
+  ]
+}
+```
+
+| Field | Meaning |
+|---|---|
+| `particle` | Species id, such as `nuclearcraft:neutron`. Required. |
+| `min_energy` | Optional minimum mean beam energy in keV. Defaults to 0. |
+| `min_focus` | Optional minimum beam focus. Defaults to 0. |
+| `min_amount` | Optional minimum beam intensity (particles per tick). Defaults to 0, which only asks for a beam. |
+
+In KubeJS: `.registeredCondition({ 'miei:particle': { particle: 'nuclearcraft:neutron', min_energy: 1000 } })`.
+
+### How a particle craft behaves
+
+- Intensity is added up across every Particle Beam Hatch in the structure, counting only beams that
+  match the species, energy and focus.
+- The requirement is checked every tick for the whole duration. Whenever the beam falls short, the
+  craft pauses and keeps its progress, then carries on once it recovers.
+- Nothing is consumed, and a stronger beam does not make the craft faster.
+- In a parallel crafter, a non-zero `min_amount` is needed once per copy, so the machine runs at most
+  intensity divided by `min_amount` copies at once.
 
 ## Recipes without energy
 

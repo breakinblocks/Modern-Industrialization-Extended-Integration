@@ -2,6 +2,7 @@ package com.breakinblocks.miei.compat.jade;
 
 import com.breakinblocks.miei.MIEI;
 import com.breakinblocks.miei.compat.HatchKeys;
+import com.breakinblocks.miei.particle.ParticleCondition;
 import com.breakinblocks.miei.stage.StageCondition;
 import java.util.Locale;
 import net.minecraft.ChatFormatting;
@@ -119,6 +120,20 @@ public final class HatchTooltipProvider implements IBlockComponentProvider {
                         String.format(Locale.ROOT, "%.2f", data.getFloat(HatchKeys.LASER_PURITY))));
             } else {
                 tooltip.add(Component.translatable("miei.jade.laser_none").withStyle(ChatFormatting.GRAY));
+            }
+        }
+        if (data.contains(HatchKeys.PARTICLE_ID)) {
+            String particle = data.getString(HatchKeys.PARTICLE_ID);
+            ResourceLocation id = particle.isEmpty() ? null : ResourceLocation.tryParse(particle);
+            if (id != null) {
+                tooltip.add(Component.translatable(
+                        "miei.jade.particle",
+                        ParticleCondition.name(id),
+                        String.format(Locale.ROOT, "%,d", data.getLong(HatchKeys.PARTICLE_AMOUNT)),
+                        String.format(Locale.ROOT, "%,d", data.getLong(HatchKeys.PARTICLE_ENERGY)),
+                        String.format(Locale.ROOT, "%.2f", data.getDouble(HatchKeys.PARTICLE_FOCUS))));
+            } else {
+                tooltip.add(Component.translatable("miei.jade.particle_none").withStyle(ChatFormatting.GRAY));
             }
         }
         if (data.contains(HatchKeys.STAGE_WAITING)) {

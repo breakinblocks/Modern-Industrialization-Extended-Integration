@@ -13,6 +13,10 @@ public final class MIEIMixinPlugin implements IMixinConfigPlugin {
     private static final String REPLICATION_PACKAGE = "com.breakinblocks.miei.mixin.replication.";
     private static final String REPLICATION_MOD_ID = "replication";
 
+    private static final String NUCLEARCRAFT_PACKAGE = "com.breakinblocks.miei.mixin.nuclearcraft.";
+    private static final String NUCLEARCRAFT_MOD_ID = "nuclearcraft";
+
+    private Boolean nuclearcraftPresent;
     private Boolean tesseractPresent;
     private Boolean replicationPresent;
 
@@ -31,6 +35,9 @@ public final class MIEIMixinPlugin implements IMixinConfigPlugin {
         }
         if (mixinClassName.startsWith(REPLICATION_PACKAGE)) {
             return replicationPresent();
+        }
+        if (mixinClassName.startsWith(NUCLEARCRAFT_PACKAGE)) {
+            return nuclearcraftPresent();
         }
         return true;
     }
@@ -54,6 +61,13 @@ public final class MIEIMixinPlugin implements IMixinConfigPlugin {
             tesseractPresent = LoadingModList.get().getModFileById(TESSERACT_MOD_ID) != null;
         }
         return tesseractPresent;
+    }
+
+    private boolean nuclearcraftPresent() {
+        if (nuclearcraftPresent == null) {
+            nuclearcraftPresent = LoadingModList.get().getModFileById(NUCLEARCRAFT_MOD_ID) != null;
+        }
+        return nuclearcraftPresent;
     }
 
     private boolean replicationPresent() {

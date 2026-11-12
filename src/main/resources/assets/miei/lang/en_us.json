@@ -73,5 +73,13 @@
   "miei.condition.laser_purity": "Requires laser purity %s or higher",
   "miei.jade.laser": "Receiving %s AP at purity %s",
   "miei.jade.laser_none": "No laser beam",
+  "miei.hatch_type.particle_input": "Particle Beam Hatch",
+  "miei.condition.particle": "Requires a %s beam",
+  "miei.condition.particle_energy": "Requires beam energy of %s keV or more",
+  "miei.condition.particle_focus": "Requires beam focus of %s or more",
+  "miei.condition.particle_amount": "Requires a beam intensity of %s or more",
+  "miei.jade.particle": "Receiving %s beam: %s particles at %s keV, focus %s",
+  "miei.jade.particle_none": "No particle beam",
+  "miei.jei.info.particle": "Place in a Modern Industrialization multiblock and fire a NuclearCraft particle beam at any face of it, through a line of Particle Beam blocks from an Accelerator Beam Port in output mode. Recipes can require a species, a minimum beam energy, focus and intensity, and only make progress while the beam reaching the multiblock meets them. Beams into several hatches add their intensity together when they match.",
   "miei.jei.info.laser": "Place in a Modern Industrialization multiblock and aim a Nautec laser at any face of it. Recipes can require a laser of a given strength and purity, and only make progress while the beams reaching the multiblock meet it. Beams into several hatches add their power together."
 }

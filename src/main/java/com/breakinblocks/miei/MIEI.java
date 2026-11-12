@@ -15,6 +15,8 @@ import com.breakinblocks.miei.laser.LaserCondition;
 import com.breakinblocks.miei.laser.nautec.LaserHatches;
 import com.breakinblocks.miei.matter.MatterCondition;
 import com.breakinblocks.miei.matter.replication.MatterHatches;
+import com.breakinblocks.miei.particle.ParticleCondition;
+import com.breakinblocks.miei.particle.nuclearcraft.ParticleHatches;
 import com.breakinblocks.miei.pressure.PressureCondition;
 import com.breakinblocks.miei.pressure.pneumaticcraft.AirHatches;
 import com.breakinblocks.miei.source.SourceCondition;
@@ -43,6 +45,7 @@ public final class MIEI {
     public static final boolean TEMPAD = ModList.get().isLoaded("tempad");
     public static final boolean ARS_NOUVEAU = ModList.get().isLoaded("ars_nouveau");
     public static final boolean NAUTEC = ModList.get().isLoaded("nautec");
+    public static final boolean NUCLEARCRAFT = ModList.get().isLoaded("nuclearcraft");
 
     public MIEI(IEventBus modBus, ModContainer container) {
         container.registerConfig(ModConfig.Type.COMMON, MIEIConfig.SPEC);
@@ -54,6 +57,7 @@ public final class MIEI {
         MachineProcessConditions.register(id("chronon"), ChrononCondition.CODEC, ChrononCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("source"), SourceCondition.CODEC, SourceCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("laser"), LaserCondition.CODEC, LaserCondition.STREAM_CODEC);
+        MachineProcessConditions.register(id("particle"), ParticleCondition.CODEC, ParticleCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("no_energy"), NoEnergyCondition.CODEC, NoEnergyCondition.STREAM_CODEC);
         MachineProcessConditions.register(id("stage"), StageCondition.CODEC, StageCondition.STREAM_CODEC);
         PlayerStages.register(NeoForge.EVENT_BUS);
@@ -81,6 +85,9 @@ public final class MIEI {
         }
         if (NAUTEC) {
             modBus.addListener((RegisterCapabilitiesEvent event) -> LaserHatches.registerCapabilities(event));
+        }
+        if (NUCLEARCRAFT) {
+            modBus.addListener((RegisterCapabilitiesEvent event) -> ParticleHatches.registerCapabilities(event));
         }
     }
 
